@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Routing Center - Rule Library</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .brand-blue { background-color: #006699; }
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            border-radius: 9999px;
+            padding: 0.125rem 0.6rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            line-height: 1rem;
+            white-space: nowrap;
+        }
+            .app-launcher-shadow { box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28); }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800 h-screen flex flex-col overflow-hidden">
+    <header class="brand-blue text-white h-14 flex items-center justify-between px-4 shrink-0">
+        <div class="flex items-center space-x-3">
+            <button type="button" class="app-launcher-toggle hover:text-gray-200 transition" aria-label="Open applications launcher">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+            </button>
+            <a href="index.html" class="font-semibold text-lg hover:underline">Routing Center</a>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button class="hover:text-gray-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+            <button class="hover:text-gray-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+            </button>
+            <div class="w-8 h-8 rounded-full bg-gray-300 border border-white overflow-hidden">
+                <img src="https://i.pravatar.cc/100?img=47" alt="User Profile" class="w-full h-full object-cover">
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+        <aside class="w-64 bg-white border-r border-gray-200 shrink-0 flex flex-col">
+            <div class="flex justify-end p-3 border-b border-gray-100">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </div>
+            <nav class="flex-1 py-4 space-y-1">
+                <a href="rrr_library.html" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <span class="text-sm font-medium">Real-Time Routing Rules</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5V4H2v16h5m10 0v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4m10 0H7"></path></svg>
+                    <span class="text-sm font-medium">Agent Capacity Rules</span>
+                </a>
+                <a href="execution_logs_primary_skills_buffer.html" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6m4 6V7m4 10V4M5 20h14"></path></svg>
+                    <span class="text-sm font-medium">Execution Logs</span>
+                </a>
+                <a href="ps_index.html" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="text-sm font-medium">Primary Skills</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto p-8 bg-slate-100">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex items-center justify-between mb-5">
+                    <h1 class="text-3xl font-normal text-gray-800">Real-Time Routing Rules</h1>
+                    <button onclick="window.location.href='rrr_rulecreate.html'" class="px-5 py-2 rounded text-white text-sm font-medium brand-blue hover:bg-sky-800 transition shadow-sm">
+                        New Rule
+                    </button>
+                </div>
+
+                <div class="bg-white border border-gray-200 shadow-sm rounded">
+                    <div class="px-4 pt-4 pb-3 border-b border-gray-200">
+                        <div class="flex flex-wrap items-center gap-3 text-sm text-gray-600 mb-3">
+                            <span>9 Items</span>
+                            <span class="text-gray-300">|</span>
+                            <span>0 selected</span>
+                            <div class="ml-auto flex items-center gap-2 w-full sm:w-auto">
+                                <div class="relative flex-1 sm:w-72">
+                                    <svg class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 106.05 6.05a7.5 7.5 0 0010.6 10.6z"></path></svg>
+                                    <input type="text" placeholder="Search Routing Rules" class="w-full border border-gray-300 rounded h-9 pl-9 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-300" />
+                                </div>
+                                <button class="h-9 w-9 border border-gray-300 rounded text-gray-500 hover:bg-gray-50">
+                                    <svg class="w-4 h-4 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h18l-7 8v6l-4 2v-8L3 4z"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="max-w-xs">
+                            <div class="h-9 border border-gray-300 rounded px-3 flex items-center justify-between text-sm text-gray-400">
+                                Filter rules by status
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full text-sm">
+                            <thead class="bg-gray-50 border-b border-gray-200 text-gray-600">
+                                <tr>
+                                    <th class="w-10 px-3 py-2 text-left"><input type="checkbox" class="rounded border-gray-300"></th>
+                                    <th class="px-3 py-2 text-left font-semibold">NAME</th>
+                                    <th class="px-3 py-2 text-left font-semibold">DESCRIPTION</th>
+                                    <th class="px-3 py-2 text-left font-semibold">TYPE</th>
+                                    <th class="px-3 py-2 text-left font-semibold">SKILL</th>
+                                    <th class="px-3 py-2 text-left font-semibold">STATUS</th>
+                                    <th class="w-10 px-3 py-2"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-3 py-2"><input type="checkbox" class="rounded border-gray-300"></td>
+                                    <td class="px-3 py-2 text-gray-800">Billing Queue Depth Overflow</td>
+                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Broaden proficiency range when billing queue depth exceeds threshold bands.">Broaden proficiency range when billing queue depth exceeds threshold bands.</td>
+                                    <td class="px-3 py-2">Queue Depth</td>
+                                    <td class="px-3 py-2">Billing</td>
+                                    <td class="px-3 py-2"><span class="status-pill bg-gray-100 text-gray-600"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8"></path><circle cx="12" cy="12" r="9" stroke-width="2"></circle></svg>Inactive</span></td>
+                                    <td class="px-3 py-2"><button class="kebab-trigger text-gray-500 hover:text-gray-700" type="button" aria-label="Row actions"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg></button></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-3 py-2"><input type="checkbox" class="rounded border-gray-300"></td>
+                                    <td class="px-3 py-2 text-gray-800">Support Time in Queue Overflow</td>
+                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Expand agent coverage when oldest support contact wait time crosses limits.">Expand agent coverage when oldest support contact wait time crosses limits.</td>
+                                    <td class="px-3 py-2">Time in Queue</td>
+                                    <td class="px-3 py-2">Support</td>
+                                    <td class="px-3 py-2"><span class="status-pill bg-emerald-100 text-emerald-700"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Active</span></td>
+                                    <td class="px-3 py-2"><button class="kebab-trigger text-gray-500 hover:text-gray-700" type="button" aria-label="Row actions"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg></button></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-3 py-2"><input type="checkbox" class="rounded border-gray-300"></td>
+                                    <td class="px-3 py-2 text-gray-800">Tech Support Available Agents Overflow</td>
+                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Relax proficiency requirements when available agent count drops below staffing targets.">Relax proficiency requirements when available agent count drops below staffing targets.</td>
+                                    <td class="px-3 py-2">Available Agents</td>
+                                    <td class="px-3 py-2">Tech Support</td>
+                                    <td class="px-3 py-2"><span class="status-pill bg-gray-100 text-gray-600"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8"></path><circle cx="12" cy="12" r="9" stroke-width="2"></circle></svg>Inactive</span></td>
+                                    <td class="px-3 py-2"><button class="kebab-trigger text-gray-500 hover:text-gray-700" type="button" aria-label="Row actions"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg></button></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-3 py-2"><input type="checkbox" class="rounded border-gray-300"></td>
+                                    <td class="px-3 py-2 text-gray-800">APAC Available Agents Overflow</td>
+                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Scale eligibility for APAC agents based on available workforce in real time.">Scale eligibility for APAC agents based on available workforce in real time.</td>
+                                    <td class="px-3 py-2">Available Agents</td>
+                                    <td class="px-3 py-2">APAC</td>
+                                    <td class="px-3 py-2"><span class="status-pill bg-gray-100 text-gray-600"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8"></path><circle cx="12" cy="12" r="9" stroke-width="2"></circle></svg>Inactive</span></td>
+                                    <td class="px-3 py-2"><button class="kebab-trigger text-gray-500 hover:text-gray-700" type="button" aria-label="Row actions"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg></button></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-3 py-2"><input type="checkbox" class="rounded border-gray-300"></td>
+                                    <td class="px-3 py-2 text-gray-800">Spanish Queue Depth Overflow</td>
+                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Route Spanish interactions to broader proficiency tiers as queue depth increases.">Route Spanish interactions to broader proficiency tiers as queue depth increases.</td>
+                                    <td class="px-3 py-2">Queue Depth</td>
+                                    <td class="px-3 py-2">Spanish</td>
+                                    <td class="px-3 py-2"><span class="status-pill bg-emerald-100 text-emerald-700"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Active</span></td>
+                                    <td class="px-3 py-2"><button class="kebab-trigger text-gray-500 hover:text-gray-700" type="button" aria-label="Row actions"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg></button></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-3 py-2"><input type="checkbox" class="rounded border-gray-300"></td>
+                                    <td class="px-3 py-2 text-gray-800">Loyalty Program Queue Depth Overflow</td>
+                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Temporarily open wider agent tiers when loyalty queue volume exceeds target depth.">Temporarily open wider agent tiers when loyalty queue volume exceeds target depth.</td>
+                                    <td class="px-3 py-2">Queue Depth</td>
+                                    <td class="px-3 py-2">Loyalty Program</td>
+                                    <td class="px-3 py-2"><span class="status-pill bg-gray-100 text-gray-600"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8"></path><circle cx="12" cy="12" r="9" stroke-width="2"></circle></svg>Inactive</span></td>
+                                    <td class="px-3 py-2"><button class="kebab-trigger text-gray-500 hover:text-gray-700" type="button" aria-label="Row actions"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg></button></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-3 py-2"><input type="checkbox" class="rounded border-gray-300"></td>
+                                    <td class="px-3 py-2 text-gray-800">General Time in Queue Overflow</td>
+                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Keep average wait under SLA by broadening coverage when time in queue trends high.">Keep average wait under SLA by broadening coverage when time in queue trends high.</td>
+                                    <td class="px-3 py-2">Time in Queue</td>
+                                    <td class="px-3 py-2">General</td>
+                                    <td class="px-3 py-2"><span class="status-pill bg-cyan-100 text-cyan-700"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 3L4 14h7v7l9-11h-7z"></path></svg>Real-Time</span></td>
+                                    <td class="px-3 py-2"><button class="kebab-trigger text-gray-500 hover:text-gray-700" type="button" aria-label="Row actions"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg></button></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-3 py-2"><input type="checkbox" class="rounded border-gray-300"></td>
+                                    <td class="px-3 py-2 text-gray-800">VIP Queue Health Protection</td>
+                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Protect primary-skilled VIP agents when queue health degrades below service thresholds.">Protect primary-skilled VIP agents when queue health degrades below service thresholds.</td>
+                                    <td class="px-3 py-2">Queue Health</td>
+                                    <td class="px-3 py-2">VIP</td>
+                                    <td class="px-3 py-2"><span class="status-pill bg-gray-100 text-gray-600"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8"></path><circle cx="12" cy="12" r="9" stroke-width="2"></circle></svg>Inactive</span></td>
+                                    <td class="px-3 py-2"><button class="kebab-trigger text-gray-500 hover:text-gray-700" type="button" aria-label="Row actions"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg></button></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-3 py-2"><input type="checkbox" class="rounded border-gray-300"></td>
+                                    <td class="px-3 py-2 text-gray-800">Escalations Queue Health Reserve</td>
+                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Reserve escalation specialists when health score shows increased risk of SLA misses.">Reserve escalation specialists when health score shows increased risk of SLA misses.</td>
+                                    <td class="px-3 py-2">Queue Health</td>
+                                    <td class="px-3 py-2">Escalations</td>
+                                    <td class="px-3 py-2"><span class="status-pill bg-cyan-100 text-cyan-700"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 3L4 14h7v7l9-11h-7z"></path></svg>Real-Time</span></td>
+                                    <td class="px-3 py-2"><button class="kebab-trigger text-gray-500 hover:text-gray-700" type="button" aria-label="Row actions"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="kebab-menu" class="kebab-menu hidden fixed z-50 bg-white border border-gray-200 rounded shadow-lg py-1">
+        <button id="kebab-status-action" type="button" class="w-full text-left px-3 py-2 text-sm text-blue-700 hover:bg-gray-50">Activate</button>
+        <button type="button" class="w-full text-left px-3 py-2 text-sm text-blue-700 hover:bg-gray-50">Real-Time Update</button>
+        <button type="button" class="w-full text-left px-3 py-2 text-sm text-blue-700 hover:bg-gray-50">Edit Rule Settings</button>
+        <div class="my-1 border-t border-gray-200"></div>
+        <button type="button" class="w-full text-left px-3 py-2 text-sm text-blue-700 hover:bg-gray-50">Audit Log</button>
+        <div class="my-1 border-t border-gray-200"></div>
+        <button type="button" class="w-full text-left px-3 py-2 text-sm text-blue-700 hover:bg-gray-50">Delete</button>
+    </div>
+
+    <script>
+        const kebabMenu = document.getElementById("kebab-menu");
+        const statusAction = document.getElementById("kebab-status-action");
+        const kebabButtons = document.querySelectorAll(".kebab-trigger");
+
+        function closeKebabMenu() {
+            kebabMenu.classList.add("hidden");
+        }
+
+        kebabButtons.forEach((button) => {
+            button.addEventListener("click", (event) => {
+                event.stopPropagation();
+                const row = button.closest("tr");
+                const statusText = row.querySelector("td:nth-child(6) .status-pill").textContent.trim();
+
+                statusAction.textContent = statusText.includes("Inactive") ? "Activate" : "Deactivate";
+
+                const rect = button.getBoundingClientRect();
+                kebabMenu.style.top = `${rect.bottom + window.scrollY + 4}px`;
+                kebabMenu.style.left = `${rect.right + window.scrollX - 170}px`;
+                kebabMenu.classList.remove("hidden");
+            });
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!kebabMenu.contains(event.target)) {
+                closeKebabMenu();
+            }
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                closeKebabMenu();
+            }
+        });
+    </script>
+
+    <div class="app-launcher-overlay fixed inset-0 z-50 hidden">
+        <div class="app-launcher-backdrop absolute inset-0 bg-slate-900/45"></div>
+        <div class="app-launcher-panel app-launcher-shadow absolute top-0 left-0 h-full w-80 max-w-[90vw] bg-white text-gray-800 overflow-y-auto">
+            <div class="flex items-center gap-3 px-4 py-3 border-b border-gray-200">
+                <svg class="w-5 h-5 text-gray-900" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"></path></svg>
+                <span class="text-lg font-medium">Applications</span>
+            </div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">General</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-sky-100 text-sky-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v6c0 5-3.4 7.8-8 8-4.6-.2-8-3-8-8V7l8-4z"></path><path d="M9 12h6"></path><path d="M12 9v6"></path></svg></span><span>Admin</span></button>
+                <a href="supervisor_main.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 text-amber-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path><path d="M8 8l8 8"></path><path d="M16 8l-8 8"></path></svg></span><span>Supervisor</span></a>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Omnichannel Routing</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="16" height="12" rx="2"></rect><path d="M4 10h16"></path></svg></span><span>ACD</span></button>
+                <a href="agent_rule_alert.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"></circle><path d="M5 19c1.8-3 4.1-4.5 7-4.5s5.2 1.5 7 4.5"></path></svg></span><span>Agent</span></a>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"></path><path d="M4 12h10"></path><path d="M4 17h16"></path></svg></span><span>Studio</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 4v5c0 4.2-2.8 6.8-7 7.8-4.2-1-7-3.6-7-7.8V7l7-4z"></path><path d="M9.5 12l2 2 3-3"></path></svg></span><span>Studio Authentication</span></button>
+                <a href="index.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-100 text-cyan-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"></path><path d="M12 3v18"></path></svg></span><span>Routing Center</span></a>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Workforce Engagement</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-100 text-cyan-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M8 10h8"></path><path d="M8 14h6"></path></svg></span><span>Interactions Hub</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-violet-100 text-violet-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"></circle><path d="M12 8v4l3 2"></path></svg></span><span>My Zone</span></button>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Data &amp; Analytics</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-rose-100 text-rose-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16l4-4 3 3 6-6"></path><path d="M5 19h14"></path></svg></span><span>Reporting</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-100 text-indigo-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18h16"></path><path d="M7 15V9"></path><path d="M12 15V6"></path><path d="M17 15v-3"></path></svg></span><span>Metrics</span></button>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Others</div>
+            <div class="space-y-1 px-2 pb-4">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-yellow-100 text-yellow-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 9l9 6 9-6"></path></svg></span><span>Digital</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="12" r="3"></circle><circle cx="17" cy="12" r="3"></circle><path d="M10 12h4"></path></svg></span><span>Connections Hub</span></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (() => {
+            const toggle = document.querySelector('.app-launcher-toggle');
+            const overlay = document.querySelector('.app-launcher-overlay');
+            const panel = document.querySelector('.app-launcher-panel');
+            const backdrop = document.querySelector('.app-launcher-backdrop');
+            if (!toggle || !overlay || !panel || !backdrop) return;
+
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const sidebarPageGroups = {
+                'rrr_library.html': ['rrr_library.html', 'rrr_rulecreate.html', 'step2.html', 'step2_overflow.html', 'step3.html', 'step4.html', 'step5.html'],
+                'execution_logs_primary_skills_buffer.html': ['execution_logs_primary_skills_buffer.html', 'execution_logs_overflow.html', 'execution_logs_queue_health.html'],
+                'ps_index.html': ['ps_index.html', 'ps_step2.html', 'ps_audit_log.html']
+            };
+
+            document.querySelectorAll('aside nav a[href]').forEach((link) => {
+                const linkHref = link.getAttribute('href');
+                if (!linkHref || linkHref === '#') return;
+
+                const linkTarget = new URL(linkHref, window.location.href).pathname.split('/').pop();
+                const linkedPages = sidebarPageGroups[linkTarget] || [linkTarget];
+                if (!linkedPages.includes(currentPage)) return;
+
+                link.classList.remove('text-gray-600', 'border-transparent');
+                link.classList.add('bg-sky-50', 'text-sky-800', 'border-sky-500', 'font-semibold');
+                link.setAttribute('aria-current', 'page');
+
+                const icon = link.querySelector('svg');
+                if (icon) {
+                    icon.classList.remove('text-gray-400');
+                    icon.classList.add('text-sky-600');
+                }
+            });
+
+            overlay.querySelectorAll('a[href]').forEach((link) => {
+                const linkTarget = new URL(link.getAttribute('href'), window.location.href).pathname.split('/').pop();
+                if (linkTarget === currentPage) {
+                    link.classList.remove('hover:bg-gray-50');
+                    link.classList.add('bg-sky-50', 'text-sky-900', 'font-semibold', 'ring-1', 'ring-sky-200');
+                    link.setAttribute('aria-current', 'page');
+
+                    const iconBadge = link.querySelector('span');
+                    if (iconBadge) {
+                        iconBadge.classList.add('ring-2', 'ring-white');
+                    }
+                }
+            });
+
+            const closeOverlay = () => overlay.classList.add('hidden');
+            const openOverlay = () => overlay.classList.remove('hidden');
+
+            toggle.addEventListener('click', (event) => {
+                event.stopPropagation();
+                openOverlay();
+            });
+
+            backdrop.addEventListener('click', closeOverlay);
+            overlay.addEventListener('click', (event) => {
+                if (!panel.contains(event.target) && event.target !== toggle) {
+                    closeOverlay();
+                }
+            });
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') closeOverlay();
+            });
+        })();
+    </script>
+</body>
+</html>
+
+
+
+

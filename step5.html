@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routing Center - Step 5 Publish</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .brand-blue { background-color: #006699; }
+        .text-brand { color: #006699; }
+        .border-brand { border-color: #006699; }
+        .bg-brand-light { background-color: #f0f7fb; }
+            .app-launcher-shadow { box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28); }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800 h-screen flex flex-col overflow-hidden">
+
+    <header class="brand-blue text-white h-14 flex items-center justify-between px-4 shrink-0">
+        <div class="flex items-center space-x-3">
+            <button type="button" class="app-launcher-toggle hover:text-gray-200 transition" aria-label="Open applications launcher">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+            </button>
+            <a href="index.html" class="font-semibold text-lg hover:underline">Routing Center</a>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button class="hover:text-gray-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+            <button class="hover:text-gray-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+            </button>
+            <div class="w-8 h-8 rounded-full bg-gray-300 border border-white overflow-hidden">
+                <img src="https://i.pravatar.cc/100?img=47" alt="User Profile" class="w-full h-full object-cover">
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+        <aside class="w-64 bg-white border-r border-gray-200 shrink-0 flex flex-col">
+            <div class="flex justify-end p-3 border-b border-gray-100">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </div>
+            <nav class="flex-1 py-4 space-y-1">
+                <a href="rrr_library.html" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <span class="text-sm font-medium">Real-Time Routing Rules</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5V4H2v16h5m10 0v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4m10 0H7"></path></svg>
+                    <span class="text-sm font-medium">Agent Capacity Rules</span>
+                </a>
+                <a href="execution_logs_primary_skills_buffer.html" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6m4 6V7m4 10V4M5 20h14"></path></svg>
+                    <span class="text-sm font-medium">Execution Logs</span>
+                </a>
+                <a href="ps_index.html" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="text-sm font-medium">Primary Skills</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto p-8 bg-gray-50">
+            <div class="max-w-7xl mx-auto">
+                
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-normal text-gray-800">Create New Routing Rule</h1>
+                    <div class="flex space-x-3">
+                        <button onclick="window.location.href='step4.html'" class="px-4 py-2 border border-gray-300 rounded text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition">Back</button>
+                        <button onclick="window.location.href='rrr_rulecreate.html'" class="px-4 py-2 border border-gray-300 rounded text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition">Cancel</button>
+                        
+                        <button onclick="showSuccessModal()" class="px-6 py-2 border border-transparent rounded text-sm font-bold text-white brand-blue hover:bg-blue-800 transition flex items-center shadow-sm">
+                            Create
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded shadow-sm p-8 mb-6">
+                    <div class="flex items-center justify-between max-w-4xl mx-auto relative pb-8 pt-4">
+                        
+                        <div class="absolute top-8 left-0 right-0 h-0.5 bg-gray-300 z-0" style="width: 80%; left: 10%;"></div>
+                        <div class="absolute top-8 left-0 h-0.5 brand-blue z-0" style="width: 80%; left: 10%;"></div>
+
+                        <div class="flex flex-col items-center relative z-10 w-32">
+                            <div class="w-9 h-9 bg-green-500 text-white rounded-full flex items-center justify-center font-bold shadow">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <div class="text-sm mt-3 text-gray-800 absolute top-10 whitespace-nowrap">Rule Type</div>
+                        </div>
+
+                        <div class="flex flex-col items-center relative z-10 w-32">
+                            <div class="w-9 h-9 bg-green-500 text-white rounded-full flex items-center justify-center font-bold shadow">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <div class="text-sm mt-3 text-gray-800 absolute top-10 whitespace-nowrap">Configuration</div>
+                        </div>
+
+                        <div class="flex flex-col items-center relative z-10 w-32">
+                            <div class="w-9 h-9 bg-green-500 text-white rounded-full flex items-center justify-center font-bold shadow">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <div class="text-sm mt-3 text-gray-800 absolute top-10 whitespace-nowrap">Define Conditions</div>
+                        </div>
+
+                        <div class="flex flex-col items-center relative z-10 w-32">
+                            <div class="w-9 h-9 bg-green-500 text-white rounded-full flex items-center justify-center font-bold shadow">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <div class="text-sm mt-3 text-gray-800 absolute top-10 whitespace-nowrap">Define Actions</div>
+                        </div>
+
+                        <div class="flex flex-col items-center relative z-10 w-32">
+                            <div class="w-9 h-9 brand-blue text-white rounded-full flex items-center justify-center font-bold shadow">5</div>
+                            <div class="text-sm font-semibold mt-3 text-gray-800 absolute top-10 whitespace-nowrap">Publish</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded shadow-sm p-8">
+                    
+                    <div class="bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 rounded-lg p-6 shadow-sm mb-10">
+                        <div class="flex items-center text-indigo-700 mb-5 border-b border-indigo-100 pb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09l2.846.813-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                            </svg>
+                            <h3 class="font-bold text-sm uppercase tracking-wider">Smart Insight: Configuration Review</h3>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6 pb-6 border-b border-indigo-100">
+                            <div>
+                                <p class="text-[11px] text-indigo-400 font-bold uppercase tracking-wider mb-1">Rule Name</p>
+                                <p class="text-sm text-gray-800 font-medium">High Volume Escalation</p>
+                            </div>
+                            <div>
+                                <p class="text-[11px] text-indigo-400 font-bold uppercase tracking-wider mb-1">Target Skill</p>
+                                <p class="text-sm text-gray-800 font-medium">Tech Support L1</p>
+                            </div>
+                            <div>
+                                <p class="text-[11px] text-indigo-400 font-bold uppercase tracking-wider mb-1">Retention Buffer</p>
+                                <p class="text-sm text-gray-800 font-medium">12 Agents</p>
+                            </div>
+                            <div>
+                                <p class="text-[11px] text-indigo-400 font-bold uppercase tracking-wider mb-1">Description</p>
+                                <p class="text-sm text-gray-800 font-medium truncate" title="Maintains SLAs by escalating routing during high volume.">Maintains SLAs by escalating routing...</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <p class="text-sm text-gray-800 font-semibold mb-3">When ALL of these conditions are met:</p>
+                                <ul class="space-y-3 mb-2">
+                                    <li class="flex items-start text-sm text-gray-600">
+                                        <span class="text-indigo-400 mr-2 font-bold">&bull;</span>
+                                        <span><strong>Service Level (SLA)</strong> drops below <strong>80%</strong> (Real-Time 5 min).</span>
+                                    </li>
+                                    <li class="flex items-start text-sm text-gray-600">
+                                        <span class="text-indigo-400 mr-2 font-bold">&bull;</span>
+                                        <span><strong>Speed of Response</strong> is greater than <strong>2 seconds</strong> (Current Week).</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <p class="text-sm text-gray-800 font-semibold mb-3">The system will execute these actions after 1 minute:</p>
+                                <ul class="space-y-3 mb-2">
+                                    <li class="flex items-start text-sm text-gray-600">
+                                        <span class="text-indigo-400 mr-2 font-bold">&bull;</span>
+                                        <span>Retain <strong>50%</strong> of Primary Agents.</span>
+                                    </li>
+                                    <li class="flex items-start text-sm text-gray-600">
+                                        <span class="text-indigo-400 mr-2 font-bold">&bull;</span>
+                                        <span>Alert <strong>Tier 2 Tech Support</strong> & <strong>Sales Escalations</strong>.</span>
+                                    </li>
+                                    <li class="flex items-start text-sm text-gray-600">
+                                        <span class="text-indigo-400 mr-2 font-bold">&bull;</span>
+                                        <span>Trigger an external webhook.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <h2 class="text-xl font-medium text-gray-800 mb-2">Publish To Groups</h2>
+                        <p class="text-sm text-gray-600 mb-2">Configure which Groups should have ability to update this Routing Rule.</p>
+                        <p class="text-sm text-gray-500">
+                            Note: Consider following best practice and testing these Rules and Actions properly prior to full utilization.
+                        </p>
+                    </div>
+
+                    <h3 class="text-lg font-medium text-gray-800 mb-4">Groups</h3>
+
+                    <div class="border border-gray-200 rounded-lg overflow-hidden">
+                        
+                        <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                            
+                            <div class="flex items-center space-x-4">
+                                <div class="text-sm text-gray-700">
+                                    <span class="font-semibold">2 Items</span> <span class="text-gray-300 mx-2">|</span> 0 selected
+                                </div>
+                                <div class="relative w-64">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                    </div>
+                                    <input type="text" placeholder="Search Group Names" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-brand focus:border-brand sm:text-sm transition duration-150 ease-in-out">
+                                </div>
+                            </div>
+
+                            <button class="flex items-center text-brand text-sm font-medium hover:text-blue-800 transition px-4 py-2 border border-gray-300 rounded bg-white shadow-sm">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                                Add Groups
+                            </button>
+                        </div>
+
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-white">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider w-12">
+                                        </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                        NAME
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider w-48">
+                                        EMPLOYEES
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider w-32">
+                                        ACTIONS
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <input type="checkbox" class="h-4 w-4 text-brand focus:ring-brand border-gray-300 rounded cursor-pointer">
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Sandy</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">4</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-gray-400 hover:text-red-600 focus:outline-none transition">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <input type="checkbox" class="h-4 w-4 text-brand focus:ring-brand border-gray-300 rounded cursor-pointer">
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Account Managers</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">21</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-gray-400 hover:text-red-600 focus:outline-none transition">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="success-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-gray-900 bg-opacity-60 backdrop-blur-sm transition-opacity opacity-0 duration-300">
+        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full overflow-hidden transform scale-95 transition-transform duration-300">
+            
+            <div class="bg-gradient-to-r from-indigo-600 to-[#006699] p-8 text-white text-center relative">
+                <button onclick="window.location.href='rrr_library.html'" class="absolute top-4 right-4 text-indigo-200 hover:text-white transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-5 shadow-inner backdrop-blur-md">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h2 class="text-2xl font-bold mb-2">Rule Successfully Published!</h2>
+                <p class="text-indigo-100 text-sm">"High Volume Escalation" is now active.</p>
+            </div>
+            
+            <div class="p-8">
+                <div class="flex items-start text-indigo-700 mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-3 shrink-0 mt-0.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09l2.846.813-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                    </svg>
+                    <div>
+                        <h3 class="font-bold text-sm uppercase tracking-wider mb-2">Smart Next Steps</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            I notice this is a highly effective configuration. Would you like me to save this rule as a reusable template, or apply these same settings to other related skills?
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="space-y-3">
+                    <button onclick="window.location.href='rrr_library.html'" class="w-full flex items-center justify-between px-4 py-3 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 font-semibold rounded-lg transition shadow-sm">
+                        <span class="flex items-center">
+                            <svg class="w-5 h-5 mr-3 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
+                            Save as Template
+                        </span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                    <button onclick="window.location.href='rrr_library.html'" class="w-full flex items-center justify-between px-4 py-3 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 font-semibold rounded-lg transition shadow-sm">
+                        <span class="flex items-center">
+                            <svg class="w-5 h-5 mr-3 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6z"></path></svg>
+                            Apply to Multiple Skills
+                        </span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="bg-gray-50 p-4 border-t border-gray-100 flex justify-center">
+                <button onclick="window.location.href='rrr_library.html'" class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-800 transition">
+                    No thanks, I'm done
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSuccessModal() {
+            const modal = document.getElementById('success-modal');
+            const modalContent = modal.querySelector('div.transform');
+            
+            // Remove hidden to put it in the DOM
+            modal.classList.remove('hidden');
+            
+            // Slight delay allows the browser to render 'display: flex' before we transition the opacity/scale
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+        }
+    </script>
+
+    <div class="app-launcher-overlay fixed inset-0 z-50 hidden">
+        <div class="app-launcher-backdrop absolute inset-0 bg-slate-900/45"></div>
+        <div class="app-launcher-panel app-launcher-shadow absolute top-0 left-0 h-full w-80 max-w-[90vw] bg-white text-gray-800 overflow-y-auto">
+            <div class="flex items-center gap-3 px-4 py-3 border-b border-gray-200">
+                <svg class="w-5 h-5 text-gray-900" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"></path></svg>
+                <span class="text-lg font-medium">Applications</span>
+            </div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">General</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-sky-100 text-sky-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v6c0 5-3.4 7.8-8 8-4.6-.2-8-3-8-8V7l8-4z"></path><path d="M9 12h6"></path><path d="M12 9v6"></path></svg></span><span>Admin</span></button>
+                <a href="supervisor_main.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 text-amber-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path><path d="M8 8l8 8"></path><path d="M16 8l-8 8"></path></svg></span><span>Supervisor</span></a>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Omnichannel Routing</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="16" height="12" rx="2"></rect><path d="M4 10h16"></path></svg></span><span>ACD</span></button>
+                <a href="agent_rule_alert.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"></circle><path d="M5 19c1.8-3 4.1-4.5 7-4.5s5.2 1.5 7 4.5"></path></svg></span><span>Agent</span></a>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"></path><path d="M4 12h10"></path><path d="M4 17h16"></path></svg></span><span>Studio</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 4v5c0 4.2-2.8 6.8-7 7.8-4.2-1-7-3.6-7-7.8V7l7-4z"></path><path d="M9.5 12l2 2 3-3"></path></svg></span><span>Studio Authentication</span></button>
+                <a href="index.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-100 text-cyan-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"></path><path d="M12 3v18"></path></svg></span><span>Routing Center</span></a>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Workforce Engagement</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-100 text-cyan-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M8 10h8"></path><path d="M8 14h6"></path></svg></span><span>Interactions Hub</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-violet-100 text-violet-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"></circle><path d="M12 8v4l3 2"></path></svg></span><span>My Zone</span></button>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Data &amp; Analytics</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-rose-100 text-rose-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16l4-4 3 3 6-6"></path><path d="M5 19h14"></path></svg></span><span>Reporting</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-100 text-indigo-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18h16"></path><path d="M7 15V9"></path><path d="M12 15V6"></path><path d="M17 15v-3"></path></svg></span><span>Metrics</span></button>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Others</div>
+            <div class="space-y-1 px-2 pb-4">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-yellow-100 text-yellow-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 9l9 6 9-6"></path></svg></span><span>Digital</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="12" r="3"></circle><circle cx="17" cy="12" r="3"></circle><path d="M10 12h4"></path></svg></span><span>Connections Hub</span></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (() => {
+            const toggle = document.querySelector('.app-launcher-toggle');
+            const overlay = document.querySelector('.app-launcher-overlay');
+            const panel = document.querySelector('.app-launcher-panel');
+            const backdrop = document.querySelector('.app-launcher-backdrop');
+            if (!toggle || !overlay || !panel || !backdrop) return;
+
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const sidebarPageGroups = {
+                'rrr_library.html': ['rrr_library.html', 'rrr_rulecreate.html', 'step2.html', 'step2_overflow.html', 'step3.html', 'step4.html', 'step5.html'],
+                'execution_logs_primary_skills_buffer.html': ['execution_logs_primary_skills_buffer.html', 'execution_logs_overflow.html', 'execution_logs_queue_health.html'],
+                'ps_index.html': ['ps_index.html', 'ps_step2.html', 'ps_audit_log.html']
+            };
+
+            document.querySelectorAll('aside nav a[href]').forEach((link) => {
+                const linkHref = link.getAttribute('href');
+                if (!linkHref || linkHref === '#') return;
+
+                const linkTarget = new URL(linkHref, window.location.href).pathname.split('/').pop();
+                const linkedPages = sidebarPageGroups[linkTarget] || [linkTarget];
+                if (!linkedPages.includes(currentPage)) return;
+
+                link.classList.remove('text-gray-600', 'border-transparent');
+                link.classList.add('bg-sky-50', 'text-sky-800', 'border-sky-500', 'font-semibold');
+                link.setAttribute('aria-current', 'page');
+
+                const icon = link.querySelector('svg');
+                if (icon) {
+                    icon.classList.remove('text-gray-400');
+                    icon.classList.add('text-sky-600');
+                }
+            });
+
+            overlay.querySelectorAll('a[href]').forEach((link) => {
+                const linkTarget = new URL(link.getAttribute('href'), window.location.href).pathname.split('/').pop();
+                if (linkTarget === currentPage) {
+                    link.classList.remove('hover:bg-gray-50');
+                    link.classList.add('bg-sky-50', 'text-sky-900', 'font-semibold', 'ring-1', 'ring-sky-200');
+                    link.setAttribute('aria-current', 'page');
+
+                    const iconBadge = link.querySelector('span');
+                    if (iconBadge) {
+                        iconBadge.classList.add('ring-2', 'ring-white');
+                    }
+                }
+            });
+
+            const closeOverlay = () => overlay.classList.add('hidden');
+            const openOverlay = () => overlay.classList.remove('hidden');
+
+            toggle.addEventListener('click', (event) => {
+                event.stopPropagation();
+                openOverlay();
+            });
+
+            backdrop.addEventListener('click', closeOverlay);
+            overlay.addEventListener('click', (event) => {
+                if (!panel.contains(event.target) && event.target !== toggle) {
+                    closeOverlay();
+                }
+            });
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') closeOverlay();
+            });
+        })();
+    </script>
+</body>
+</html>
+
+
+

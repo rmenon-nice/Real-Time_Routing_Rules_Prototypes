@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routing Center - Landing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .brand-blue { background-color: #006699; }
+        .text-brand { color: #006699; }
+        .border-brand { border-color: #006699; }
+        .app-launcher-shadow { box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28); }
+        .dashboard-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+        }
+        .chart-legend-dot {
+            width: 0.7rem;
+            height: 0.7rem;
+            border-radius: 9999px;
+        }
+        .chart-legend-dot.square {
+            border-radius: 0.3rem;
+        }
+        .queue-health-chart-layout {
+            display: grid;
+            grid-template-columns: 2rem minmax(0, 1fr);
+            gap: 0.75rem;
+            height: 100%;
+            min-height: 0;
+        }
+        .queue-health-axis {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            height: 15rem;
+            padding: 0.1rem 0 0.2rem;
+        }
+        .queue-health-axis-label {
+            display: block;
+            font-size: 0.7rem;
+            line-height: 1;
+            color: #94a3b8;
+        }
+        .queue-health-stage {
+            display: grid;
+            grid-template-rows: minmax(0, 15rem) auto;
+            min-height: 0;
+        }
+        .queue-health-plot {
+            position: relative;
+            min-height: 0;
+        }
+        .queue-health-gridline {
+            position: absolute;
+            left: 0;
+            right: 0;
+            border-top: 1px solid #e5e7eb;
+            z-index: 0;
+        }
+        .queue-health-groups {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 0.75rem;
+            padding: 0 0.25rem;
+            z-index: 1;
+        }
+        .queue-health-group {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 0.35rem;
+            height: 100%;
+        }
+        .queue-health-bar {
+            width: 1.1rem;
+            border: none;
+            border-radius: 0.75rem 0.75rem 0.25rem 0.25rem;
+            box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.25);
+            transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+        }
+        .queue-health-bar:hover,
+        .queue-health-bar:focus-visible {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.16);
+            outline: none;
+        }
+        .queue-health-labels {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 0.75rem;
+            padding: 0.75rem 0.25rem 0;
+        }
+        .queue-health-skill {
+            font-size: 0.7rem;
+            line-height: 1rem;
+            text-align: center;
+            color: #475569;
+        }
+        .queue-health-tooltip {
+            position: fixed;
+            z-index: 80;
+            min-width: 12rem;
+            max-width: 15rem;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(4px);
+            transition: opacity 0.12s ease, transform 0.12s ease;
+        }
+        .queue-health-tooltip.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .placeholder-line {
+            height: 0.6rem;
+            border-radius: 9999px;
+            background: linear-gradient(90deg, #e5e7eb, #f3f4f6 60%, #e5e7eb);
+        }
+        .trend-filter-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            border: 1px solid #d1d5db;
+            border-radius: 9999px;
+            padding: 0.2rem 0.55rem;
+            font-size: 0.68rem;
+            line-height: 1rem;
+            color: #475569;
+            background: #ffffff;
+            transition: all 0.16s ease;
+        }
+        .trend-filter-chip.active {
+            border-color: #94a3b8;
+            background: #f8fafc;
+            color: #0f172a;
+        }
+        .trend-filter-chip:hover {
+            border-color: #94a3b8;
+        }
+        .trend-filter-chip-dot {
+            width: 0.55rem;
+            height: 0.55rem;
+            border-radius: 9999px;
+            flex-shrink: 0;
+        }
+        .trend-toggle {
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            padding: 0.18rem 0.5rem;
+            font-size: 0.68rem;
+            line-height: 1rem;
+            color: #475569;
+            background: #ffffff;
+            transition: all 0.16s ease;
+        }
+        .trend-toggle.active {
+            background: #0f172a;
+            border-color: #0f172a;
+            color: #f8fafc;
+        }
+        .workforce-chart-layout {
+            display: grid;
+            grid-template-columns: 2rem minmax(0, 1fr);
+            gap: 0.75rem;
+            height: 100%;
+            min-height: 0;
+        }
+        .workforce-axis {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            height: 12.5rem;
+            padding: 0.1rem 0 0.2rem;
+        }
+        .workforce-axis-label {
+            display: block;
+            font-size: 0.7rem;
+            line-height: 1;
+            color: #94a3b8;
+        }
+        .workforce-stage {
+            display: grid;
+            grid-template-rows: minmax(0, 12.5rem) auto;
+            min-height: 0;
+        }
+        .workforce-plot {
+            position: relative;
+            min-height: 0;
+        }
+        .workforce-gridline {
+            position: absolute;
+            left: 0;
+            right: 0;
+            border-top: 1px solid #e2e8f0;
+            z-index: 0;
+        }
+        .workforce-groups {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 1.28rem;
+            padding: 0 0.55rem;
+            z-index: 1;
+        }
+        .workforce-group {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 100%;
+        }
+        .workforce-bar-cluster {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 0.16rem;
+            height: 100%;
+        }
+        .workforce-bar-track {
+            position: relative;
+            width: 1.05rem;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        .workforce-assigned-bar {
+            width: 0.68rem;
+            border-radius: 0.65rem 0.65rem 0.25rem 0.25rem;
+            box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.22);
+        }
+        .workforce-queue-bar {
+            width: 0.68rem;
+            border-radius: 0.65rem 0.65rem 0.25rem 0.25rem;
+            box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.3);
+        }
+        .workforce-shadow-bar {
+            width: 1.05rem;
+            border-radius: 0.75rem 0.75rem 0.3rem 0.3rem;
+            background: linear-gradient(180deg, #cbd5e1 0%, #94a3b8 100%);
+            opacity: 0.55;
+            box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.35);
+        }
+        .workforce-primary-bar {
+            position: absolute;
+            width: 0.68rem;
+            border-radius: 0.65rem 0.65rem 0.25rem 0.25rem;
+            box-shadow: 0 8px 16px rgba(15, 23, 42, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.32);
+        }
+        .workforce-skill-labels {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 0.7rem;
+            padding: 0.7rem 0.3rem 0;
+        }
+        .workforce-skill-label {
+            font-size: 0.7rem;
+            line-height: 1rem;
+            text-align: center;
+            color: #475569;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800 h-screen flex flex-col overflow-hidden">
+
+    <header class="brand-blue text-white h-14 flex items-center justify-between px-4 shrink-0">
+        <div class="flex items-center space-x-3">
+            <button type="button" class="app-launcher-toggle hover:text-gray-200 transition" aria-label="Open applications launcher">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+            </button>
+            <a href="index.html" class="font-semibold text-lg hover:underline">Routing Center</a>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button class="hover:text-gray-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+            <button class="hover:text-gray-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+            </button>
+            <div class="w-8 h-8 rounded-full bg-gray-300 border border-white overflow-hidden">
+                <img src="https://i.pravatar.cc/100?img=47" alt="User Profile" class="w-full h-full object-cover">
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+        <aside class="w-64 bg-white border-r border-gray-200 shrink-0 flex flex-col">
+            <div class="flex justify-end p-3 border-b border-gray-100">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </div>
+            <nav class="flex-1 py-4 space-y-1">
+                <a href="rrr_library.html" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <span class="text-sm font-medium">Real-Time Routing Rules</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5V4H2v16h5m10 0v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4m10 0H7"></path></svg>
+                    <span class="text-sm font-medium">Agent Capacity Rules</span>
+                </a>
+                <a href="execution_logs_primary_skills_buffer.html" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6m4 6V7m4 10V4M5 20h14"></path></svg>
+                    <span class="text-sm font-medium">Execution Logs</span>
+                </a>
+                <a href="ps_index.html" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="text-sm font-medium">Primary Skills</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto p-8 bg-gray-50">
+            <div class="max-w-7xl mx-auto">
+                <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
+                    <h1 class="text-2xl font-normal text-gray-800 mb-1">Routing Center</h1>
+                    <p class="text-sm text-gray-500 max-w-3xl">Operational overview across routing health, automation activity, and workforce signals. Use the left navigation to move into each application for detail.</p>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+                    <section class="dashboard-card h-[410px] p-5 lg:p-6">
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <h2 class="text-base font-semibold text-gray-900">Queue Health by Skill</h2>
+                                <p class="mt-1 text-xs leading-5 text-gray-500">Normalized health across SLA, speed of response, and abandon rate.</p>
+                            </div>
+                            <span class="rounded-full bg-sky-50 px-2.5 py-1 text-[11px] font-medium text-sky-700">Live snapshot</span>
+                        </div>
+                        <div id="queueHealthChart" class="mt-5 flex h-[270px] min-h-0 flex-col"></div>
+                        <p class="mt-8 text-[11px] text-gray-500">Hover each bar to view raw values, skill-specific targets, and the normalized health score.</p>
+                    </section>
+
+                    <section class="dashboard-card h-[410px] p-5 lg:p-6">
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <h2 class="text-base font-semibold text-gray-900">Rule Activity Trend</h2>
+                                <p class="mt-1 text-xs leading-5 text-gray-500">Trend view by skill, timeframe, and queue-health metric.</p>
+                            </div>
+                            <span id="trendTotalExecutions" class="rounded-full bg-violet-50 px-2.5 py-1 text-[11px] font-medium text-violet-700">12 total executions</span>
+                        </div>
+                        <div class="mt-4 flex h-[278px] min-h-0 flex-col rounded-2xl border border-gray-200 bg-slate-50/70 p-3">
+                            <div class="flex flex-wrap items-center justify-between gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-[11px] font-semibold uppercase tracking-wide text-gray-500">Skills</span>
+                                    <div id="trendSkillFilters" class="flex flex-wrap items-center gap-1.5"></div>
+                                </div>
+                            </div>
+                            <div class="mt-2 flex flex-wrap items-center justify-between gap-2">
+                                <div id="trendRangeFilters" class="flex items-center gap-1.5"></div>
+                                <div id="trendMetricFilters" class="flex items-center gap-1.5"></div>
+                            </div>
+                            <div id="ruleTrendChart" class="mt-2 min-h-0 flex-1 rounded-xl border border-slate-200 bg-white p-2"></div>
+                            <div class="mt-1 text-[11px] text-gray-500">
+                                Showing <span id="trendMetricLabel" class="font-medium text-gray-700">SLA</span> for selected skills.
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="dashboard-card h-[410px] p-5 lg:p-6">
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <h2 class="text-base font-semibold text-gray-900">Protected Workforce Mix</h2>
+                                <p class="mt-1 text-xs leading-5 text-gray-500">Ratio of Primary to Overall Agent Assignments and Contacts per Skill.</p>
+                            </div>
+                            <span class="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-medium text-slate-700">Metric 1</span>
+                        </div>
+                        <div class="mt-3 flex flex-wrap items-center gap-2">
+                            <span class="text-[11px] font-semibold uppercase tracking-wide text-gray-500">Contact Count</span>
+                            <div id="workforceContactCountFilters" class="flex items-center gap-1.5">
+                                <button type="button" class="trend-toggle active" data-contact-window="current">Current</button>
+                                <button type="button" class="trend-toggle" data-contact-window="20m">20 minutes</button>
+                                <button type="button" class="trend-toggle" data-contact-window="1h">1 Hour</button>
+                            </div>
+                        </div>
+                        <div id="workforceMetricOneChart" class="mt-3 min-h-0 flex-1 overflow-hidden rounded-xl border border-slate-200 bg-white p-2"></div>
+                        <div class="mt-4 text-[11px] text-gray-500">
+                            Shadow bars represent total agents in skill proficiency range, with primary assignments overlayed in front, total assigned agents shown in the darker adjacent column, and contacts in queue shown in the lighter right-most column.
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="queueHealthTooltip" class="queue-health-tooltip hidden rounded-xl border border-slate-200 bg-white p-3 shadow-xl shadow-slate-900/10"></div>
+    <div id="workforceTooltip" class="queue-health-tooltip hidden rounded-xl border border-slate-200 bg-white p-3 shadow-xl shadow-slate-900/10"></div>
+
+    <div class="app-launcher-overlay fixed inset-0 z-50 hidden">
+        <div class="app-launcher-backdrop absolute inset-0 bg-slate-900/45"></div>
+        <div class="app-launcher-panel app-launcher-shadow absolute top-0 left-0 h-full w-80 max-w-[90vw] bg-white text-gray-800 overflow-y-auto">
+            <div class="flex items-center gap-3 px-4 py-3 border-b border-gray-200">
+                <svg class="w-5 h-5 text-gray-900" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"></path></svg>
+                <span class="text-lg font-medium">Applications</span>
+            </div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">General</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-sky-100 text-sky-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v6c0 5-3.4 7.8-8 8-4.6-.2-8-3-8-8V7l8-4z"></path><path d="M9 12h6"></path><path d="M12 9v6"></path></svg></span><span>Admin</span></button>
+                <a href="supervisor_main.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 text-amber-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path><path d="M8 8l8 8"></path><path d="M16 8l-8 8"></path></svg></span><span>Supervisor</span></a>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Omnichannel Routing</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="16" height="12" rx="2"></rect><path d="M4 10h16"></path></svg></span><span>ACD</span></button>
+                <a href="agent_rule_alert.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"></circle><path d="M5 19c1.8-3 4.1-4.5 7-4.5s5.2 1.5 7 4.5"></path></svg></span><span>Agent</span></a>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"></path><path d="M4 12h10"></path><path d="M4 17h16"></path></svg></span><span>Studio</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 4v5c0 4.2-2.8 6.8-7 7.8-4.2-1-7-3.6-7-7.8V7l7-4z"></path><path d="M9.5 12l2 2 3-3"></path></svg></span><span>Studio Authentication</span></button>
+                <a href="index.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-100 text-cyan-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"></path><path d="M12 3v18"></path></svg></span><span>Routing Center</span></a>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Workforce Engagement</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-100 text-cyan-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M8 10h8"></path><path d="M8 14h6"></path></svg></span><span>Interactions Hub</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-violet-100 text-violet-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"></circle><path d="M12 8v4l3 2"></path></svg></span><span>My Zone</span></button>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Data &amp; Analytics</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-rose-100 text-rose-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16l4-4 3 3 6-6"></path><path d="M5 19h14"></path></svg></span><span>Reporting</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-100 text-indigo-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18h16"></path><path d="M7 15V9"></path><path d="M12 15V6"></path><path d="M17 15v-3"></path></svg></span><span>Metrics</span></button>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Others</div>
+            <div class="space-y-1 px-2 pb-4">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-yellow-100 text-yellow-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 9l9 6 9-6"></path></svg></span><span>Digital</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="12" r="3"></circle><circle cx="17" cy="12" r="3"></circle><path d="M10 12h4"></path></svg></span><span>Connections Hub</span></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (() => {
+            const toggle = document.querySelector('.app-launcher-toggle');
+            const overlay = document.querySelector('.app-launcher-overlay');
+            const panel = document.querySelector('.app-launcher-panel');
+            const backdrop = document.querySelector('.app-launcher-backdrop');
+            if (!toggle || !overlay || !panel || !backdrop) return;
+
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const sidebarPageGroups = {
+                'rrr_library.html': ['rrr_library.html', 'rrr_rulecreate.html', 'step2.html', 'step2_overflow.html', 'step3.html', 'step4.html', 'step5.html'],
+                'execution_logs_primary_skills_buffer.html': ['execution_logs_primary_skills_buffer.html', 'execution_logs_overflow.html', 'execution_logs_queue_health.html'],
+                'ps_index.html': ['ps_index.html', 'ps_step2.html', 'ps_audit_log.html']
+            };
+
+            document.querySelectorAll('aside nav a[href]').forEach((link) => {
+                const linkHref = link.getAttribute('href');
+                if (!linkHref || linkHref === '#') return;
+
+                const linkTarget = new URL(linkHref, window.location.href).pathname.split('/').pop();
+                const linkedPages = sidebarPageGroups[linkTarget] || [linkTarget];
+                if (!linkedPages.includes(currentPage)) return;
+
+                link.classList.remove('text-gray-600', 'border-transparent');
+                link.classList.add('bg-sky-50', 'text-sky-800', 'border-sky-500', 'font-semibold');
+                link.setAttribute('aria-current', 'page');
+
+                const icon = link.querySelector('svg');
+                if (icon) {
+                    icon.classList.remove('text-gray-400');
+                    icon.classList.add('text-sky-600');
+                }
+            });
+
+            overlay.querySelectorAll('a[href]').forEach((link) => {
+                const linkTarget = new URL(link.getAttribute('href'), window.location.href).pathname.split('/').pop();
+                if (linkTarget === currentPage) {
+                    link.classList.remove('hover:bg-gray-50');
+                    link.classList.add('bg-sky-50', 'text-sky-900', 'font-semibold', 'ring-1', 'ring-sky-200');
+                    link.setAttribute('aria-current', 'page');
+
+                    const iconBadge = link.querySelector('span');
+                    if (iconBadge) {
+                        iconBadge.classList.add('ring-2', 'ring-white');
+                    }
+                }
+            });
+
+            const closeOverlay = () => overlay.classList.add('hidden');
+            const openOverlay = () => overlay.classList.remove('hidden');
+
+            toggle.addEventListener('click', (event) => {
+                event.stopPropagation();
+                openOverlay();
+            });
+
+            backdrop.addEventListener('click', closeOverlay);
+            overlay.addEventListener('click', (event) => {
+                if (!panel.contains(event.target) && event.target !== toggle) {
+                    closeOverlay();
+                }
+            });
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') closeOverlay();
+            });
+        })();
+
+        (() => {
+            const chartHost = document.getElementById('queueHealthChart');
+            const tooltip = document.getElementById('queueHealthTooltip');
+            if (!chartHost || !tooltip) return;
+
+            const metricDefinitions = [
+                { key: 'sla', label: 'SLA', shadeKey: 'light', unit: '%', actualKey: 'slaActual', targetKey: 'slaTarget' },
+                { key: 'speed', label: 'Speed of Response', shadeKey: 'base', unit: 's', actualKey: 'speedActual', targetKey: 'speedTarget' },
+                { key: 'abandon', label: 'Abandon Rate', shadeKey: 'dark', unit: '%', actualKey: 'abandonActual', targetKey: 'abandonTarget' }
+            ];
+            const queueHealthData = [
+                { skill: 'Billing Queue', colors: { light: '#93c5fd', base: '#3b82f6', dark: '#1d4ed8' }, slaTarget: 91, slaActual: 82, speedTarget: 6, speedActual: 9.8, abandonTarget: 7, abandonActual: 8.9 },
+                { skill: 'Tier 1 Support', colors: { light: '#a5f3fc', base: '#06b6d4', dark: '#0e7490' }, slaTarget: 89, slaActual: 76, speedTarget: 8, speedActual: 12.7, abandonTarget: 8, abandonActual: 10.6 },
+                { skill: 'VIP Voice', colors: { light: '#a7f3d0', base: '#10b981', dark: '#047857' }, slaTarget: 94, slaActual: 95, speedTarget: 4, speedActual: 3.8, abandonTarget: 5, abandonActual: 2.9 },
+                { skill: 'Claims Intake', colors: { light: '#fda4af', base: '#f43f5e', dark: '#be123c' }, slaTarget: 87, slaActual: 71, speedTarget: 11, speedActual: 16.8, abandonTarget: 10, abandonActual: 12.2 },
+                { skill: 'Retention Desk', colors: { light: '#c4b5fd', base: '#8b5cf6', dark: '#6d28d9' }, slaTarget: 90, slaActual: 88, speedTarget: 5, speedActual: 7.1, abandonTarget: 6, abandonActual: 4.8 }
+            ];
+
+            const clampScore = (value) => Math.max(0, Math.min(100, Math.round(value)));
+            const computeScore = (skill, metric) => {
+                if (metric.key === 'sla') {
+                    return clampScore((skill[metric.actualKey] / skill[metric.targetKey]) * 100);
+                }
+                return clampScore((skill[metric.targetKey] / skill[metric.actualKey]) * 100);
+            };
+            const formatValue = (value, unit) => {
+                if (unit === '%' && Number.isInteger(value)) {
+                    return `${value}${unit}`;
+                }
+                if (unit === '%') {
+                    return `${value.toFixed(1)}${unit}`;
+                }
+                return `${value.toFixed(1)}${unit}`;
+            };
+
+            const legendMarkup = metricDefinitions.map((metric) => {
+                const legendColor = metric.shadeKey === 'light' ? '#cbd5e1' : metric.shadeKey === 'base' ? '#94a3b8' : '#475569';
+                return `
+                <div class="flex items-center gap-2 text-[11px] font-medium text-gray-500">
+                    <span class="chart-legend-dot square" style="background:${legendColor}"></span>
+                    <span>${metric.label}</span>
+                </div>
+            `;
+            }).join('');
+
+            const axisValues = [100, 75, 50, 25, 0];
+            const axisMarkup = axisValues.map((value) => `
+                <span class="queue-health-axis-label">${value}</span>
+            `).join('');
+            const gridMarkup = axisValues.map((value) => `
+                <div class="queue-health-gridline" style="bottom: ${value}%;"></div>
+            `).join('');
+
+            const groupsMarkup = queueHealthData.map((skill) => {
+                const barsMarkup = metricDefinitions.map((metric) => {
+                    const score = computeScore(skill, metric);
+                    const actual = skill[metric.actualKey];
+                    const target = skill[metric.targetKey];
+                    const barColor = skill.colors[metric.shadeKey];
+                    return `
+                        <button
+                            type="button"
+                            class="queue-health-bar"
+                            style="height: ${Math.max(score, 6)}%; background: ${barColor};"
+                            data-skill="${skill.skill}"
+                            data-metric="${metric.label}"
+                            data-actual="${formatValue(actual, metric.unit)}"
+                            data-target="${formatValue(target, metric.unit)}"
+                            data-score="${score}"
+                            aria-label="${skill.skill} ${metric.label} health score ${score}"
+                        ></button>
+                    `;
+                }).join('');
+
+                return `<div class="queue-health-group">${barsMarkup}</div>`;
+            }).join('');
+
+            const labelsMarkup = queueHealthData.map((skill) => `
+                <div class="queue-health-skill">${skill.skill}</div>
+            `).join('');
+
+            chartHost.innerHTML = `
+                <div class="mb-4 flex flex-wrap items-center gap-4">${legendMarkup}</div>
+                <div class="queue-health-chart-layout">
+                    <div class="queue-health-axis">${axisMarkup}</div>
+                    <div class="queue-health-stage">
+                        <div class="queue-health-plot">
+                            ${gridMarkup}
+                            <div class="queue-health-groups">${groupsMarkup}</div>
+                        </div>
+                        <div class="queue-health-labels">${labelsMarkup}</div>
+                    </div>
+                </div>
+            `;
+
+            const showTooltip = (event, bar) => {
+                tooltip.innerHTML = `
+                    <div class="text-[11px] font-semibold uppercase tracking-wide text-slate-500">${bar.dataset.skill}</div>
+                    <div class="mt-1 text-sm font-semibold text-slate-900">${bar.dataset.metric}</div>
+                    <dl class="mt-3 space-y-1.5 text-xs text-slate-600">
+                        <div class="flex items-center justify-between gap-4"><dt>Actual</dt><dd class="font-medium text-slate-900">${bar.dataset.actual}</dd></div>
+                        <div class="flex items-center justify-between gap-4"><dt>Target</dt><dd class="font-medium text-slate-900">${bar.dataset.target}</dd></div>
+                        <div class="flex items-center justify-between gap-4"><dt>Health Score</dt><dd class="font-medium text-slate-900">${bar.dataset.score}</dd></div>
+                    </dl>
+                `;
+                tooltip.classList.remove('hidden');
+                tooltip.classList.add('visible');
+
+                const offsetX = 18;
+                const offsetY = 18;
+                const tooltipWidth = tooltip.offsetWidth;
+                const tooltipHeight = tooltip.offsetHeight;
+                const maxLeft = window.innerWidth - tooltipWidth - 12;
+                const maxTop = window.innerHeight - tooltipHeight - 12;
+                const left = Math.min(event.clientX + offsetX, maxLeft);
+                const top = Math.min(event.clientY + offsetY, maxTop);
+                tooltip.style.left = `${Math.max(12, left)}px`;
+                tooltip.style.top = `${Math.max(12, top)}px`;
+            };
+
+            const hideTooltip = () => {
+                tooltip.classList.remove('visible');
+                tooltip.classList.add('hidden');
+            };
+
+            chartHost.querySelectorAll('.queue-health-bar').forEach((bar) => {
+                bar.addEventListener('mouseenter', (event) => showTooltip(event, bar));
+                bar.addEventListener('mousemove', (event) => showTooltip(event, bar));
+                bar.addEventListener('mouseleave', hideTooltip);
+                bar.addEventListener('focus', () => {
+                    const rect = bar.getBoundingClientRect();
+                    showTooltip({ clientX: rect.left + rect.width / 2, clientY: rect.top }, bar);
+                });
+                bar.addEventListener('blur', hideTooltip);
+            });
+        })();
+
+        (() => {
+            const chartHost = document.getElementById('ruleTrendChart');
+            const skillFilters = document.getElementById('trendSkillFilters');
+            const rangeFilters = document.getElementById('trendRangeFilters');
+            const metricFilters = document.getElementById('trendMetricFilters');
+            const totalExecutionsBadge = document.getElementById('trendTotalExecutions');
+            const metricLabel = document.getElementById('trendMetricLabel');
+            if (!chartHost || !skillFilters || !rangeFilters || !metricFilters || !totalExecutionsBadge || !metricLabel) return;
+
+            const skillConfigs = [
+                { id: 'billing', label: 'Billing Queue', color: '#3b82f6' },
+                { id: 'tier1', label: 'Tier 1 Support', color: '#06b6d4' },
+                { id: 'vip', label: 'VIP Voice', color: '#10b981' },
+                { id: 'claims', label: 'Claims Intake', color: '#f43f5e' },
+                { id: 'retention', label: 'Retention Desk', color: '#8b5cf6' }
+            ];
+
+            const metricConfig = {
+                sla: { label: 'SLA', unit: '%', tickStep: 5 },
+                speed: { label: 'Speed of Response', unit: 's', tickStep: 2 },
+                abandon: { label: 'Abandon Rate', unit: '%', tickStep: 1 }
+            };
+
+            const trendData = {
+                day: {
+                    totalExecutions: 12,
+                    labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'],
+                    nowIndex: 2.5,
+                    metrics: {
+                        sla: {
+                            billing: [88, 92, 79, 91, 76, 90, 82],
+                            tier1: [83, 77, 86, 74, 88, 73, 87],
+                            vip: [95, 90, 96, 89, 97, 88, 95],
+                            claims: [78, 85, 72, 87, 70, 86, 74],
+                            retention: [91, 80, 92, 81, 93, 79, 90]
+                        },
+                        speed: {
+                            billing: [7.1, 5.8, 8.9, 6.2, 9.4, 5.9, 8.1],
+                            tier1: [9.4, 11.8, 8.2, 12.9, 7.8, 13.4, 8.6],
+                            vip: [4.4, 3.6, 4.8, 3.5, 4.9, 3.4, 4.5],
+                            claims: [11.2, 9.1, 13.8, 8.7, 14.4, 8.3, 12.7],
+                            retention: [6.4, 7.9, 5.9, 8.4, 5.6, 8.1, 6.1]
+                        },
+                        abandon: {
+                            billing: [6.9, 4.8, 8.7, 5.1, 9.3, 5.3, 7.8],
+                            tier1: [9.1, 10.9, 7.4, 11.6, 6.8, 12.1, 7.2],
+                            vip: [3.4, 2.6, 3.7, 2.4, 3.8, 2.3, 3.5],
+                            claims: [10.4, 7.8, 12.9, 7.2, 13.6, 6.9, 11.5],
+                            retention: [5.8, 7.1, 5.0, 7.6, 4.7, 7.3, 5.4]
+                        }
+                    }
+                },
+                week: {
+                    totalExecutions: 57,
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    metrics: {
+                        sla: {
+                            billing: [89, 83, 91, 80, 92, 82, 88],
+                            tier1: [84, 88, 79, 90, 77, 91, 80],
+                            vip: [94, 92, 95, 91, 96, 90, 94],
+                            claims: [79, 86, 75, 88, 73, 87, 76],
+                            retention: [90, 81, 93, 82, 94, 80, 89]
+                        },
+                        speed: {
+                            billing: [7.2, 6.1, 8.5, 6.4, 9.0, 6.3, 7.7],
+                            tier1: [10.2, 8.7, 11.6, 8.3, 12.2, 8.1, 10.8],
+                            vip: [4.3, 3.8, 4.7, 3.7, 4.8, 3.6, 4.4],
+                            claims: [12.4, 9.8, 14.1, 9.2, 14.7, 8.9, 12.8],
+                            retention: [6.8, 7.6, 6.2, 8.1, 5.9, 7.8, 6.4]
+                        },
+                        abandon: {
+                            billing: [7.0, 5.9, 8.2, 5.7, 8.9, 5.5, 7.4],
+                            tier1: [9.6, 8.1, 10.7, 7.9, 11.2, 7.6, 9.8],
+                            vip: [3.2, 2.8, 3.5, 2.7, 3.6, 2.6, 3.3],
+                            claims: [10.8, 8.9, 12.1, 8.5, 12.8, 8.2, 10.9],
+                            retention: [6.1, 6.8, 5.6, 7.2, 5.3, 6.9, 5.8]
+                        }
+                    }
+                },
+                month: {
+                    totalExecutions: 214,
+                    labels: ['W1', 'W2', 'W3', 'W4'],
+                    metrics: {
+                        sla: {
+                            billing: [87, 92, 79, 90],
+                            tier1: [90, 78, 91, 77],
+                            vip: [93, 95, 92, 96],
+                            claims: [82, 74, 88, 73],
+                            retention: [91, 80, 94, 81]
+                        },
+                        speed: {
+                            billing: [6.8, 8.9, 6.1, 9.3],
+                            tier1: [10.7, 8.4, 11.9, 8.1],
+                            vip: [4.2, 4.8, 3.9, 4.7],
+                            claims: [12.9, 9.4, 14.3, 9.0],
+                            retention: [7.0, 6.0, 8.2, 5.8]
+                        },
+                        abandon: {
+                            billing: [6.8, 8.5, 5.4, 9.1],
+                            tier1: [10.2, 7.8, 11.4, 7.3],
+                            vip: [3.1, 3.6, 2.7, 3.5],
+                            claims: [11.4, 8.6, 12.9, 8.1],
+                            retention: [6.0, 5.2, 7.4, 4.9]
+                        }
+                    }
+                }
+            };
+
+            const state = {
+                selectedSkills: new Set(skillConfigs.map((skill) => skill.id)),
+                range: 'day',
+                metric: 'sla'
+            };
+
+            const updateMetricLabel = () => {
+                metricLabel.textContent = metricConfig[state.metric].label;
+            };
+
+            const applyButtonState = (button, isActive) => {
+                button.classList.toggle('active', isActive);
+            };
+
+            const renderSkillFilters = () => {
+                skillFilters.innerHTML = skillConfigs.map((skill) => `
+                    <button type="button" class="trend-filter-chip active" data-skill="${skill.id}">
+                        <span class="trend-filter-chip-dot" style="background:${skill.color}"></span>
+                        <span>${skill.label}</span>
+                    </button>
+                `).join('');
+
+                skillFilters.querySelectorAll('[data-skill]').forEach((button) => {
+                    button.addEventListener('click', () => {
+                        const skillId = button.dataset.skill;
+                        if (state.selectedSkills.has(skillId) && state.selectedSkills.size === 1) {
+                            return;
+                        }
+                        if (state.selectedSkills.has(skillId)) {
+                            state.selectedSkills.delete(skillId);
+                        } else {
+                            state.selectedSkills.add(skillId);
+                        }
+                        skillFilters.querySelectorAll('[data-skill]').forEach((chip) => {
+                            applyButtonState(chip, state.selectedSkills.has(chip.dataset.skill));
+                        });
+                        renderTrendChart();
+                    });
+                });
+            };
+
+            const renderRangeFilters = () => {
+                const ranges = [
+                    { key: 'day', label: 'Day' },
+                    { key: 'week', label: 'Week' },
+                    { key: 'month', label: 'Month' }
+                ];
+                rangeFilters.innerHTML = ranges.map((item) => `
+                    <button type="button" class="trend-toggle ${item.key === state.range ? 'active' : ''}" data-range="${item.key}">${item.label}</button>
+                `).join('');
+
+                rangeFilters.querySelectorAll('[data-range]').forEach((button) => {
+                    button.addEventListener('click', () => {
+                        state.range = button.dataset.range;
+                        rangeFilters.querySelectorAll('[data-range]').forEach((tab) => {
+                            applyButtonState(tab, tab.dataset.range === state.range);
+                        });
+                        renderTrendChart();
+                    });
+                });
+            };
+
+            const renderMetricFilters = () => {
+                const metrics = [
+                    { key: 'sla', label: 'SLA' },
+                    { key: 'speed', label: 'Speed of Response' },
+                    { key: 'abandon', label: 'Abandon Rate' }
+                ];
+                metricFilters.innerHTML = metrics.map((item) => `
+                    <button type="button" class="trend-toggle ${item.key === state.metric ? 'active' : ''}" data-metric="${item.key}">${item.label}</button>
+                `).join('');
+
+                metricFilters.querySelectorAll('[data-metric]').forEach((button) => {
+                    button.addEventListener('click', () => {
+                        state.metric = button.dataset.metric;
+                        metricFilters.querySelectorAll('[data-metric]').forEach((tab) => {
+                            applyButtonState(tab, tab.dataset.metric === state.metric);
+                        });
+                        updateMetricLabel();
+                        renderTrendChart();
+                    });
+                });
+            };
+
+            const renderTrendChart = () => {
+                const periodData = trendData[state.range];
+                const labels = periodData.labels;
+                const metricSeries = periodData.metrics[state.metric];
+                const selectedSkillIds = skillConfigs.filter((skill) => state.selectedSkills.has(skill.id)).map((skill) => skill.id);
+
+                totalExecutionsBadge.textContent = `${periodData.totalExecutions} total executions`;
+
+                const allValues = selectedSkillIds.flatMap((skillId) => metricSeries[skillId]);
+                const rawMin = Math.min(...allValues);
+                const rawMax = Math.max(...allValues);
+                const padding = Math.max(1, (rawMax - rawMin) * 0.18);
+                const axisMin = Math.max(0, rawMin - padding);
+                const axisMax = rawMax + padding;
+
+                const width = 760;
+                const height = 190;
+                const margin = { top: 10, right: 12, bottom: 28, left: 42 };
+                const plotWidth = width - margin.left - margin.right;
+                const plotHeight = height - margin.top - margin.bottom;
+
+                const xForIndex = (index) => {
+                    if (labels.length === 1) return margin.left;
+                    return margin.left + (index / (labels.length - 1)) * plotWidth;
+                };
+                const yForValue = (value) => {
+                    const ratio = (value - axisMin) / (axisMax - axisMin || 1);
+                    return margin.top + (1 - ratio) * plotHeight;
+                };
+
+                const yTicks = 4;
+                const gridMarkup = Array.from({ length: yTicks + 1 }, (_, index) => {
+                    const ratio = index / yTicks;
+                    const y = margin.top + ratio * plotHeight;
+                    const tickValue = axisMax - ratio * (axisMax - axisMin);
+                    const labelValue = state.metric === 'speed' ? `${tickValue.toFixed(1)}s` : `${tickValue.toFixed(0)}%`;
+                    return `
+                        <line x1="${margin.left}" y1="${y}" x2="${width - margin.right}" y2="${y}" stroke="#e2e8f0" stroke-width="1" />
+                        <text x="${margin.left - 8}" y="${y + 3}" text-anchor="end" font-size="10" fill="#94a3b8">${labelValue}</text>
+                    `;
+                }).join('');
+
+                const xLabelsMarkup = labels.map((label, index) => `
+                    <text x="${xForIndex(index)}" y="${height - 8}" text-anchor="middle" font-size="10" fill="#64748b">${label}</text>
+                `).join('');
+
+                const seriesMarkup = selectedSkillIds.map((skillId) => {
+                    const skill = skillConfigs.find((entry) => entry.id === skillId);
+                    const values = metricSeries[skillId];
+                    const path = values.map((value, index) => `${index === 0 ? 'M' : 'L'} ${xForIndex(index)} ${yForValue(value)}`).join(' ');
+                    const points = values.map((value, index) => {
+                        const formatted = state.metric === 'speed' ? `${value.toFixed(1)}s` : `${value.toFixed(1)}%`;
+                        return `
+                            <circle cx="${xForIndex(index)}" cy="${yForValue(value)}" r="3" fill="#ffffff" stroke="${skill.color}" stroke-width="2">
+                                <title>${skill.label}: ${formatted}</title>
+                            </circle>
+                        `;
+                    }).join('');
+
+                    return `
+                        <path d="${path}" fill="none" stroke="${skill.color}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                        ${points}
+                    `;
+                }).join('');
+
+                const nowMarkerMarkup = state.range === 'day' && typeof periodData.nowIndex === 'number'
+                    ? (() => {
+                        const x = xForIndex(periodData.nowIndex);
+                        return `
+                            <line x1="${x}" y1="${margin.top}" x2="${x}" y2="${margin.top + plotHeight}" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 4" />
+                            <text x="${x + 6}" y="${margin.top + 12}" font-size="10" fill="#64748b">Now</text>
+                        `;
+                    })()
+                    : '';
+
+                chartHost.innerHTML = `
+                    <svg viewBox="0 0 ${width} ${height}" class="h-full w-full" preserveAspectRatio="none" role="img" aria-label="Rule activity trend chart">
+                        ${gridMarkup}
+                        ${seriesMarkup}
+                        ${nowMarkerMarkup}
+                        ${xLabelsMarkup}
+                    </svg>
+                `;
+            };
+
+            renderSkillFilters();
+            renderRangeFilters();
+            renderMetricFilters();
+            updateMetricLabel();
+            renderTrendChart();
+        })();
+
+        (() => {
+            const chartHost = document.getElementById('workforceMetricOneChart');
+            const contactCountFilters = document.getElementById('workforceContactCountFilters');
+            const tooltip = document.getElementById('workforceTooltip');
+            if (!chartHost) return;
+
+            const formatWindowLabel = (windowKey) => {
+                if (windowKey === '20m') return '20 minutes';
+                if (windowKey === '1h') return '1 Hour';
+                return 'Current';
+            };
+
+            const showTooltip = (event, target) => {
+                if (!tooltip) return;
+
+                const metric = target.dataset.metric || 'Metric';
+                const value = target.dataset.value || '-';
+                const secondaryLabel = target.dataset.secondaryLabel;
+                const secondaryValue = target.dataset.secondaryValue;
+
+                tooltip.innerHTML = `
+                    <div class="text-[11px] font-semibold uppercase tracking-wide text-slate-500">${target.dataset.skill || ''}</div>
+                    <div class="mt-1 text-sm font-semibold text-slate-900">${metric}</div>
+                    <dl class="mt-3 space-y-1.5 text-xs text-slate-600">
+                        <div class="flex items-center justify-between gap-4"><dt>Value</dt><dd class="font-medium text-slate-900">${value}</dd></div>
+                        ${secondaryLabel && secondaryValue ? `<div class="flex items-center justify-between gap-4"><dt>${secondaryLabel}</dt><dd class="font-medium text-slate-900">${secondaryValue}</dd></div>` : ''}
+                    </dl>
+                `;
+                tooltip.classList.remove('hidden');
+                tooltip.classList.add('visible');
+
+                const offsetX = 18;
+                const offsetY = 18;
+                const tooltipWidth = tooltip.offsetWidth;
+                const tooltipHeight = tooltip.offsetHeight;
+                const maxLeft = window.innerWidth - tooltipWidth - 12;
+                const maxTop = window.innerHeight - tooltipHeight - 12;
+                const left = Math.min(event.clientX + offsetX, maxLeft);
+                const top = Math.min(event.clientY + offsetY, maxTop);
+                tooltip.style.left = `${Math.max(12, left)}px`;
+                tooltip.style.top = `${Math.max(12, top)}px`;
+            };
+
+            const hideTooltip = () => {
+                if (!tooltip) return;
+                tooltip.classList.remove('visible');
+                tooltip.classList.add('hidden');
+            };
+
+            const workforceData = [
+                {
+                    skill: 'Billing Queue',
+                    totalInRange: 42,
+                    primaryAssigned: 28,
+                    totalAssigned: 49,
+                    contactsByWindow: { current: 18, '20m': 24, '1h': 31 },
+                    color: '#3b82f6',
+                    darkColor: '#1d4ed8',
+                    lightColor: '#93c5fd'
+                },
+                {
+                    skill: 'Tier 1 Support',
+                    totalInRange: 56,
+                    primaryAssigned: 35,
+                    totalAssigned: 64,
+                    contactsByWindow: { current: 26, '20m': 34, '1h': 43 },
+                    color: '#06b6d4',
+                    darkColor: '#0e7490',
+                    lightColor: '#a5f3fc'
+                },
+                {
+                    skill: 'VIP Voice',
+                    totalInRange: 24,
+                    primaryAssigned: 18,
+                    totalAssigned: 31,
+                    contactsByWindow: { current: 9, '20m': 13, '1h': 18 },
+                    color: '#10b981',
+                    darkColor: '#047857',
+                    lightColor: '#a7f3d0'
+                },
+                {
+                    skill: 'Claims Intake',
+                    totalInRange: 48,
+                    primaryAssigned: 22,
+                    totalAssigned: 55,
+                    contactsByWindow: { current: 21, '20m': 29, '1h': 38 },
+                    color: '#f43f5e',
+                    darkColor: '#be123c',
+                    lightColor: '#fda4af'
+                },
+                {
+                    skill: 'Retention Desk',
+                    totalInRange: 36,
+                    primaryAssigned: 20,
+                    totalAssigned: 43,
+                    contactsByWindow: { current: 15, '20m': 20, '1h': 27 },
+                    color: '#8b5cf6',
+                    darkColor: '#6d28d9',
+                    lightColor: '#c4b5fd'
+                }
+            ];
+
+            const renderWorkforceChart = (windowKey) => {
+                const maxValue = Math.max(...workforceData.flatMap((item) => [
+                    item.totalInRange,
+                    item.totalAssigned,
+                    item.contactsByWindow[windowKey]
+                ]));
+                const axisStep = 10;
+                const axisMax = Math.ceil(maxValue / axisStep) * axisStep;
+                const axisValues = [axisMax, Math.round(axisMax * 0.75), Math.round(axisMax * 0.5), Math.round(axisMax * 0.25), 0];
+
+                const axisMarkup = axisValues.map((value) => `
+                    <span class="workforce-axis-label">${value}</span>
+                `).join('');
+                const gridMarkup = axisValues.map((value) => {
+                    const pct = (value / axisMax) * 100;
+                    return `<div class="workforce-gridline" style="bottom: ${pct}%;"></div>`;
+                }).join('');
+
+                const groupsMarkup = workforceData.map((item) => {
+                    const queueCount = item.contactsByWindow[windowKey];
+                    const windowLabel = formatWindowLabel(windowKey);
+                    const totalPct = (item.totalInRange / axisMax) * 100;
+                    const primaryPct = (item.primaryAssigned / axisMax) * 100;
+                    const assignedPct = (item.totalAssigned / axisMax) * 100;
+                    const queuePct = (queueCount / axisMax) * 100;
+                    return `
+                        <div class="workforce-group">
+                            <div class="workforce-bar-cluster">
+                                <div
+                                    class="workforce-bar-track"
+                                    tabindex="0"
+                                    data-skill="${item.skill}"
+                                    data-metric="Primary agents assigned"
+                                    data-value="${item.primaryAssigned}"
+                                    data-secondary-label="Agents in proficiency range"
+                                    data-secondary-value="${item.totalInRange}"
+                                    aria-label="${item.skill} primary agents assigned ${item.primaryAssigned}"
+                                >
+                                    <div class="workforce-shadow-bar" style="height: ${Math.max(totalPct, 6)}%;"></div>
+                                    <div class="workforce-primary-bar" style="height: ${Math.max(primaryPct, 5)}%; background: ${item.color};"></div>
+                                </div>
+                                <div
+                                    class="workforce-bar-track"
+                                    tabindex="0"
+                                    data-skill="${item.skill}"
+                                    data-metric="Total agents assigned"
+                                    data-value="${item.totalAssigned}"
+                                    aria-label="${item.skill} total agents assigned ${item.totalAssigned}"
+                                >
+                                    <div class="workforce-assigned-bar" style="height: ${Math.max(assignedPct, 6)}%; background: linear-gradient(180deg, ${item.darkColor} 0%, ${item.color} 100%); box-shadow: 0 8px 16px color-mix(in srgb, ${item.darkColor} 28%, transparent), inset 0 -1px 0 rgba(255, 255, 255, 0.22);"></div>
+                                </div>
+                                <div
+                                    class="workforce-bar-track"
+                                    tabindex="0"
+                                    data-skill="${item.skill}"
+                                    data-metric="Contacts in queue"
+                                    data-value="${queueCount}"
+                                    data-secondary-label="Time Window"
+                                    data-secondary-value="${windowLabel}"
+                                    aria-label="${item.skill} contacts in queue ${queueCount} for ${windowLabel}"
+                                >
+                                    <div class="workforce-queue-bar" style="height: ${Math.max(queuePct, 5)}%; background: linear-gradient(180deg, ${item.lightColor} 0%, color-mix(in srgb, ${item.color} 62%, white) 100%); box-shadow: 0 8px 16px color-mix(in srgb, ${item.lightColor} 30%, transparent), inset 0 -1px 0 rgba(255, 255, 255, 0.3);"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                const labelsMarkup = workforceData.map((item) => `
+                    <div class="workforce-skill-label">${item.skill}</div>
+                `).join('');
+
+                chartHost.innerHTML = `
+                    <div class="workforce-chart-layout">
+                        <div class="workforce-axis">${axisMarkup}</div>
+                        <div class="workforce-stage">
+                            <div class="workforce-plot">
+                                ${gridMarkup}
+                                <div class="workforce-groups">${groupsMarkup}</div>
+                            </div>
+                            <div class="workforce-skill-labels">${labelsMarkup}</div>
+                        </div>
+                    </div>
+                `;
+
+                chartHost.querySelectorAll('.workforce-bar-track').forEach((track) => {
+                    track.addEventListener('mouseenter', (event) => showTooltip(event, track));
+                    track.addEventListener('mousemove', (event) => showTooltip(event, track));
+                    track.addEventListener('mouseleave', hideTooltip);
+                    track.addEventListener('focus', () => {
+                        const rect = track.getBoundingClientRect();
+                        showTooltip({ clientX: rect.left + rect.width / 2, clientY: rect.top }, track);
+                    });
+                    track.addEventListener('blur', hideTooltip);
+                });
+            };
+
+            renderWorkforceChart('current');
+
+            if (contactCountFilters) {
+                contactCountFilters.querySelectorAll('button[data-contact-window]').forEach((button) => {
+                    button.addEventListener('click', () => {
+                        contactCountFilters.querySelectorAll('button[data-contact-window]').forEach((candidate) => {
+                            candidate.classList.remove('active');
+                        });
+                        button.classList.add('active');
+                        renderWorkforceChart(button.dataset.contactWindow || 'current');
+                    });
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routing Center - Select Rule Type</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .brand-blue { background-color: #006699; }
+        .text-brand { color: #006699; }
+        .border-brand { border-color: #006699; }
+        .bg-brand-light { background-color: #f0f7fb; }
+        
+        /* Subtle pulse for the AI thinking state */
+        @keyframes pulse-border {
+            0% { border-color: #e0e7ff; box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.2); }
+            50% { border-color: #818cf8; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
+            100% { border-color: #e0e7ff; box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+        }
+        .ai-thinking {
+            animation: pulse-border 1.5s infinite;
+        }
+            .app-launcher-shadow { box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28); }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800 h-screen flex flex-col overflow-hidden">
+
+    <header class="brand-blue text-white h-14 flex items-center justify-between px-4 shrink-0">
+        <div class="flex items-center space-x-3">
+            <button type="button" class="app-launcher-toggle hover:text-gray-200 transition" aria-label="Open applications launcher">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+            </button>
+            <a href="index.html" class="font-semibold text-lg hover:underline">Routing Center</a>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button class="hover:text-gray-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+            <button class="hover:text-gray-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+            </button>
+            <div class="w-8 h-8 rounded-full bg-gray-300 border border-white overflow-hidden">
+                <img src="https://i.pravatar.cc/100?img=47" alt="User Profile" class="w-full h-full object-cover">
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+        <aside class="w-64 bg-white border-r border-gray-200 shrink-0 flex flex-col">
+            <div class="flex justify-end p-3 border-b border-gray-100">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </div>
+            <nav class="flex-1 py-4 space-y-1">
+                <a href="rrr_library.html" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <span class="text-sm font-medium">Real-Time Routing Rules</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5V4H2v16h5m10 0v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4m10 0H7"></path></svg>
+                    <span class="text-sm font-medium">Agent Capacity Rules</span>
+                </a>
+                <a href="execution_logs_primary_skills_buffer.html" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6m4 6V7m4 10V4M5 20h14"></path></svg>
+                    <span class="text-sm font-medium">Execution Logs</span>
+                </a>
+                <a href="ps_index.html" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="text-sm font-medium">Primary Skills</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto p-8 bg-gray-50">
+            <div class="max-w-6xl mx-auto">
+                
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-normal text-gray-800">Create New Routing Rule</h1>
+                    <div class="flex space-x-3">
+                        <button onclick="window.location.href='index.html'" class="px-4 py-2 border border-gray-300 rounded text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition">Cancel</button>
+                        
+                        <button id="next-button" onclick="handleNextStep()" class="hidden px-4 py-2 border border-transparent rounded text-sm font-medium text-white brand-blue hover:bg-blue-800 transition flex items-center cursor-pointer">
+                            Next
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded shadow-sm p-8 mb-6">
+                    <div class="flex items-center justify-between max-w-4xl mx-auto relative pb-8 pt-4">
+                        <div class="absolute top-8 left-0 right-0 h-0.5 bg-gray-300 z-0" style="width: 80%; left: 10%;"></div>
+                        <div class="flex flex-col items-center relative z-10 w-32">
+                            <div class="w-9 h-9 brand-blue text-white rounded-full flex items-center justify-center font-bold shadow">1</div>
+                            <div class="text-sm font-semibold mt-3 text-gray-800 absolute top-10 whitespace-nowrap">Rule Type</div>
+                        </div>
+                        <div class="flex flex-col items-center relative z-10 w-32">
+                            <div class="w-9 h-9 bg-white border-2 border-gray-300 text-gray-500 rounded-full flex items-center justify-center font-bold">2</div>
+                            <div class="text-sm mt-3 text-gray-500 absolute top-10 whitespace-nowrap">Configuration</div>
+                        </div>
+                        <div class="flex flex-col items-center relative z-10 w-32">
+                            <div class="w-9 h-9 bg-white border-2 border-gray-300 text-gray-500 rounded-full flex items-center justify-center font-bold">3</div>
+                            <div class="text-sm mt-3 text-gray-500 absolute top-10 whitespace-nowrap">Define Conditions</div>
+                        </div>
+                        <div class="flex flex-col items-center relative z-10 w-32">
+                            <div class="w-9 h-9 bg-white border-2 border-gray-300 text-gray-500 rounded-full flex items-center justify-center font-bold">4</div>
+                            <div class="text-sm mt-3 text-gray-500 absolute top-10 whitespace-nowrap">Define Actions</div>
+                        </div>
+                        <div class="flex flex-col items-center relative z-10 w-32">
+                            <div class="w-9 h-9 bg-white border-2 border-gray-300 text-gray-500 rounded-full flex items-center justify-center font-bold">5</div>
+                            <div class="text-sm mt-3 text-gray-500 absolute top-10 whitespace-nowrap">Publish</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded shadow-sm p-8 mb-6 border-t-4 border-indigo-500">
+                    <div class="flex items-center text-indigo-600 mb-4">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09l2.846.813-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"></path></svg>
+                        <h2 class="text-xl font-medium text-gray-800">What type of rule would you like to create?</h2>
+                    </div>
+
+                    <div id="ai-input-container" class="relative">
+                        <label for="ai-prompt" class="block text-sm font-medium text-gray-600 mb-2">Prompt (optional)</label>
+                        <textarea id="ai-prompt" rows="3" placeholder="Optional: e.g. I need a rule to stop inbound calls to an agent group when they get overwhelmed, to make sure our service levels don't drop..." class="w-full border border-gray-300 rounded-lg p-4 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none shadow-sm"></textarea>
+                        <button onclick="generateRecommendation()" class="absolute bottom-4 right-4 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded shadow transition font-medium flex items-center">
+                            Ask AI
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
+                    </div>
+
+                    <div id="ai-loading" class="hidden py-8 flex flex-col items-center justify-center text-indigo-500">
+                        <svg class="animate-spin h-8 w-8 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <p class="text-sm font-medium animate-pulse">Analyzing routing environment and identifying best rule type...</p>
+                    </div>
+
+                    <div id="ai-response" class="hidden mt-6 bg-indigo-50 border border-indigo-100 rounded-lg p-5">
+                        <p class="text-sm text-indigo-900 leading-relaxed">
+                            <strong>AI Recommendation:</strong> Based on your request, I recommend configuring a <strong>Queue Health</strong> rule. This rule type is specifically designed to monitor your service level agreements (SLAs) and automatically restrict inbound routing or loaning to protect your queue when thresholds are breached.
+                        </p>
+                    </div>
+                </div>
+
+                <div id="rule-selection-area" class="bg-white rounded shadow-sm p-8 hidden opacity-0 transition-opacity duration-500">
+                    <h2 class="text-lg font-medium text-gray-800 mb-6">Select your new Routing Rule's Type</h2>
+
+                    <div class="mb-2">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            
+                            <div id="card-queue-health" onclick="selectCard('queueHealth')" class="border-2 border-indigo-500 bg-indigo-50 rounded-lg p-6 cursor-pointer transition relative">
+                                <div class="absolute -top-3 -right-3 bg-indigo-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wide shadow-md flex items-center">
+                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    AI Recommended
+                                </div>
+
+                                <div class="flex justify-between items-start mb-4">
+                                    <div id="circle-queue-health" class="w-5 h-5 border-4 border-indigo-600 rounded-full bg-white"></div>
+                                    <svg id="icon-queue-health" class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
+                                </div>
+                                <h3 class="font-bold text-gray-800 text-lg mb-3">Queue Health</h3>
+                                <p class="text-sm text-gray-600 leading-relaxed">This rule evaluates the health of the selected Skill by monitoring key performance thresholds. When thresholds are crossed, Agent loaning and inbound routing are restricted to maintain required service levels.</p>
+                            </div>
+
+                            <div id="card-overflow" onclick="selectCard('overflow')" class="border border-gray-200 rounded-lg p-6 hover:border-gray-300 cursor-pointer transition relative">
+                                <div class="flex justify-between items-start mb-4">
+                                    <div id="circle-overflow" class="w-5 h-5 border border-gray-400 rounded-full bg-white"></div>
+                                    <div id="icons-overflow" class="flex space-x-2 text-gray-500">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                    </div>
+                                </div>
+                                <h3 class="font-bold text-gray-800 text-lg mb-3">Overflow Rule</h3>
+                                <p class="text-sm text-gray-500 leading-relaxed">This Rule type evaluates statistics about a given Skill and when the threshold conditions are crossed, Contacts will be updated with new Proficiency Ranges.</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Track the user's selection, defaults to Queue Health when AI recommends it
+        let currentSelection = 'queueHealth';
+
+        function generateRecommendation() {
+            const prompt = document.getElementById('ai-prompt').value;
+
+            // Hide input container and show loading state
+            document.getElementById('ai-input-container').classList.add('hidden');
+            const loadingEl = document.getElementById('ai-loading');
+            loadingEl.classList.remove('hidden');
+
+            // Simulate API delay
+            setTimeout(() => {
+                // Hide loading
+                loadingEl.classList.add('hidden');
+                
+                // Show AI Response text
+                document.getElementById('ai-response').classList.remove('hidden');
+                
+                // Show the cards and Next button
+                const selectionArea = document.getElementById('rule-selection-area');
+                selectionArea.classList.remove('hidden');
+                
+                // Tiny delay to allow display block to render before opacity transition
+                setTimeout(() => {
+                    selectionArea.classList.remove('opacity-0');
+                }, 50);
+
+                document.getElementById('next-button').classList.remove('hidden');
+
+                // Ensure Queue Health is selected visually
+                selectCard('queueHealth');
+                
+            }, 1800); // 1.8 second simulated delay
+        }
+
+        function selectCard(selectedType) {
+            currentSelection = selectedType;
+
+            const overflowCard = document.getElementById('card-overflow');
+            const queueHealthCard = document.getElementById('card-queue-health');
+            const overflowCircle = document.getElementById('circle-overflow');
+            const queueHealthCircle = document.getElementById('circle-queue-health');
+            const overflowIcons = document.getElementById('icons-overflow');
+            const queueHealthIcon = document.getElementById('icon-queue-health');
+
+            // Standard inactive state
+            const inactiveCardClass = "border border-gray-200 rounded-lg p-6 hover:border-gray-300 cursor-pointer transition relative";
+            const inactiveCircleClass = "w-5 h-5 border border-gray-400 rounded-full bg-white";
+            
+            overflowCard.className = inactiveCardClass;
+            queueHealthCard.className = inactiveCardClass;
+            overflowCircle.className = inactiveCircleClass;
+            queueHealthCircle.className = inactiveCircleClass;
+            overflowIcons.className = "flex space-x-2 text-gray-500";
+            queueHealthIcon.className = "w-6 h-6 text-gray-500";
+
+            // When AI recommends, we use Indigo instead of Brand Blue to tie it to the AI branding
+            if (selectedType === 'overflow') {
+                overflowCard.className = "border-2 border-brand bg-brand-light rounded-lg p-6 cursor-pointer transition relative";
+                overflowCircle.className = "w-5 h-5 border-4 border-brand rounded-full bg-white";
+                overflowIcons.className = "flex space-x-2 text-brand";
+            } else if (selectedType === 'queueHealth') {
+                queueHealthCard.className = "border-2 border-indigo-500 bg-indigo-50 rounded-lg p-6 cursor-pointer transition relative";
+                queueHealthCircle.className = "w-5 h-5 border-4 border-indigo-600 rounded-full bg-white";
+                queueHealthIcon.className = "w-6 h-6 text-indigo-600";
+            }
+        }
+
+        // Handle dynamic routing when Next is clicked
+        function handleNextStep() {
+            if (currentSelection === 'overflow') {
+                window.location.href = 'step2_overflow.html';
+            } else {
+                window.location.href = 'step2.html';
+            }
+        }
+    </script>
+
+    <div class="app-launcher-overlay fixed inset-0 z-50 hidden">
+        <div class="app-launcher-backdrop absolute inset-0 bg-slate-900/45"></div>
+        <div class="app-launcher-panel app-launcher-shadow absolute top-0 left-0 h-full w-80 max-w-[90vw] bg-white text-gray-800 overflow-y-auto">
+            <div class="flex items-center gap-3 px-4 py-3 border-b border-gray-200">
+                <svg class="w-5 h-5 text-gray-900" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"></path></svg>
+                <span class="text-lg font-medium">Applications</span>
+            </div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">General</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-sky-100 text-sky-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v6c0 5-3.4 7.8-8 8-4.6-.2-8-3-8-8V7l8-4z"></path><path d="M9 12h6"></path><path d="M12 9v6"></path></svg></span><span>Admin</span></button>
+                <a href="supervisor_main.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 text-amber-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path><path d="M8 8l8 8"></path><path d="M16 8l-8 8"></path></svg></span><span>Supervisor</span></a>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Omnichannel Routing</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="16" height="12" rx="2"></rect><path d="M4 10h16"></path></svg></span><span>ACD</span></button>
+                <a href="agent_rule_alert.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"></circle><path d="M5 19c1.8-3 4.1-4.5 7-4.5s5.2 1.5 7 4.5"></path></svg></span><span>Agent</span></a>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"></path><path d="M4 12h10"></path><path d="M4 17h16"></path></svg></span><span>Studio</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 4v5c0 4.2-2.8 6.8-7 7.8-4.2-1-7-3.6-7-7.8V7l7-4z"></path><path d="M9.5 12l2 2 3-3"></path></svg></span><span>Studio Authentication</span></button>
+                <a href="index.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-100 text-cyan-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"></path><path d="M12 3v18"></path></svg></span><span>Routing Center</span></a>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Workforce Engagement</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-100 text-cyan-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M8 10h8"></path><path d="M8 14h6"></path></svg></span><span>Interactions Hub</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-violet-100 text-violet-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"></circle><path d="M12 8v4l3 2"></path></svg></span><span>My Zone</span></button>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Data &amp; Analytics</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-rose-100 text-rose-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16l4-4 3 3 6-6"></path><path d="M5 19h14"></path></svg></span><span>Reporting</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-100 text-indigo-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18h16"></path><path d="M7 15V9"></path><path d="M12 15V6"></path><path d="M17 15v-3"></path></svg></span><span>Metrics</span></button>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Others</div>
+            <div class="space-y-1 px-2 pb-4">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-yellow-100 text-yellow-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 9l9 6 9-6"></path></svg></span><span>Digital</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="12" r="3"></circle><circle cx="17" cy="12" r="3"></circle><path d="M10 12h4"></path></svg></span><span>Connections Hub</span></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (() => {
+            const toggle = document.querySelector('.app-launcher-toggle');
+            const overlay = document.querySelector('.app-launcher-overlay');
+            const panel = document.querySelector('.app-launcher-panel');
+            const backdrop = document.querySelector('.app-launcher-backdrop');
+            if (!toggle || !overlay || !panel || !backdrop) return;
+
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const sidebarPageGroups = {
+                'rrr_library.html': ['rrr_library.html', 'rrr_rulecreate.html', 'step2.html', 'step2_overflow.html', 'step3.html', 'step4.html', 'step5.html'],
+                'execution_logs_primary_skills_buffer.html': ['execution_logs_primary_skills_buffer.html', 'execution_logs_overflow.html', 'execution_logs_queue_health.html'],
+                'ps_index.html': ['ps_index.html', 'ps_step2.html', 'ps_audit_log.html']
+            };
+
+            document.querySelectorAll('aside nav a[href]').forEach((link) => {
+                const linkHref = link.getAttribute('href');
+                if (!linkHref || linkHref === '#') return;
+
+                const linkTarget = new URL(linkHref, window.location.href).pathname.split('/').pop();
+                const linkedPages = sidebarPageGroups[linkTarget] || [linkTarget];
+                if (!linkedPages.includes(currentPage)) return;
+
+                link.classList.remove('text-gray-600', 'border-transparent');
+                link.classList.add('bg-sky-50', 'text-sky-800', 'border-sky-500', 'font-semibold');
+                link.setAttribute('aria-current', 'page');
+
+                const icon = link.querySelector('svg');
+                if (icon) {
+                    icon.classList.remove('text-gray-400');
+                    icon.classList.add('text-sky-600');
+                }
+            });
+
+            overlay.querySelectorAll('a[href]').forEach((link) => {
+                const linkTarget = new URL(link.getAttribute('href'), window.location.href).pathname.split('/').pop();
+                if (linkTarget === currentPage) {
+                    link.classList.remove('hover:bg-gray-50');
+                    link.classList.add('bg-sky-50', 'text-sky-900', 'font-semibold', 'ring-1', 'ring-sky-200');
+                    link.setAttribute('aria-current', 'page');
+
+                    const iconBadge = link.querySelector('span');
+                    if (iconBadge) {
+                        iconBadge.classList.add('ring-2', 'ring-white');
+                    }
+                }
+            });
+
+            const closeOverlay = () => overlay.classList.add('hidden');
+            const openOverlay = () => overlay.classList.remove('hidden');
+
+            toggle.addEventListener('click', (event) => {
+                event.stopPropagation();
+                openOverlay();
+            });
+
+            backdrop.addEventListener('click', closeOverlay);
+            overlay.addEventListener('click', (event) => {
+                if (!panel.contains(event.target) && event.target !== toggle) {
+                    closeOverlay();
+                }
+            });
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') closeOverlay();
+            });
+        })();
+    </script>
+</body>
+</html>
+
+
+

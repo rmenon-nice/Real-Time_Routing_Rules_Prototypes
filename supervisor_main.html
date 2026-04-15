@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supervisor - Live Monitoring</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --topbar-blue: #006699;
+            --page-bg: #f5f5f5;
+            --sidebar-bg: #fafafa;
+            --line: #d3d3d3;
+            --text: #333;
+            --muted: #666;
+            --accent-blue: #0077b6;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--page-bg);
+            color: var(--text);
+        }
+
+        .topbar {
+            background: var(--topbar-blue);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar {
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--line);
+        }
+
+        .sidebar-item {
+            color: var(--text);
+            border-left: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-item:hover {
+            background: #f0f0f0;
+            border-left-color: var(--accent-blue);
+        }
+
+        .sidebar-item.active {
+            background: #f0f0f0;
+            border-left-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        .tab-bar {
+            background: white;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .tab {
+            border-bottom: 2px solid transparent;
+            color: var(--muted);
+            transition: all 0.2s ease;
+        }
+
+        .tab.active {
+            border-bottom-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        .agent-table-header {
+            background: #fafafa;
+            border-bottom: 1px solid var(--line);
+            display: grid;
+            grid-template-columns: 160px 128px 128px 128px 96px 128px 112px 128px 112px 96px;
+            align-items: center;
+        }
+
+        .agent-table-row {
+            border-bottom: 1px solid var(--line);
+            background: white;
+            display: grid;
+            grid-template-columns: 160px 128px 128px 128px 96px 128px 112px 128px 112px 96px;
+            align-items: center;
+        }
+
+        .agent-table-row:hover {
+            background: #f9f9f9;
+        }
+
+        .agent-table-header > div,
+        .agent-table-row > div {
+            box-sizing: border-box;
+            flex-shrink: 0;
+            padding-right: 10px;
+        }
+
+        .agent-table-header > div:not(:last-child),
+        .agent-table-row > div:not(:last-child) {
+            border-right: 1px solid #eef2f7;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            padding: 60px 20px;
+        }
+
+        .empty-state-icon {
+            width: 60px;
+            height: 60px;
+            color: #ccc;
+        }
+
+        .empty-state-text {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .alerts-panel {
+            background: white;
+            border-left: 1px solid var(--line);
+        }
+
+        .dropdown-select {
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: var(--text);
+            background: white;
+            cursor: pointer;
+        }
+
+        .dropdown-select:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .app-launcher-shadow {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .toast-notification {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+            padding: 20px;
+            max-width: 420px;
+            z-index: 40;
+            opacity: 1;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(0);
+        }
+
+        .toast-notification.hidden {
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+        }
+
+        .toast-notification-content {
+            margin-bottom: 16px;
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .toast-notification-button {
+            background: #006699;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .toast-notification-button:hover {
+            background: #005580;
+        }
+    </style>
+</head>
+<body class="h-screen overflow-hidden">
+    <!-- Header -->
+    <header class="topbar h-16 text-white flex items-center justify-between px-6">
+        <div class="flex items-center gap-3">
+            <button type="button" class="app-launcher-toggle w-8 h-8 rounded flex items-center justify-center hover:bg-white/20 transition" aria-label="Open applications launcher">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"/>
+                </svg>
+            </button>
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+            <span class="text-sm font-medium">Supervisor</span>
+        </div>
+        <div class="text-lg font-semibold">NiCE CXone</div>
+        <div class="flex items-center gap-4">
+            <button aria-label="Help" class="hover:bg-white/20 p-1 rounded transition">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg>
+            </button>
+            <button aria-label="Notifications" class="hover:bg-white/20 p-1 rounded transition relative">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 7h18s-3 0-3-7"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg>
+                <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+            <div class="w-8 h-8 rounded-full bg-white text-[#006699] font-bold flex items-center justify-center text-sm">M</div>
+        </div>
+    </header>
+
+    <div class="flex h-[calc(100vh-4rem)]">
+        <!-- Sidebar -->
+        <aside class="w-48 sidebar flex flex-col">
+            <div class="p-4 border-b border-[var(--line)]">
+                <h3 class="text-xs font-semibold uppercase text-gray-600">Navigation</h3>
+            </div>
+            <nav class="flex-1 overflow-y-auto">
+                <a href="#" class="sidebar-item active flex items-center gap-3 px-4 py-3 text-sm">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                    <span>Live Monitoring</span>
+                </a>
+                <a href="#" class="sidebar-item flex items-center gap-3 px-4 py-3 text-sm">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                    <span>Reporting</span>
+                </a>
+            </nav>
+            <div class="border-t border-[var(--line)] p-4 text-xs text-gray-500">
+                <p>Supervisor v1.0</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <!-- Search & Controls -->
+            <div class="bg-white border-b border-[var(--line)] px-6 py-4">
+                <div class="flex items-center justify-between gap-4">
+                    <div class="flex-1 flex items-center gap-3">
+                        <div class="flex-1 flex items-center bg-gray-50 border border-[var(--line)] rounded px-3 py-2 gap-2">
+                            <svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+                            <input type="text" placeholder="Search by name, number, ID, text, or skill" class="flex-1 bg-transparent outline-none text-sm text-gray-700 placeholder-gray-400">
+                        </div>
+                        <button class="p-2 text-blue-600 hover:bg-blue-50 rounded transition">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+                        </button>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <button class="px-3 py-1 text-xs font-semibold text-blue-600 hover:bg-blue-50 rounded transition">SHOW METRICS</button>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-semibold text-gray-600">Sort By</span>
+                            <select class="dropdown-select">
+                                <option>All</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs & Content Area -->
+            <div class="flex-1 flex flex-col overflow-hidden">
+                <!-- Tabs -->
+                <div class="tab-bar px-6">
+                    <div class="flex items-center gap-8">
+                        <button class="tab active py-3 text-sm font-medium">AGENTS</button>
+                        <button class="tab py-3 text-sm font-medium">CONTACTS</button>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="flex-1 flex overflow-hidden">
+                    <!-- Table/List Area -->
+                    <div class="flex-1 flex flex-col overflow-hidden bg-white">
+                        <!-- Table Wrapper -->
+                        <div class="flex-1 flex flex-col overflow-y-auto overflow-x-auto">
+                            <!-- Table Header -->
+                            <div class="agent-table-header px-6 py-3 text-sm leading-5 font-semibold text-gray-600 uppercase tracking-wide bg-white border-b border-[var(--line)]" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;">AGENT (25)</div>
+                                <div style="width: 128px; min-width: 128px;">TEAM</div>
+                                <div style="width: 128px; min-width: 128px;">STATE</div>
+                                <div style="width: 128px; min-width: 128px;">NEXT STATE</div>
+                                <div style="width: 96px; min-width: 96px;">CONTACTS</div>
+                                <div style="width: 128px; min-width: 128px;">ACTIVE CONTACT</div>
+                                <div style="width: 112px; min-width: 112px;">DURATION</div>
+                                <div style="width: 128px; min-width: 128px;">CONTACT SKILL</div>
+                                <div style="width: 112px; min-width: 112px;">CAMPAIGN</div>
+                                <div style="width: 96px; min-width: 96px;">GROUP</div>
+                            </div>
+
+                            <!-- Table Content -->
+                            <!-- Agent Row 1 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Sarah Johnson</div>
+                                <div style="width: 128px; min-width: 128px;">Support A</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-green-100 text-green-800 px-2 py-1 rounded">Available</span></div>
+                                <div style="width: 128px; min-width: 128px;">Available</div>
+                                <div style="width: 96px; min-width: 96px;">0</div>
+                                <div style="width: 128px; min-width: 128px;">-</div>
+                                <div style="width: 112px; min-width: 112px;">0:00</div>
+                                <div style="width: 128px; min-width: 128px;">-</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign A</div>
+                                <div style="width: 96px; min-width: 96px;">Team 1</div>
+                            </div>
+                            <!-- Agent Row 2 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Michael Chen</div>
+                                <div style="width: 128px; min-width: 128px;">Support B</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Working Contacts</span></div>
+                                <div style="width: 128px; min-width: 128px;">Available</div>
+                                <div style="width: 96px; min-width: 96px;">8</div>
+                                <div style="width: 128px; min-width: 128px;">CID-5893</div>
+                                <div style="width: 112px; min-width: 112px;">12:30</div>
+                                <div style="width: 128px; min-width: 128px;">Sales</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign B</div>
+                                <div style="width: 96px; min-width: 96px;">Team 1</div>
+                            </div>
+                            <!-- Agent Row 3 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Jennifer Martinez</div>
+                                <div style="width: 128px; min-width: 128px;">Support A</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Working Contacts</span></div>
+                                <div style="width: 128px; min-width: 128px;">Unavailable</div>
+                                <div style="width: 96px; min-width: 96px;">15</div>
+                                <div style="width: 128px; min-width: 128px;">CID-2156</div>
+                                <div style="width: 112px; min-width: 112px;">1:22</div>
+                                <div style="width: 128px; min-width: 128px;">Billing</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign A</div>
+                                <div style="width: 96px; min-width: 96px;">Team 2</div>
+                            </div>
+                            <!-- Agent Row 4 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">David Thompson</div>
+                                <div style="width: 128px; min-width: 128px;">Support C</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Working Contacts</span></div>
+                                <div style="width: 128px; min-width: 128px;">Available</div>
+                                <div style="width: 96px; min-width: 96px;">6</div>
+                                <div style="width: 128px; min-width: 128px;">CID-7842</div>
+                                <div style="width: 112px; min-width: 112px;">8:15</div>
+                                <div style="width: 128px; min-width: 128px;">Technical</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign C</div>
+                                <div style="width: 96px; min-width: 96px;">Team 2</div>
+                            </div>
+                            <!-- Agent Row 5 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Emily Watson</div>
+                                <div style="width: 128px; min-width: 128px;">Support B</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Working Contacts</span></div>
+                                <div style="width: 128px; min-width: 128px;">Available</div>
+                                <div style="width: 96px; min-width: 96px;">11</div>
+                                <div style="width: 128px; min-width: 128px;">CID-3345</div>
+                                <div style="width: 112px; min-width: 112px;">5:08</div>
+                                <div style="width: 128px; min-width: 128px;">Sales</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign B</div>
+                                <div style="width: 96px; min-width: 96px;">Team 3</div>
+                            </div>
+                            <!-- Agent Row 6 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Robert Anderson</div>
+                                <div style="width: 128px; min-width: 128px;">Support A</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">On Break</span></div>
+                                <div style="width: 128px; min-width: 128px;">Unavailable</div>
+                                <div style="width: 96px; min-width: 96px;">9</div>
+                                <div style="width: 128px; min-width: 128px;">-</div>
+                                <div style="width: 112px; min-width: 112px;">0:00</div>
+                                <div style="width: 128px; min-width: 128px;">-</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign A</div>
+                                <div style="width: 96px; min-width: 96px;">Team 1</div>
+                            </div>
+                            <!-- Agent Row 7 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Lisa Park</div>
+                                <div style="width: 128px; min-width: 128px;">Support C</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Working Contacts</span></div>
+                                <div style="width: 128px; min-width: 128px;">Available</div>
+                                <div style="width: 96px; min-width: 96px;">13</div>
+                                <div style="width: 128px; min-width: 128px;">CID-9876</div>
+                                <div style="width: 112px; min-width: 112px;">7:42</div>
+                                <div style="width: 128px; min-width: 128px;">Technical</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign C</div>
+                                <div style="width: 96px; min-width: 96px;">Team 3</div>
+                            </div>
+                            <!-- Agent Row 8 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">James Wilson</div>
+                                <div style="width: 128px; min-width: 128px;">Support B</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Working Contacts</span></div>
+                                <div style="width: 128px; min-width: 128px;">Unavailable</div>
+                                <div style="width: 96px; min-width: 96px;">10</div>
+                                <div style="width: 128px; min-width: 128px;">CID-1234</div>
+                                <div style="width: 112px; min-width: 112px;">14:20</div>
+                                <div style="width: 128px; min-width: 128px;">Sales</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign B</div>
+                                <div style="width: 96px; min-width: 96px;">Team 2</div>
+                            </div>
+                            <!-- Agent Row 9 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Amanda Davis</div>
+                                <div style="width: 128px; min-width: 128px;">Support A</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Working Contacts</span></div>
+                                <div style="width: 128px; min-width: 128px;">Available</div>
+                                <div style="width: 96px; min-width: 96px;">7</div>
+                                <div style="width: 128px; min-width: 128px;">CID-5678</div>
+                                <div style="width: 112px; min-width: 112px;">2:33</div>
+                                <div style="width: 128px; min-width: 128px;">Billing</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign A</div>
+                                <div style="width: 96px; min-width: 96px;">Team 1</div>
+                            </div>
+                            <!-- Agent Row 10 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Christopher Lee</div>
+                                <div style="width: 128px; min-width: 128px;">Support C</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Working Contacts</span></div>
+                                <div style="width: 128px; min-width: 128px;">Available</div>
+                                <div style="width: 96px; min-width: 96px;">14</div>
+                                <div style="width: 128px; min-width: 128px;">CID-4455</div>
+                                <div style="width: 112px; min-width: 112px;">9:51</div>
+                                <div style="width: 128px; min-width: 128px;">Technical</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign C</div>
+                                <div style="width: 96px; min-width: 96px;">Team 3</div>
+                            </div>
+                            <!-- Agent Row 11 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Nicole Garcia</div>
+                                <div style="width: 128px; min-width: 128px;">Support B</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Working Contacts</span></div>
+                                <div style="width: 128px; min-width: 128px;">Available</div>
+                                <div style="width: 96px; min-width: 96px;">5</div>
+                                <div style="width: 128px; min-width: 128px;">CID-7123</div>
+                                <div style="width: 112px; min-width: 112px;">11:07</div>
+                                <div style="width: 128px; min-width: 128px;">Sales</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign B</div>
+                                <div style="width: 96px; min-width: 96px;">Team 2</div>
+                            </div>
+                            <!-- Agent Row 12 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Kevin Brown</div>
+                                <div style="width: 128px; min-width: 128px;">Support A</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Working Contacts</span></div>
+                                <div style="width: 128px; min-width: 128px;">Unavailable</div>
+                                <div style="width: 96px; min-width: 96px;">16</div>
+                                <div style="width: 128px; min-width: 128px;">CID-8801</div>
+                                <div style="width: 112px; min-width: 112px;">4:19</div>
+                                <div style="width: 128px; min-width: 128px;">Billing</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign A</div>
+                                <div style="width: 96px; min-width: 96px;">Team 1</div>
+                            </div>
+                            <!-- Agent Row 13 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Rachel Taylor</div>
+                                <div style="width: 128px; min-width: 128px;">Support C</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-green-100 text-green-800 px-2 py-1 rounded">Available</span></div>
+                                <div style="width: 128px; min-width: 128px;">Available</div>
+                                <div style="width: 96px; min-width: 96px;">0</div>
+                                <div style="width: 128px; min-width: 128px;">-</div>
+                                <div style="width: 112px; min-width: 112px;">0:00</div>
+                                <div style="width: 128px; min-width: 128px;">-</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign C</div>
+                                <div style="width: 96px; min-width: 96px;">Team 3</div>
+                            </div>
+                            <!-- Agent Row 14 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Mark Johnson</div>
+                                <div style="width: 128px; min-width: 128px;">Support B</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-red-100 text-red-800 px-2 py-1 rounded">Offline</span></div>
+                                <div style="width: 128px; min-width: 128px;">Unavailable</div>
+                                <div style="width: 96px; min-width: 96px;">0</div>
+                                <div style="width: 128px; min-width: 128px;">-</div>
+                                <div style="width: 112px; min-width: 112px;">0:00</div>
+                                <div style="width: 128px; min-width: 128px;">-</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign B</div>
+                                <div style="width: 96px; min-width: 96px;">Team 2</div>
+                            </div>
+                            <!-- Agent Row 15 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Patricia White</div>
+                                <div style="width: 128px; min-width: 128px;">Support A</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Working Contacts</span></div>
+                                <div style="width: 128px; min-width: 128px;">Available</div>
+                                <div style="width: 96px; min-width: 96px;">11</div>
+                                <div style="width: 128px; min-width: 128px;">CID-6543</div>
+                                <div style="width: 112px; min-width: 112px;">3:44</div>
+                                <div style="width: 128px; min-width: 128px;">Billing</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign A</div>
+                                <div style="width: 96px; min-width: 96px;">Team 1</div>
+                            </div>
+                            <!-- Agent Row 16 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Steven Harris</div>
+                                <div style="width: 128px; min-width: 128px;">Support C</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Working Contacts</span></div>
+                                <div style="width: 128px; min-width: 128px;">Available</div>
+                                <div style="width: 96px; min-width: 96px;">12</div>
+                                <div style="width: 128px; min-width: 128px;">CID-9234</div>
+                                <div style="width: 112px; min-width: 112px;">13:16</div>
+                                <div style="width: 128px; min-width: 128px;">Technical</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign C</div>
+                                <div style="width: 96px; min-width: 96px;">Team 3</div>
+                            </div>
+                            <!-- Agent Row 17 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Donna Martin</div>
+                                <div style="width: 128px; min-width: 128px;">Support B</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Working Contacts</span></div>
+                                <div style="width: 128px; min-width: 128px;">Available</div>
+                                <div style="width: 96px; min-width: 96px;">9</div>
+                                <div style="width: 128px; min-width: 128px;">CID-3456</div>
+                                <div style="width: 112px; min-width: 112px;">2:12</div>
+                                <div style="width: 128px; min-width: 128px;">Sales</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign B</div>
+                                <div style="width: 96px; min-width: 96px;">Team 2</div>
+                            </div>
+                            <!-- Agent Row 18 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Charles Robinson</div>
+                                <div style="width: 128px; min-width: 128px;">Support A</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Working Contacts</span></div>
+                                <div style="width: 128px; min-width: 128px;">Unavailable</div>
+                                <div style="width: 96px; min-width: 96px;">14</div>
+                                <div style="width: 128px; min-width: 128px;">CID-5234</div>
+                                <div style="width: 112px; min-width: 112px;">8:33</div>
+                                <div style="width: 128px; min-width: 128px;">Billing</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign A</div>
+                                <div style="width: 96px; min-width: 96px;">Team 1</div>
+                            </div>
+                            <!-- Agent Row 19 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Barbara Clark</div>
+                                <div style="width: 128px; min-width: 128px;">Support C</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Working Contacts</span></div>
+                                <div style="width: 128px; min-width: 128px;">Available</div>
+                                <div style="width: 96px; min-width: 96px;">17</div>
+                                <div style="width: 128px; min-width: 128px;">CID-7890</div>
+                                <div style="width: 112px; min-width: 112px;">10:45</div>
+                                <div style="width: 128px; min-width: 128px;">Technical</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign C</div>
+                                <div style="width: 96px; min-width: 96px;">Team 3</div>
+                            </div>
+                            <!-- Agent Row 20 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Thomas Young</div>
+                                <div style="width: 128px; min-width: 128px;">Support B</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Working Contacts</span></div>
+                                <div style="width: 128px; min-width: 128px;">Available</div>
+                                <div style="width: 96px; min-width: 96px;">6</div>
+                                <div style="width: 128px; min-width: 128px;">CID-1567</div>
+                                <div style="width: 112px; min-width: 112px;">1:56</div>
+                                <div style="width: 128px; min-width: 128px;">Sales</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign B</div>
+                                <div style="width: 96px; min-width: 96px;">Team 2</div>
+                            </div>
+                            <!-- Agent Row 21 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Linda Rodriguez</div>
+                                <div style="width: 128px; min-width: 128px;">Support A</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-green-100 text-green-800 px-2 py-1 rounded">Available</span></div>
+                                <div style="width: 128px; min-width: 128px;">Available</div>
+                                <div style="width: 96px; min-width: 96px;">0</div>
+                                <div style="width: 128px; min-width: 128px;">-</div>
+                                <div style="width: 112px; min-width: 112px;">0:00</div>
+                                <div style="width: 128px; min-width: 128px;">-</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign A</div>
+                                <div style="width: 96px; min-width: 96px;">Team 1</div>
+                            </div>
+                            <!-- Agent Row 22 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Edward Moore</div>
+                                <div style="width: 128px; min-width: 128px;">Support C</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">On Break</span></div>
+                                <div style="width: 128px; min-width: 128px;">Unavailable</div>
+                                <div style="width: 96px; min-width: 96px;">0</div>
+                                <div style="width: 128px; min-width: 128px;">-</div>
+                                <div style="width: 112px; min-width: 112px;">0:00</div>
+                                <div style="width: 128px; min-width: 128px;">-</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign C</div>
+                                <div style="width: 96px; min-width: 96px;">Team 3</div>
+                            </div>
+                            <!-- Agent Row 23 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Kathleen Lewis</div>
+                                <div style="width: 128px; min-width: 128px;">Support B</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Working Contacts</span></div>
+                                <div style="width: 128px; min-width: 128px;">Available</div>
+                                <div style="width: 96px; min-width: 96px;">8</div>
+                                <div style="width: 128px; min-width: 128px;">CID-6789</div>
+                                <div style="width: 112px; min-width: 112px;">9:34</div>
+                                <div style="width: 128px; min-width: 128px;">Sales</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign B</div>
+                                <div style="width: 96px; min-width: 96px;">Team 2</div>
+                            </div>
+                            <!-- Agent Row 24 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Jason Walker</div>
+                                <div style="width: 128px; min-width: 128px;">Support A</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Working Contacts</span></div>
+                                <div style="width: 128px; min-width: 128px;">Available</div>
+                                <div style="width: 96px; min-width: 96px;">10</div>
+                                <div style="width: 128px; min-width: 128px;">CID-2341</div>
+                                <div style="width: 112px; min-width: 112px;">4:11</div>
+                                <div style="width: 128px; min-width: 128px;">Billing</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign A</div>
+                                <div style="width: 96px; min-width: 96px;">Team 1</div>
+                            </div>
+                            <!-- Agent Row 25 -->
+                            <div class="agent-table-row px-6 py-3 text-xs border-b border-[var(--line)] hover:bg-blue-50" style="min-width: 1216px;">
+                                <div style="width: 160px; min-width: 160px;" class="font-medium">Sandra Allen</div>
+                                <div style="width: 128px; min-width: 128px;">Support C</div>
+                                <div style="width: 128px; min-width: 128px;"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Working Contacts</span></div>
+                                <div style="width: 128px; min-width: 128px;">Available</div>
+                                <div style="width: 96px; min-width: 96px;">13</div>
+                                <div style="width: 128px; min-width: 128px;">CID-8765</div>
+                                <div style="width: 112px; min-width: 112px;">7:09</div>
+                                <div style="width: 128px; min-width: 128px;">Technical</div>
+                                <div style="width: 112px; min-width: 112px;">Campaign C</div>
+                                <div style="width: 96px; min-width: 96px;">Team 3</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alerts Panel -->
+                    <div class="alerts-panel w-56 border-l border-[var(--line)] flex flex-col">
+                        <div class="px-4 py-3 border-b border-[var(--line)]">
+                            <h3 class="text-sm font-semibold text-gray-800">Alerts</h3>
+                        </div>
+                        <div class="flex-1 p-4">
+                            <select class="dropdown-select w-full">
+                                <option>All</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center justify-center p-8">
+                            <svg class="w-8 h-8 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 2"></path><circle cx="12" cy="12" r="9"></circle></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-notification hidden" id="queueIncidentToast">
+        <div class="toast-notification-content">
+            <strong>Queue Incident Alert</strong>
+            <div style="margin-top: 8px;">8 Agents have had their Skill assignments updated because of a Queue incident. Click here for detail. Thanks for motivating the agents towards quick resolutions!</div>
+        </div>
+        <button type="button" class="toast-notification-button" onclick="document.getElementById('queueIncidentToast').classList.add('hidden')">OK</button>
+    </div>
+
+    <!-- App Launcher Overlay -->
+    <div class="app-launcher-overlay fixed inset-0 z-50 hidden">
+        <div class="app-launcher-backdrop absolute inset-0 bg-slate-900/45"></div>
+        <div class="app-launcher-panel app-launcher-shadow absolute top-0 left-0 h-full w-80 max-w-[90vw] bg-white text-gray-800 overflow-y-auto">
+            <div class="flex items-center gap-3 px-4 py-3 border-b border-gray-200">
+                <svg class="w-5 h-5 text-gray-900" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"></path></svg>
+                <span class="text-lg font-medium">Applications</span>
+            </div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">General</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-sky-100 text-sky-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v6c0 5-3.4 7.8-8 8-4.6-.2-8-3-8-8V7l8-4z"></path><path d="M9 12h6"></path><path d="M12 9v6"></path></svg></span><span>Admin</span></button>
+                <a href="supervisor_main.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 text-amber-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path><path d="M8 8l8 8"></path><path d="M16 8l-8 8"></path></svg></span><span>Supervisor</span></a>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Omnichannel Routing</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="16" height="12" rx="2"></rect><path d="M4 10h16"></path></svg></span><span>ACD</span></button>
+                <a href="agent_rule_alert.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"></circle><path d="M5 19c1.8-3 4.1-4.5 7-4.5s5.2 1.5 7 4.5"></path></svg></span><span>Agent</span></a>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"></path><path d="M4 12h10"></path><path d="M4 17h16"></path></svg></span><span>Studio</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 4v5c0 4.2-2.8 6.8-7 7.8-4.2-1-7-3.6-7-7.8V7l7-4z"></path><path d="M9.5 12l2 2 3-3"></path></svg></span><span>Studio Authentication</span></button>
+                <a href="index.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-100 text-cyan-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"></path><path d="M12 3v18"></path></svg></span><span>Routing Center</span></a>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Workforce Engagement</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-100 text-cyan-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M8 10h8"></path><path d="M8 14h6"></path></svg></span><span>Interactions Hub</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-violet-100 text-violet-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"></circle><path d="M12 8v4l3 2"></path></svg></span><span>My Zone</span></button>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Data &amp; Analytics</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-rose-100 text-rose-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16l4-4 3 3 6-6"></path><path d="M5 19h14"></path></svg></span><span>Reporting</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-100 text-indigo-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18h16"></path><path d="M7 15V9"></path><path d="M12 15V6"></path><path d="M17 15v-3"></path></svg></span><span>Metrics</span></button>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Others</div>
+            <div class="space-y-1 px-2 pb-4">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-yellow-100 text-yellow-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 9l9 6 9-6"></path></svg></span><span>Digital</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="12" r="3"></circle><circle cx="17" cy="12" r="3"></circle><path d="M10 12h4"></path></svg></span><span>Connections Hub</span></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // App launcher toggle
+        (() => {
+            const toggle = document.querySelector('.app-launcher-toggle');
+            const overlay = document.querySelector('.app-launcher-overlay');
+            const panel = document.querySelector('.app-launcher-panel');
+            const backdrop = document.querySelector('.app-launcher-backdrop');
+            if (!toggle || !overlay || !panel || !backdrop) return;
+
+                const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+                overlay.querySelectorAll('a[href]').forEach((link) => {
+                    const linkTarget = new URL(link.getAttribute('href'), window.location.href).pathname.split('/').pop();
+                    if (linkTarget === currentPage) {
+                        link.classList.remove('hover:bg-gray-50');
+                        link.classList.add('bg-sky-50', 'text-sky-900', 'font-semibold', 'ring-1', 'ring-sky-200');
+                        link.setAttribute('aria-current', 'page');
+
+                        const iconBadge = link.querySelector('span');
+                        if (iconBadge) {
+                            iconBadge.classList.add('ring-2', 'ring-white');
+                        }
+                    }
+                });
+
+            const closeOverlay = () => overlay.classList.add('hidden');
+            const openOverlay = () => overlay.classList.remove('hidden');
+
+            toggle.addEventListener('click', (event) => {
+                event.stopPropagation();
+                openOverlay();
+            });
+
+            backdrop.addEventListener('click', closeOverlay);
+            overlay.addEventListener('click', (event) => {
+                if (!panel.contains(event.target) && event.target !== toggle) {
+                    closeOverlay();
+                }
+            });
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') closeOverlay();
+            });
+        })();
+
+        // Tab switching (placeholder logic)
+        (() => {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach((tab, index) => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                });
+            });
+        })();
+
+        // Toast notification logic
+        (() => {
+            const toast = document.getElementById('queueIncidentToast');
+            if (!toast) return;
+
+            // Show toast on page load
+            setTimeout(() => {
+                toast.classList.remove('hidden');
+            }, 500);
+
+            // Auto-dismiss after 20 seconds
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 20500);
+        })();
+    </script>
+</body>
+</html>
+
+
+
+
+
+
