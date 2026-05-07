@@ -4,29 +4,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Routing Center - Primary Skills Audit Log</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @custom-variant dark (&:is(.dark *));
+        @theme inline {
+          --color-background: var(--background);
+          --color-foreground: var(--foreground);
+          --color-card: var(--card);
+          --color-card-foreground: var(--card-foreground);
+          --color-popover: var(--popover);
+          --color-popover-foreground: var(--popover-foreground);
+          --color-primary: var(--primary);
+          --color-primary-foreground: var(--primary-foreground);
+          --color-secondary: var(--secondary);
+          --color-secondary-foreground: var(--secondary-foreground);
+          --color-muted: var(--muted);
+          --color-muted-foreground: var(--muted-foreground);
+          --color-accent: var(--accent);
+          --color-accent-foreground: var(--accent-foreground);
+          --color-destructive: var(--destructive);
+          --color-border: var(--border);
+          --color-input: var(--input);
+          --color-ring: var(--ring);
+          --color-chart-1: var(--chart-1);
+          --color-chart-2: var(--chart-2);
+          --color-chart-3: var(--chart-3);
+          --color-chart-4: var(--chart-4);
+          --color-chart-5: var(--chart-5);
+          --radius-sm: calc(var(--radius) - 4px);
+          --radius-md: calc(var(--radius) - 2px);
+          --radius-lg: var(--radius);
+          --radius-xl: calc(var(--radius) + 4px);
+          --font-sans: var(--font-inter);
+        }
+        :root {
+          --background: oklch(1 0 0);
+          --card: oklch(1 0 0);
+          --popover: oklch(1 0 0);
+          --secondary: oklch(1 0 0);
+          --accent: oklch(0 0 0 / 0.04);
+          --muted: oklch(0 0 0 / 0.06);
+          --primary: oklch(0.54 0.16 255);
+          --destructive: oklch(0.52 0.19 26.6);
+          --foreground: oklch(0 0 0 / 0.8);
+          --card-foreground: oklch(0 0 0 / 0.8);
+          --popover-foreground: oklch(0 0 0 / 0.8);
+          --primary-foreground: oklch(1 0 0);
+          --secondary-foreground: oklch(0 0 0 / 0.8);
+          --accent-foreground: oklch(0 0 0 / 0.8);
+          --muted-foreground: oklch(0 0 0 / 0.6);
+          --destructive-foreground: oklch(0.97 0.02 17.4);
+          --border: oklch(0 0 0 / 0.1);
+          --input: oklch(0 0 0 / 0.46);
+          --ring: oklch(0.47 0.13 254);
+          --sidebar: oklch(0.98 0 251);
+          --sidebar-accent: oklch(0 0 0 / 0.04);
+          --sidebar-primary: oklch(0.64 0.16 254 / 0.16);
+          --sidebar-foreground: oklch(0 0 0 / 0.8);
+          --sidebar-accent-foreground: oklch(0 0 0 / 0.8);
+          --sidebar-primary-foreground: oklch(1 0 0);
+          --sidebar-border: oklch(0 0 0 / 0.1);
+          --sidebar-ring: oklch(0.47 0.13 254);
+          --chart-1: oklch(0.92 0.03 252);
+          --chart-2: oklch(0.81 0.09 252);
+          --chart-3: oklch(0.66 0.15 253);
+          --chart-4: oklch(0.54 0.16 255);
+          --chart-5: oklch(0.47 0.13 254);
+          --radius: 0.625rem;
+        }
+        @layer base {
+          * { @apply border-border outline-ring/50; }
+          body { @apply bg-background text-foreground; }
+        }
+    </style>
     <style>
-        .brand-blue { background-color: #006699; }
-        .text-brand { color: #006699; }
-        .border-brand { border-color: #006699; }
-        .bg-brand-light { background-color: #f0f7fb; }
         .app-launcher-shadow { box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28); }
     </style>
 </head>
-<body class="bg-gray-100 font-sans text-gray-800 h-screen flex flex-col overflow-hidden">
+<body class="bg-[#F3F5F6] font-sans text-slate-800 h-screen flex flex-col overflow-hidden">
 
-    <header class="brand-blue text-white h-14 flex items-center justify-between px-4 shrink-0">
-        <div class="flex items-center space-x-3">
-            <button type="button" class="app-launcher-toggle hover:text-gray-200 transition" aria-label="Open applications launcher">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+    <header class="bg-[#F3F5F6] text-slate-700 h-14 flex items-center justify-between px-4 shrink-0">
+        <div class="flex items-center">
+            <button type="button" class="app-launcher-toggle inline-flex items-center gap-2 rounded-md pl-0 pr-2 py-1.5 transition hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600" aria-label="Open applications launcher">
+                <img src="assets/nice-app-icon.png" alt="" class="h-11 w-11 object-contain" aria-hidden="true">
+                <span class="font-semibold text-lg leading-none text-slate-700">Routing Center</span>
+                <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
             </button>
-            <a href="index.html" class="font-semibold text-lg hover:underline">Routing Center</a>
         </div>
         <div class="flex items-center space-x-4">
-            <button class="hover:text-gray-200">
+            <button class="text-slate-500 hover:text-slate-700 transition">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </button>
-            <button class="hover:text-gray-200">
+            <button class="text-slate-500 hover:text-slate-700 transition">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
             </button>
             <div class="w-8 h-8 rounded-full bg-gray-300 border border-white overflow-hidden">
@@ -36,52 +105,50 @@
     </header>
 
     <div class="flex flex-1 overflow-hidden">
-        <aside class="w-64 bg-white border-r border-gray-200 shrink-0 flex flex-col">
-            <div class="flex justify-end p-3 border-b border-gray-100">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-            </div>
+        <aside class="w-64 bg-[#F3F5F6] shrink-0 flex flex-col">
             <nav class="flex-1 py-4 space-y-1">
-                <a href="rrr_library.html" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                <a href="rrr_library.html" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white hover:text-slate-800 border-l-4 border-transparent transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                     <span class="text-sm font-medium">Real-Time Routing Rules</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                <a href="#" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white hover:text-slate-800 border-l-4 border-transparent transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5V4H2v16h5m10 0v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4m10 0H7"></path></svg>
                     <span class="text-sm font-medium">Agent Capacity Rules</span>
                 </a>
-                <a href="execution_logs_primary_skills_buffer.html" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                <a href="execution_logs_overflow.html" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white hover:text-slate-800 border-l-4 border-transparent transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6m4 6V7m4 10V4M5 20h14"></path></svg>
                     <span class="text-sm font-medium">Execution Logs</span>
                 </a>
-                <a href="ps_index.html" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                <a href="ps_index.html" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white hover:text-slate-800 border-l-4 border-transparent transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     <span class="text-sm font-medium">Primary Skills</span>
                 </a>
             </nav>
         </aside>
 
-        <main class="flex-1 overflow-y-auto p-8 bg-gray-50">
+        <main class="flex-1 overflow-y-auto pt-3 pl-3 pb-3">
+            <div class="min-h-full bg-white rounded-tl-xl rounded-bl-xl border border-slate-200 overflow-y-auto p-8">
             <div class="max-w-[1400px] mx-auto">
 
                 <!-- Breadcrumb & Page Header -->
                 <div class="mb-6">
-                    <a href="ps_index.html" class="text-sm text-brand hover:underline">&larr; Primary Skills Overview</a>
+                    <a href="ps_index.html" class="text-sm text-primary hover:underline">&larr; Primary Skills Overview</a>
                     <h1 class="text-2xl font-normal text-gray-800 mt-1">Primary Skills Audit Log</h1>
                     <p class="text-sm text-gray-500 mt-1">Review change history across all Primary Skill assignments, buffer configurations, and permission uploads.</p>
                 </div>
 
                 <!-- Date Range Picker -->
-                <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-4 mb-6">
+                <div class="bg-white border border-gray-200 rounded-lg shadow-xs p-4 mb-6">
                     <div class="flex items-center gap-4 flex-wrap">
                         <div class="flex items-center gap-2 flex-1 min-w-0">
-                            <input type="text" id="date-start" value="February 1, 2026, 12:00:00 AM GMT-7" class="flex-1 min-w-0 border border-gray-300 rounded px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-brand focus:border-brand" readonly>
-                            <span class="text-sm text-gray-400 shrink-0">–</span>
-                            <input type="text" id="date-end" value="April 7, 2026, 11:59:59 PM GMT-6" class="flex-1 min-w-0 border border-gray-300 rounded px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-brand focus:border-brand" readonly>
+                            <input type="text" id="date-start" value="February 1, 2026, 12:00:00 AM GMT-7" class="flex-1 min-w-0 border border-gray-300 rounded px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-ring focus:border-primary" readonly>
+                            <span class="text-sm text-gray-400 shrink-0">�</span>
+                            <input type="text" id="date-end" value="April 7, 2026, 11:59:59 PM GMT-6" class="flex-1 min-w-0 border border-gray-300 rounded px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-ring focus:border-primary" readonly>
                             <button class="p-2 border border-gray-300 rounded hover:bg-gray-50 transition shrink-0" aria-label="Open calendar">
                                 <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             </button>
                         </div>
-                        <button id="run-report-btn" class="px-5 py-2 border border-gray-300 rounded text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition shadow-sm shrink-0">
+                        <button id="run-report-btn" class="px-5 py-2 border border-gray-300 rounded text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition shadow-xs shrink-0">
                             Run Report
                         </button>
                     </div>
@@ -128,14 +195,14 @@
                 </div>
 
                 <!-- Changes Table -->
-                <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                <div class="bg-white border border-gray-200 rounded-lg shadow-xs overflow-hidden">
                     <!-- Toolbar -->
                     <div class="px-4 py-3 border-b border-gray-200 bg-gray-50 flex items-center justify-between gap-4 flex-wrap">
                         <div class="flex items-center gap-3 flex-wrap">
                             <div id="change-count" class="text-sm text-gray-500 font-medium">24 changes</div>
                             <div class="relative">
                                 <svg class="w-4 h-4 text-gray-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                                <input id="search-input" type="text" placeholder="Search for changed field" class="w-64 border border-gray-300 rounded pl-8 pr-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-brand focus:border-brand" />
+                                <input id="search-input" type="text" placeholder="Search for changed field" class="w-64 border border-gray-300 rounded pl-8 pr-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-ring focus:border-primary" />
                             </div>
                             <div class="relative">
                                 <button id="filter-toggle" type="button" class="px-3 py-1.5 border border-gray-300 rounded text-sm font-medium text-gray-600 bg-white hover:bg-gray-50 flex items-center gap-1.5">
@@ -190,11 +257,12 @@
                 </div>
 
             </div>
+            </div>
         </main>
     </div>
 
     <script>
-        // ── Audit Log Data ─────────────────────────────────────────
+        // -- Audit Log Data -----------------------------------------
         const auditData = [
             { date: 'Apr 4, 2026 2:15 PM',  modifiedBy: 'Sarah Mitchell',  field: 'Buffer Percentage',        scope: 'Tech Support L1',   oldValue: '30%',                    newValue: '45%' },
             { date: 'Apr 4, 2026 2:15 PM',  modifiedBy: 'Sarah Mitchell',  field: 'Buffer Min Agents',        scope: 'Tech Support L1',   oldValue: '8',                      newValue: '12' },
@@ -204,7 +272,7 @@
             { date: 'Apr 3, 2026 10:44 AM', modifiedBy: 'James Corwin',    field: 'Primary Skill Assignment', scope: 'Agent: D. Brooks',  oldValue: 'Sales',                  newValue: 'Billing' },
             { date: 'Apr 3, 2026 10:44 AM', modifiedBy: 'James Corwin',    field: 'Primary Skill Assignment', scope: 'Agent: K. Torres',  oldValue: '',                       newValue: 'Onboarding' },
             { date: 'Apr 2, 2026 4:30 PM',  modifiedBy: 'Sarah Mitchell',  field: 'File Upload',              scope: 'Bulk Import',       oldValue: '',                       newValue: 'ps_assignments_apr2.csv (142 rows)' },
-            { date: 'Apr 2, 2026 4:30 PM',  modifiedBy: 'Sarah Mitchell',  field: 'Primary Skill Assignment', scope: '142 Agents',        oldValue: '(bulk — various)',       newValue: '(bulk — various)' },
+            { date: 'Apr 2, 2026 4:30 PM',  modifiedBy: 'Sarah Mitchell',  field: 'Primary Skill Assignment', scope: '142 Agents',        oldValue: '(bulk � various)',       newValue: '(bulk � various)' },
             { date: 'Apr 1, 2026 9:02 AM',  modifiedBy: 'David Park',      field: 'Buffer Percentage',        scope: 'Escalations',       oldValue: '25%',                    newValue: '35%' },
             { date: 'Apr 1, 2026 9:02 AM',  modifiedBy: 'David Park',      field: 'Buffer Min Agents',        scope: 'Escalations',       oldValue: '5',                      newValue: '10' },
             { date: 'Mar 28, 2026 3:20 PM', modifiedBy: 'Sarah Mitchell',  field: 'Primary Skill Assignment', scope: 'Agent: L. Chen',    oldValue: 'French Queue',           newValue: 'Spanish Queue' },
@@ -212,7 +280,7 @@
             { date: 'Mar 25, 2026 11:10 AM',modifiedBy: 'James Corwin',    field: 'Primary Skill Assignment', scope: 'Agent: A. Singh',   oldValue: 'Onboarding',             newValue: 'Customer Service' },
             { date: 'Mar 25, 2026 11:08 AM',modifiedBy: 'James Corwin',    field: 'Primary Skill Assignment', scope: 'Agent: J. Rivera',  oldValue: 'Tech Support L1',        newValue: 'Tech Support L2' },
             { date: 'Mar 22, 2026 8:55 AM', modifiedBy: 'David Park',      field: 'File Upload',              scope: 'Bulk Import',       oldValue: '',                       newValue: 'ps_reassign_mar22.csv (58 rows)' },
-            { date: 'Mar 22, 2026 8:55 AM', modifiedBy: 'David Park',      field: 'Primary Skill Assignment', scope: '58 Agents',         oldValue: '(bulk — various)',       newValue: '(bulk — various)' },
+            { date: 'Mar 22, 2026 8:55 AM', modifiedBy: 'David Park',      field: 'Primary Skill Assignment', scope: '58 Agents',         oldValue: '(bulk � various)',       newValue: '(bulk � various)' },
             { date: 'Mar 18, 2026 1:40 PM', modifiedBy: 'Sarah Mitchell',  field: 'Buffer Percentage',        scope: 'Sales',             oldValue: '35%',                    newValue: '25%' },
             { date: 'Mar 18, 2026 1:40 PM', modifiedBy: 'Sarah Mitchell',  field: 'Buffer Min Agents',        scope: 'Sales',             oldValue: '10',                     newValue: '7' },
             { date: 'Mar 15, 2026 2:30 PM', modifiedBy: 'James Corwin',    field: 'Primary Skill Assignment', scope: 'Agent: S. Kim',     oldValue: '',                       newValue: 'Billing' },
@@ -222,12 +290,12 @@
             { date: 'Mar 5, 2026 9:15 AM',  modifiedBy: 'Sarah Mitchell',  field: 'Primary Skill Assignment', scope: '300 Agents',        oldValue: '(initial load)',         newValue: '(initial assignment)' },
         ];
 
-        // ── State ──────────────────────────────────────────────────
+        // -- State --------------------------------------------------
         const PAGE_SIZE = 15;
         let filteredData = [...auditData];
         let currentPage = 1;
 
-        // ── DOM refs ───────────────────────────────────────────────
+        // -- DOM refs -----------------------------------------------
         const tbody = document.getElementById('audit-tbody');
         const searchInput = document.getElementById('search-input');
         const changeCount = document.getElementById('change-count');
@@ -240,7 +308,7 @@
         const filterPanel = document.getElementById('filter-panel');
         const filterTypeOptions = document.getElementById('filter-type-options');
 
-        // ── Badge Helper ───────────────────────────────────────────
+        // -- Badge Helper -------------------------------------------
         function fieldBadge(field) {
             const map = {
                 'Primary Skill Assignment': 'bg-blue-50 text-blue-700 border-blue-200',
@@ -252,7 +320,7 @@
             return `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${cls}">${field}</span>`;
         }
 
-        // ── Render ─────────────────────────────────────────────────
+        // -- Render -------------------------------------------------
         function render() {
             const totalPages = Math.max(1, Math.ceil(filteredData.length / PAGE_SIZE));
             if (currentPage > totalPages) currentPage = totalPages;
@@ -268,7 +336,7 @@
                     <td class="px-4 py-3 whitespace-nowrap">${item.modifiedBy}</td>
                     <td class="px-4 py-3">${fieldBadge(item.field)}</td>
                     <td class="px-4 py-3 text-gray-600 whitespace-nowrap">${item.scope}</td>
-                    <td class="px-4 py-3 text-gray-500 max-w-[200px] truncate" title="${item.oldValue}">${item.oldValue || '<span class="text-gray-300 italic">—</span>'}</td>
+                    <td class="px-4 py-3 text-gray-500 max-w-[200px] truncate" title="${item.oldValue}">${item.oldValue || '<span class="text-gray-300 italic">�</span>'}</td>
                     <td class="px-4 py-3 font-medium text-gray-800 max-w-[260px] truncate" title="${item.newValue}">${item.newValue}</td>
                 `;
                 tbody.appendChild(tr);
@@ -278,12 +346,12 @@
             totalPagesEl.textContent = totalPages;
             pageInput.value = currentPage;
             const end = Math.min(start + PAGE_SIZE, filteredData.length);
-            pageInfo.textContent = filteredData.length ? `${start + 1} – ${end} of ${filteredData.length} segments` : '0 segments';
+            pageInfo.textContent = filteredData.length ? `${start + 1} � ${end} of ${filteredData.length} segments` : '0 segments';
             prevBtn.disabled = currentPage <= 1;
             nextBtn.disabled = currentPage >= totalPages;
         }
 
-        // ── Search ─────────────────────────────────────────────────
+        // -- Search -------------------------------------------------
         function applyFilters() {
             const term = searchInput.value.trim().toLowerCase();
             const checkedTypes = new Set(
@@ -301,12 +369,12 @@
             render();
         }
 
-        // ── Filter Panel ───────────────────────────────────────────
+        // -- Filter Panel -------------------------------------------
         const changeTypes = [...new Set(auditData.map(d => d.field))].sort();
         changeTypes.forEach(type => {
             const label = document.createElement('label');
             label.className = 'flex items-center gap-2 text-sm text-gray-700 cursor-pointer';
-            label.innerHTML = `<input type="checkbox" class="filter-type-cb h-4 w-4 border-gray-300 rounded text-brand focus:ring-brand" value="${type}" checked> ${type}`;
+            label.innerHTML = `<input type="checkbox" class="filter-type-cb h-4 w-4 border-gray-300 rounded text-primary focus:ring-ring" value="${type}" checked> ${type}`;
             filterTypeOptions.appendChild(label);
         });
 
@@ -318,7 +386,7 @@
         document.querySelectorAll('.filter-type-cb').forEach(cb => cb.addEventListener('change', applyFilters));
         searchInput.addEventListener('input', applyFilters);
 
-        // ── Pagination ─────────────────────────────────────────────
+        // -- Pagination ---------------------------------------------
         prevBtn.addEventListener('click', () => { currentPage--; render(); });
         nextBtn.addEventListener('click', () => { currentPage++; render(); });
         pageInput.addEventListener('change', () => {
@@ -328,7 +396,7 @@
             render();
         });
 
-        // ── Sort (date column toggle) ──────────────────────────────
+        // -- Sort (date column toggle) ------------------------------
         let sortAsc = false;
         function sortTable() {
             sortAsc = !sortAsc;
@@ -340,10 +408,10 @@
             render();
         }
 
-        // ── Run Report (simulated) ─────────────────────────────────
+        // -- Run Report (simulated) ---------------------------------
         document.getElementById('run-report-btn').addEventListener('click', () => {
             const btn = document.getElementById('run-report-btn');
-            btn.textContent = 'Loading…';
+            btn.textContent = 'Loading�';
             btn.disabled = true;
             setTimeout(() => {
                 btn.textContent = 'Run Report';
@@ -351,18 +419,14 @@
             }, 800);
         });
 
-        // ── Init ───────────────────────────────────────────────────
+        // -- Init ---------------------------------------------------
         render();
     </script>
 
     <!-- App Launcher Overlay -->
-    <div class="app-launcher-overlay fixed inset-0 z-50 hidden">
-        <div class="app-launcher-backdrop absolute inset-0 bg-slate-900/45"></div>
-        <div class="app-launcher-panel app-launcher-shadow absolute top-0 left-0 h-full w-80 max-w-[90vw] bg-white text-gray-800 overflow-y-auto">
-            <div class="flex items-center gap-3 px-4 py-3 border-b border-gray-200">
-                <svg class="w-5 h-5 text-gray-900" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"></path></svg>
-                <span class="text-lg font-medium">Applications</span>
-            </div>
+    <div class="app-launcher-overlay hidden" style="position:fixed;inset:0;z-index:50;pointer-events:none;">
+        <div class="app-launcher-backdrop" style="position:absolute;inset:0;pointer-events:all;"></div>
+        <div class="app-launcher-panel app-launcher-shadow" style="position:absolute;top:3.6rem;left:0.5rem;width:20rem;max-height:calc(100vh - 4.5rem);background:#fff;color:#1e293b;overflow-y:auto;border-radius:0.75rem;border:1px solid #e2e8f0;pointer-events:all;">
             <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">General</div>
             <div class="space-y-1 px-2 pb-2">
                 <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-sky-100 text-sky-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v6c0 5-3.4 7.8-8 8-4.6-.2-8-3-8-8V7l8-4z"></path><path d="M9 12h6"></path><path d="M12 9v6"></path></svg></span><span>Admin</span></button>
@@ -391,9 +455,13 @@
             </div>
             <div class="mx-3 border-t border-gray-200"></div>
             <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Others</div>
-            <div class="space-y-1 px-2 pb-4">
+            <div class="space-y-1 px-2 pb-2">
                 <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-yellow-100 text-yellow-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 9l9 6 9-6"></path></svg></span><span>Digital</span></button>
                 <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="12" r="3"></circle><circle cx="17" cy="12" r="3"></circle><path d="M10 12h4"></path></svg></span><span>Connections Hub</span></button>
+            </div>
+            <!-- NiCE CXone branding footer -->
+            <div class="sticky bottom-0 flex items-center justify-center px-4 py-3 border-t border-slate-200 bg-white">
+                <img src="assets/nice-cxone-logo.png" alt="NiCE CXone" class="h-10 w-full object-contain">
             </div>
         </div>
     </div>
@@ -409,7 +477,7 @@
             const currentPage = window.location.pathname.split('/').pop() || 'index.html';
             const sidebarPageGroups = {
                 'rrr_library.html': ['rrr_library.html', 'rrr_rulecreate.html', 'step2.html', 'step2_overflow.html', 'step3.html', 'step4.html', 'step5.html'],
-                'execution_logs_primary_skills_buffer.html': ['execution_logs_primary_skills_buffer.html', 'execution_logs_overflow.html', 'execution_logs_queue_health.html'],
+                'execution_logs_overflow.html': ['execution_logs_overflow.html'],
                 'ps_index.html': ['ps_index.html', 'ps_step2.html', 'ps_audit_log.html']
             };
 
@@ -446,20 +514,31 @@
                 }
             });
 
-            const closeOverlay = () => overlay.classList.add('hidden');
-            const openOverlay = () => overlay.classList.remove('hidden');
+            // Update sticky header app name to reflect current page
+            const currentAppLink = overlay.querySelector('a[aria-current="page"] span:last-child');
+            const currentAppLabel = overlay.querySelector('.app-launcher-current-app');
+            if (currentAppLink && currentAppLabel) {
+                currentAppLabel.textContent = currentAppLink.textContent.trim();
+            }
+
+            const closeOverlay = () => {
+                overlay.classList.add('hidden');
+                toggle.setAttribute('aria-expanded', 'false');
+            };
+            const openOverlay = () => {
+                overlay.classList.remove('hidden');
+                toggle.setAttribute('aria-expanded', 'true');
+            };
+
+            toggle.setAttribute('aria-haspopup', 'true');
+            toggle.setAttribute('aria-expanded', 'false');
 
             toggle.addEventListener('click', (event) => {
                 event.stopPropagation();
-                openOverlay();
+                overlay.classList.contains('hidden') ? openOverlay() : closeOverlay();
             });
 
             backdrop.addEventListener('click', closeOverlay);
-            overlay.addEventListener('click', (event) => {
-                if (!panel.contains(event.target) && event.target !== toggle) {
-                    closeOverlay();
-                }
-            });
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'Escape') closeOverlay();
             });
