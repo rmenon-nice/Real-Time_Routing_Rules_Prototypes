@@ -4,28 +4,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Routing Center - Execution Logs</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @custom-variant dark (&:is(.dark *));
+        @theme inline {
+          --color-background: var(--background);
+          --color-foreground: var(--foreground);
+          --color-card: var(--card);
+          --color-card-foreground: var(--card-foreground);
+          --color-popover: var(--popover);
+          --color-popover-foreground: var(--popover-foreground);
+          --color-primary: var(--primary);
+          --color-primary-foreground: var(--primary-foreground);
+          --color-secondary: var(--secondary);
+          --color-secondary-foreground: var(--secondary-foreground);
+          --color-muted: var(--muted);
+          --color-muted-foreground: var(--muted-foreground);
+          --color-accent: var(--accent);
+          --color-accent-foreground: var(--accent-foreground);
+          --color-destructive: var(--destructive);
+          --color-border: var(--border);
+          --color-input: var(--input);
+          --color-ring: var(--ring);
+          --color-chart-1: var(--chart-1);
+          --color-chart-2: var(--chart-2);
+          --color-chart-3: var(--chart-3);
+          --color-chart-4: var(--chart-4);
+          --color-chart-5: var(--chart-5);
+          --radius-sm: calc(var(--radius) - 4px);
+          --radius-md: calc(var(--radius) - 2px);
+          --radius-lg: var(--radius);
+          --radius-xl: calc(var(--radius) + 4px);
+          --font-sans: var(--font-inter);
+        }
+        :root {
+          --background: oklch(1 0 0);
+          --card: oklch(1 0 0);
+          --popover: oklch(1 0 0);
+          --secondary: oklch(1 0 0);
+          --accent: oklch(0 0 0 / 0.04);
+          --muted: oklch(0 0 0 / 0.06);
+          --primary: oklch(0.54 0.16 255);
+          --destructive: oklch(0.52 0.19 26.6);
+          --foreground: oklch(0 0 0 / 0.8);
+          --card-foreground: oklch(0 0 0 / 0.8);
+          --popover-foreground: oklch(0 0 0 / 0.8);
+          --primary-foreground: oklch(1 0 0);
+          --secondary-foreground: oklch(0 0 0 / 0.8);
+          --accent-foreground: oklch(0 0 0 / 0.8);
+          --muted-foreground: oklch(0 0 0 / 0.6);
+          --destructive-foreground: oklch(0.97 0.02 17.4);
+          --border: oklch(0 0 0 / 0.1);
+          --input: oklch(0 0 0 / 0.46);
+          --ring: oklch(0.47 0.13 254);
+          --sidebar: oklch(0.98 0 251);
+          --sidebar-accent: oklch(0 0 0 / 0.04);
+          --sidebar-primary: oklch(0.64 0.16 254 / 0.16);
+          --sidebar-foreground: oklch(0 0 0 / 0.8);
+          --sidebar-accent-foreground: oklch(0 0 0 / 0.8);
+          --sidebar-primary-foreground: oklch(1 0 0);
+          --sidebar-border: oklch(0 0 0 / 0.1);
+          --sidebar-ring: oklch(0.47 0.13 254);
+          --chart-1: oklch(0.92 0.03 252);
+          --chart-2: oklch(0.81 0.09 252);
+          --chart-3: oklch(0.66 0.15 253);
+          --chart-4: oklch(0.54 0.16 255);
+          --chart-5: oklch(0.47 0.13 254);
+          --radius: 0.625rem;
+        }
+        @layer base {
+          * { @apply border-border outline-ring/50; }
+          body { @apply bg-background text-foreground; }
+        }
+    </style>
     <style>
-        .brand-blue { background-color: #006699; }
-        .text-brand { color: #006699; }
-        .border-brand { border-color: #006699; }
             .app-launcher-shadow { box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28); }
     </style>
 </head>
-<body class="bg-gray-100 font-sans text-gray-800 h-screen flex flex-col overflow-hidden">
+<body class="bg-[#F3F5F6] font-sans text-slate-800 h-screen flex flex-col overflow-hidden">
 
-    <header class="brand-blue text-white h-14 flex items-center justify-between px-4 shrink-0">
-        <div class="flex items-center space-x-3">
-            <button type="button" class="app-launcher-toggle hover:text-gray-200 transition" aria-label="Open applications launcher">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+    <header class="bg-[#F3F5F6] text-slate-700 h-14 flex items-center justify-between px-4 shrink-0">
+        <div class="flex items-center">
+            <button type="button" class="app-launcher-toggle inline-flex items-center gap-2 rounded-md pl-0 pr-2 py-1.5 transition hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600" aria-label="Open applications launcher">
+                <img src="assets/nice-app-icon.png" alt="" class="h-11 w-11 object-contain" aria-hidden="true">
+                <span class="font-semibold text-lg leading-none text-slate-700">Routing Center</span>
+                <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
             </button>
-            <a href="index.html" class="font-semibold text-lg hover:underline">Routing Center</a>
         </div>
         <div class="flex items-center space-x-4">
-            <button class="hover:text-gray-200">
+            <button class="text-slate-500 hover:text-slate-700 transition">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </button>
-            <button class="hover:text-gray-200">
+            <button class="text-slate-500 hover:text-slate-700 transition">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
             </button>
             <div class="w-8 h-8 rounded-full bg-gray-300 border border-white overflow-hidden">
@@ -35,49 +105,42 @@
     </header>
 
     <div class="flex flex-1 overflow-hidden">
-        <aside class="w-64 bg-white border-r border-gray-200 shrink-0 flex flex-col">
-            <div class="flex justify-end p-3 border-b border-gray-100">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-            </div>
+        <aside class="w-64 bg-[#F3F5F6] shrink-0 flex flex-col">
             <nav class="flex-1 py-4 space-y-1">
-                <a href="rrr_library.html" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                <a href="rrr_library.html" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white hover:text-slate-800 border-l-4 border-transparent transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                     <span class="text-sm font-medium">Real-Time Routing Rules</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                <a href="#" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white hover:text-slate-800 border-l-4 border-transparent transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5V4H2v16h5m10 0v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4m10 0H7"></path></svg>
                     <span class="text-sm font-medium">Agent Capacity Rules</span>
                 </a>
-                <a href="execution_logs_primary_skills_buffer.html" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                <a href="execution_logs_overflow.html" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white hover:text-slate-800 border-l-4 border-transparent transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6m4 6V7m4 10V4M5 20h14"></path></svg>
                     <span class="text-sm font-medium">Execution Logs</span>
                 </a>
-                <a href="ps_index.html" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent transition">
+                <a href="ps_index.html" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white hover:text-slate-800 border-l-4 border-transparent transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     <span class="text-sm font-medium">Primary Skills</span>
                 </a>
             </nav>
         </aside>
 
-        <main class="flex-1 overflow-y-auto p-8 bg-gray-50">
-            <div class="max-w-6xl mx-auto">
+        <main class="flex-1 overflow-y-auto pt-3 pl-3 pb-3">
+            <div class="min-h-full bg-white rounded-tl-xl rounded-bl-xl border border-slate-200 overflow-y-auto p-8">
+            <div class="w-full">
                 <div class="mb-4">
-                    <p class="text-sm text-brand">Routing Center</p>
+                    <p class="text-sm text-primary">Routing Center</p>
                     <h1 class="text-2xl font-normal text-gray-800">Execution Logs</h1>
                     <p class="text-sm text-gray-500 mt-1">View, sort, filter, and search for Routing Rule threshold activity, activation/deactivation, and errors. This will give visibility to trends and research of Routing behaviors.</p>
-                    <div class="mt-3 inline-flex items-center rounded-md border border-gray-200 bg-white p-1 text-xs font-medium">
-                        <a href="execution_logs_overflow.html" class="px-3 py-1.5 rounded bg-blue-50 text-brand border border-blue-100">Overflow</a>
-                        <a href="execution_logs_queue_health.html" class="px-3 py-1.5 rounded text-gray-600 hover:bg-gray-50">Queue Health</a>
-                        <a href="execution_logs_primary_skills_buffer.html" class="px-3 py-1.5 rounded text-gray-600 hover:bg-gray-50">Primary Skills Buffer</a>
-                    </div>
                 </div>
 
-                <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                <div class="bg-white border border-gray-200 rounded-lg shadow-xs overflow-hidden">
                     <div class="px-4 py-3 border-b border-gray-200 bg-gray-50 flex items-center justify-between gap-4 flex-wrap">
                         <div class="flex items-center gap-3 flex-wrap">
-                            <div id="list-summary" class="text-sm text-gray-500">10 items | 0 selected</div>
+                            <div id="list-summary" class="text-sm text-gray-500">14 items | 0 selected</div>
                             <div class="relative">
-                                <input id="search-input" type="text" placeholder="Search" class="w-72 border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-brand focus:border-brand" />
+                                <input id="search-input" type="text" placeholder="Search" class="w-72 border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-ring focus:border-primary" />
                             </div>
                             <div class="relative">
                                 <button id="filter-toggle" type="button" class="px-3 py-1.5 border border-gray-300 rounded text-sm font-medium text-gray-600 bg-white hover:bg-gray-50">Filter</button>
@@ -90,7 +153,7 @@
                                     </details>
 
                                     <details open class="mb-2 border border-gray-200 rounded">
-                                        <summary class="px-3 py-2 text-sm font-medium text-gray-700 cursor-pointer">Rule Name</summary>
+                                        <summary class="px-3 py-2 text-sm font-medium text-gray-700 cursor-pointer">Rule Name / Activity Type</summary>
                                         <div id="filter-rule-options" class="px-3 pb-3 pt-1 space-y-1 text-sm"></div>
                                     </details>
 
@@ -111,17 +174,296 @@
                         <thead class="bg-gray-50 border-b border-gray-200 text-gray-600 uppercase text-xs tracking-wide">
                             <tr>
                                 <th class="px-3 py-3 w-16 text-left">
-                                    <input id="select-all" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-brand focus:ring-brand" />
+                                    <input id="select-all" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-primary focus:ring-ring" />
                                 </th>
                                 <th class="px-3 py-3 text-left">Evaluated Time</th>
                                 <th class="px-3 py-3 text-left">Skill</th>
-                                <th class="px-3 py-3 text-left">Rule Name</th>
+                                <th class="px-3 py-3 text-left">Rule Name / Activity Type</th>
                                 <th class="px-3 py-3 text-left">Status</th>
                                 <th class="px-3 py-3 text-left">Metric</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
-                            <!-- Pinned ordering for Overflow logs: Queue Depth (+,-), Available Agents (+,-), Time in Queue (+,-), then Activated, Deactivated, No Change, Error -->
+                            <!-- Pinned ordering for Unified logs: Primary Skills Buffer (2), Queue Health (2), then Overflow Queue Depth (+,-), Available Agents (+,-), Time in Queue (+,-), and lifecycle events -->
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-3 py-3">
+                                    <button onclick="toggleDrawer('log-ps1', this)" class="text-gray-500 hover:text-gray-800 transition" aria-label="Toggle row">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                    </button>
+                                </td>
+                                <td class="px-3 py-3">09:51:40</td>
+                                <td class="px-3 py-3">Customer Service</td>
+                                <td class="px-3 py-3">Primary Skill Buffer</td>
+                                <td class="px-3 py-3">
+                                    <span title="Primary Skill Buffer update" class="inline-flex items-center px-2 py-0.5 rounded-full border border-emerald-200 bg-emerald-50 text-emerald-700">
+                                        <svg class="w-5 h-5" viewBox="0 0 40 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                            <circle cx="4" cy="5" r="2" fill="#16a34a"/>
+                                            <rect x="1" y="8" width="6" height="7" rx="2" fill="#16a34a"/>
+                                            <circle cx="12" cy="5" r="2" fill="#16a34a"/>
+                                            <rect x="9" y="8" width="6" height="7" rx="2" fill="#16a34a"/>
+                                            <circle cx="20" cy="5" r="2" fill="#16a34a"/>
+                                            <rect x="17" y="8" width="6" height="7" rx="2" fill="#16a34a"/>
+                                            <circle cx="28" cy="5" r="2" fill="#9ca3af"/>
+                                            <rect x="25" y="8" width="6" height="7" rx="2" fill="#d1d5db"/>
+                                            <circle cx="36" cy="5" r="2" fill="#9ca3af"/>
+                                            <rect x="33" y="8" width="6" height="7" rx="2" fill="#d1d5db"/>
+                                        </svg>
+                                    </span>
+                                </td>
+                                <td class="px-3 py-3">3 agents had secondary skills deactivated</td>
+                            </tr>
+                            <tr id="log-ps1" class="hidden bg-gray-50">
+                                <td></td>
+                                <td colspan="5" class="px-3 py-3">
+                                    <div class="border border-gray-200 bg-white rounded p-4 text-sm text-gray-700 space-y-4">
+                                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                            <div>
+                                                <p class="font-semibold text-gray-800 mb-1">Summary</p>
+                                                <p>Evaluation ID: 778364830</p>
+                                                <p>Evaluation time: 2026-03-05 09:51:40</p>
+                                            </div>
+                                            <div>
+                                                <p class="font-semibold text-gray-800 mb-1">Activity</p>
+                                                <p>Type: Primary Skill Buffer</p>
+                                                <p>Action: Secondary skills deactivated</p>
+                                            </div>
+                                            <div>
+                                                <p class="font-semibold text-gray-800 mb-1">Action Context</p>
+                                                <p>Status: Buffer protection applied</p>
+                                                <p>Affected agents: 3</p>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <p class="font-semibold text-gray-800 mb-2">Agent Skill Changes</p>
+                                            <div class="overflow-x-auto border border-gray-200 rounded">
+                                                <table class="min-w-full text-xs">
+                                                    <thead class="bg-gray-50 text-gray-600 uppercase tracking-wide">
+                                                        <tr>
+                                                            <th class="px-3 py-2 text-left border-b border-gray-200">Agent Name</th>
+                                                            <th class="px-3 py-2 text-left border-b border-gray-200">Primary Skill</th>
+                                                            <th class="px-3 py-2 text-left border-b border-gray-200">Removed Secondary Skills</th>
+                                                            <th class="px-3 py-2 text-left border-b border-gray-200">Change</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="bg-white divide-y divide-gray-100 text-gray-700">
+                                                        <tr>
+                                                            <td class="px-3 py-2 font-medium text-gray-800">Alex Turner</td>
+                                                            <td class="px-3 py-2">Customer Service</td>
+                                                            <td class="px-3 py-2">Tech Support L1, Billing</td>
+                                                            <td class="px-3 py-2">Deactivated</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="px-3 py-2 font-medium text-gray-800">Nina Patel</td>
+                                                            <td class="px-3 py-2">Customer Service</td>
+                                                            <td class="px-3 py-2">Sales</td>
+                                                            <td class="px-3 py-2">Deactivated</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="px-3 py-2 font-medium text-gray-800">Mateo Cruz</td>
+                                                            <td class="px-3 py-2">Customer Service</td>
+                                                            <td class="px-3 py-2">Billing, Escalations</td>
+                                                            <td class="px-3 py-2">Deactivated</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-3 py-3">
+                                    <button onclick="toggleDrawer('log-ps2', this)" class="text-gray-500 hover:text-gray-800 transition" aria-label="Toggle row">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                    </button>
+                                </td>
+                                <td class="px-3 py-3">09:51:10</td>
+                                <td class="px-3 py-3">Sales Support</td>
+                                <td class="px-3 py-3">Primary Skill Buffer</td>
+                                <td class="px-3 py-3">
+                                    <span title="Primary Skill Buffer update" class="inline-flex items-center px-2 py-0.5 rounded-full border border-sky-200 bg-sky-50 text-sky-700">Released</span>
+                                </td>
+                                <td class="px-3 py-3">2 agents had secondary skills restored</td>
+                            </tr>
+                            <tr id="log-ps2" class="hidden bg-gray-50">
+                                <td></td>
+                                <td colspan="5" class="px-3 py-3">
+                                    <div class="border border-gray-200 bg-white rounded p-4 text-sm text-gray-700 space-y-4">
+                                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                            <div>
+                                                <p class="font-semibold text-gray-800 mb-1">Summary</p>
+                                                <p>Evaluation ID: 778364820</p>
+                                                <p>Evaluation time: 2026-03-05 09:51:10</p>
+                                            </div>
+                                            <div>
+                                                <p class="font-semibold text-gray-800 mb-1">Activity</p>
+                                                <p>Type: Primary Skill Buffer</p>
+                                                <p>Action: Secondary skills restored</p>
+                                            </div>
+                                            <div>
+                                                <p class="font-semibold text-gray-800 mb-1">Action Context</p>
+                                                <p>Status: Buffer release applied</p>
+                                                <p>Affected agents: 2</p>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <p class="font-semibold text-gray-800 mb-2">Agent Skill Changes</p>
+                                            <div class="overflow-x-auto border border-gray-200 rounded">
+                                                <table class="min-w-full text-xs">
+                                                    <thead class="bg-gray-50 text-gray-600 uppercase tracking-wide">
+                                                        <tr>
+                                                            <th class="px-3 py-2 text-left border-b border-gray-200">Agent Name</th>
+                                                            <th class="px-3 py-2 text-left border-b border-gray-200">Primary Skill</th>
+                                                            <th class="px-3 py-2 text-left border-b border-gray-200">Removed Secondary Skills</th>
+                                                            <th class="px-3 py-2 text-left border-b border-gray-200">Change</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="bg-white divide-y divide-gray-100 text-gray-700">
+                                                        <tr>
+                                                            <td class="px-3 py-2 font-medium text-gray-800">Jordan Kim</td>
+                                                            <td class="px-3 py-2">Sales Support</td>
+                                                            <td class="px-3 py-2">Customer Service</td>
+                                                            <td class="px-3 py-2">Restored</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="px-3 py-2 font-medium text-gray-800">Priya Desai</td>
+                                                            <td class="px-3 py-2">Sales Support</td>
+                                                            <td class="px-3 py-2">Billing, Escalations</td>
+                                                            <td class="px-3 py-2">Restored</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-3 py-3">
+                                    <button onclick="toggleDrawer('log-qh1', this)" class="text-gray-500 hover:text-gray-800 transition" aria-label="Toggle row">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                    </button>
+                                </td>
+                                <td class="px-3 py-3">09:50:40</td>
+                                <td class="px-3 py-3">VIP Support</td>
+                                <td class="px-3 py-3">Technical Support Queue Health</td>
+                                <td class="px-3 py-3">
+                                    <span title="Queue Health Unhealthy" class="inline-flex items-center px-2 py-0.5 rounded-full border border-red-200 bg-red-50 text-red-700">Unhealthy</span>
+                                </td>
+                                <td class="px-3 py-3">Retention increased to <span class="font-semibold text-red-700">40%</span> after 7m unhealthy</td>
+                            </tr>
+                            <tr id="log-qh1" class="hidden bg-gray-50">
+                                <td></td>
+                                <td colspan="5" class="px-3 py-3">
+                                    <div class="border border-gray-200 bg-white rounded p-4 text-sm text-gray-700 space-y-4">
+                                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                            <div>
+                                                <p class="font-semibold text-gray-800 mb-1">Summary</p>
+                                                <p>Evaluation ID: 778364810</p>
+                                                <p>Evaluation time: 2026-03-05 09:50:40</p>
+                                            </div>
+                                            <div>
+                                                <p class="font-semibold text-gray-800 mb-1">Queue Health</p>
+                                                <p>Rule: Technical Support Queue Health</p>
+                                                <p>Health state: Unhealthy for 7 minutes</p>
+                                            </div>
+                                            <div>
+                                                <p class="font-semibold text-gray-800 mb-1">Action Context</p>
+                                                <p>Status: Queue Health Unhealthy</p>
+                                                <p>Retention transition: 25% &rarr; 40%</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="border border-gray-200 rounded bg-gray-50/60 p-4">
+                                            <div class="flex items-center justify-between gap-4 flex-wrap mb-3">
+                                                <div>
+                                                    <p class="text-base font-semibold text-gray-800">Queue Health Trend</p>
+                                                    <p class="text-xs text-gray-500">Rule execution events are marked on local highs and lows.</p>
+                                                </div>
+                                                <div class="flex items-center gap-2">
+                                                    <label for="qh-metric-1" class="text-xs font-semibold text-gray-600 uppercase tracking-wide">Statistic</label>
+                                                    <select id="qh-metric-1" class="qh-metric-select border border-gray-300 rounded px-3 py-1.5 text-xs bg-white text-gray-700" data-chart="qh-chart-1">
+                                                        <option value="retention">Agent Retention %</option>
+                                                        <option value="serviceLevel">Service Level %</option>
+                                                        <option value="queueDepth">Queue Depth</option>
+                                                        <option value="waitTime">Oldest Wait (sec)</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="overflow-x-auto">
+                                                <div id="qh-chart-1" class="w-full min-h-[250px] bg-white border border-gray-200 rounded"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-3 py-3">
+                                    <button onclick="toggleDrawer('log-qh2', this)" class="text-gray-500 hover:text-gray-800 transition" aria-label="Toggle row">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                    </button>
+                                </td>
+                                <td class="px-3 py-3">09:50:10</td>
+                                <td class="px-3 py-3">VIP Support</td>
+                                <td class="px-3 py-3">Technical Support Queue Health</td>
+                                <td class="px-3 py-3">
+                                    <span title="Queue Health Recovered" class="inline-flex items-center px-2 py-0.5 rounded-full border border-emerald-200 bg-emerald-50 text-emerald-700">Recovered</span>
+                                </td>
+                                <td class="px-3 py-3">Retention reduced to <span class="font-semibold text-emerald-700">25%</span> after KPI recovery</td>
+                            </tr>
+                            <tr id="log-qh2" class="hidden bg-gray-50">
+                                <td></td>
+                                <td colspan="5" class="px-3 py-3">
+                                    <div class="border border-gray-200 bg-white rounded p-4 text-sm text-gray-700 space-y-4">
+                                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                            <div>
+                                                <p class="font-semibold text-gray-800 mb-1">Summary</p>
+                                                <p>Evaluation ID: 778364800</p>
+                                                <p>Evaluation time: 2026-03-05 09:50:10</p>
+                                            </div>
+                                            <div>
+                                                <p class="font-semibold text-gray-800 mb-1">Queue Health</p>
+                                                <p>Rule: Technical Support Queue Health</p>
+                                                <p>Health state: Recovered for 1 window</p>
+                                            </div>
+                                            <div>
+                                                <p class="font-semibold text-gray-800 mb-1">Action Context</p>
+                                                <p>Status: Queue Health Recovered</p>
+                                                <p>Retention transition: 40% &rarr; 25%</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="border border-gray-200 rounded bg-gray-50/60 p-4">
+                                            <div class="flex items-center justify-between gap-4 flex-wrap mb-3">
+                                                <div>
+                                                    <p class="text-base font-semibold text-gray-800">Queue Health Trend</p>
+                                                    <p class="text-xs text-gray-500">Rule execution events are marked on local highs and lows.</p>
+                                                </div>
+                                                <div class="flex items-center gap-2">
+                                                    <label for="qh-metric-2" class="text-xs font-semibold text-gray-600 uppercase tracking-wide">Statistic</label>
+                                                    <select id="qh-metric-2" class="qh-metric-select border border-gray-300 rounded px-3 py-1.5 text-xs bg-white text-gray-700" data-chart="qh-chart-2">
+                                                        <option value="retention">Agent Retention %</option>
+                                                        <option value="serviceLevel">Service Level %</option>
+                                                        <option value="queueDepth">Queue Depth</option>
+                                                        <option value="waitTime">Oldest Wait (sec)</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="overflow-x-auto">
+                                                <div id="qh-chart-2" class="w-full min-h-[250px] bg-white border border-gray-200 rounded"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
                             <tr class="hover:bg-gray-50">
                                 <td class="px-3 py-3">
                                     <button onclick="toggleDrawer('log-1', this)" class="text-gray-500 hover:text-gray-800 transition" aria-label="Toggle row">
@@ -155,7 +497,7 @@
                                         <div>
                                             <p class="font-semibold text-gray-800 mb-1">Action Context</p>
                                             <p>Status: Threshold Crossed (positive)</p>
-                                            <p>Proficiency Transition: 1-7 â†’ 1-5</p>
+                                            <p>Proficiency Transition: 1-7 &rarr; 1-5</p>
                                         </div>
                                     </div>
                                 </td>
@@ -194,7 +536,7 @@
                                         <div>
                                             <p class="font-semibold text-gray-800 mb-1">Action Context</p>
                                             <p>Status: Threshold Crossed (negative)</p>
-                                            <p>Proficiency Transition: 1-5 â†’ 1-7</p>
+                                            <p>Proficiency Transition: 1-5 &rarr; 1-7</p>
                                         </div>
                                     </div>
                                 </td>
@@ -233,7 +575,7 @@
                                         <div>
                                             <p class="font-semibold text-gray-800 mb-1">Action Context</p>
                                             <p>Status: Threshold Crossed (positive)</p>
-                                            <p>Proficiency Transition: 1-20 â†’ 1-12</p>
+                                            <p>Proficiency Transition: 1-20 &rarr; 1-12</p>
                                         </div>
                                     </div>
                                 </td>
@@ -272,7 +614,7 @@
                                         <div>
                                             <p class="font-semibold text-gray-800 mb-1">Action Context</p>
                                             <p>Status: Threshold Crossed (negative)</p>
-                                            <p>Proficiency Transition: 1-12 â†’ 1-20</p>
+                                            <p>Proficiency Transition: 1-12 &rarr; 1-20</p>
                                         </div>
                                     </div>
                                 </td>
@@ -311,7 +653,7 @@
                                         <div>
                                             <p class="font-semibold text-gray-800 mb-1">Action Context</p>
                                             <p>Status: Threshold Crossed (positive)</p>
-                                            <p>Proficiency Transition: 1-20 â†’ 1-12</p>
+                                            <p>Proficiency Transition: 1-20 &rarr; 1-12</p>
                                         </div>
                                     </div>
                                 </td>
@@ -350,7 +692,7 @@
                                         <div>
                                             <p class="font-semibold text-gray-800 mb-1">Action Context</p>
                                             <p>Status: Threshold Crossed (negative)</p>
-                                            <p>Proficiency Transition: 1-12 â†’ 1-20</p>
+                                            <p>Proficiency Transition: 1-12 &rarr; 1-20</p>
                                         </div>
                                     </div>
                                 </td>
@@ -507,6 +849,7 @@
                     </table>
                 </div>
             </div>
+            </div>
         </main>
     </div>
 
@@ -517,6 +860,206 @@
 
             drawer.classList.toggle('hidden');
             icon.classList.toggle('rotate-90');
+
+            const isOpen = !drawer.classList.contains('hidden');
+            if (isOpen) {
+                const metricSelector = drawer.querySelector('.qh-metric-select');
+                if (metricSelector) {
+                    renderQueueHealthTrend(metricSelector.dataset.chart, metricSelector.value);
+                }
+            }
+        }
+
+        const queueHealthTrendData = {
+            'qh-chart-1': {
+                timeLabels: ['08:00', '08:20', '08:40', '09:00', '09:20', '09:40', '10:00', '10:20', '10:40', '11:00'],
+                metrics: {
+                    retention: {
+                        label: 'Agent Retention %',
+                        yAxis: 'Retention %',
+                        unit: '%',
+                        values: [25, 28, 33, 30, 38, 35, 42, 39, 34, 31],
+                        executionIndices: [2, 3, 4, 5, 6, 7]
+                    },
+                    serviceLevel: {
+                        label: 'Service Level %',
+                        yAxis: 'Service Level %',
+                        unit: '%',
+                        values: [86, 83, 79, 81, 75, 78, 72, 74, 77, 80],
+                        executionIndices: [2, 3, 4, 5, 6, 7]
+                    },
+                    queueDepth: {
+                        label: 'Queue Depth',
+                        yAxis: 'Queue Depth',
+                        unit: '',
+                        values: [41, 46, 54, 49, 63, 57, 71, 65, 56, 50],
+                        executionIndices: [2, 3, 4, 5, 6, 7]
+                    },
+                    waitTime: {
+                        label: 'Oldest Wait (sec)',
+                        yAxis: 'Oldest Wait (sec)',
+                        unit: 's',
+                        values: [98, 106, 121, 113, 132, 125, 141, 136, 119, 110],
+                        executionIndices: [2, 3, 4, 5, 6, 7]
+                    }
+                }
+            },
+            'qh-chart-2': {
+                timeLabels: ['09:00', '09:20', '09:40', '10:00', '10:20', '10:40', '11:00', '11:20', '11:40', '12:00'],
+                metrics: {
+                    retention: {
+                        label: 'Agent Retention %',
+                        yAxis: 'Retention %',
+                        unit: '%',
+                        values: [40, 37, 33, 35, 30, 32, 27, 29, 25, 24],
+                        executionIndices: [1, 2, 3, 4, 5, 6, 7, 8]
+                    },
+                    serviceLevel: {
+                        label: 'Service Level %',
+                        yAxis: 'Service Level %',
+                        unit: '%',
+                        values: [74, 77, 81, 79, 84, 82, 87, 85, 89, 90],
+                        executionIndices: [1, 2, 3, 4, 5, 6, 7, 8]
+                    },
+                    queueDepth: {
+                        label: 'Queue Depth',
+                        yAxis: 'Queue Depth',
+                        unit: '',
+                        values: [68, 61, 55, 58, 49, 52, 44, 47, 39, 35],
+                        executionIndices: [1, 2, 3, 4, 5, 6, 7, 8]
+                    },
+                    waitTime: {
+                        label: 'Oldest Wait (sec)',
+                        yAxis: 'Oldest Wait (sec)',
+                        unit: 's',
+                        values: [142, 136, 128, 131, 118, 121, 109, 113, 97, 92],
+                        executionIndices: [1, 2, 3, 4, 5, 6, 7, 8]
+                    }
+                }
+            }
+        };
+
+        function getPointType(values, index) {
+            if (index === 0 || index === values.length - 1) {
+                return null;
+            }
+
+            const prev = values[index - 1];
+            const current = values[index];
+            const next = values[index + 1];
+
+            if (current > prev && current > next) {
+                return 'high';
+            }
+            if (current < prev && current < next) {
+                return 'low';
+            }
+            return null;
+        }
+
+        function renderQueueHealthTrend(chartId, metricKey) {
+            const chartContainer = document.getElementById(chartId);
+            const chartConfig = queueHealthTrendData[chartId];
+            if (!chartContainer || !chartConfig) {
+                return;
+            }
+
+            const metricConfig = chartConfig.metrics[metricKey] || chartConfig.metrics.retention;
+            const values = metricConfig.values;
+            const labels = chartConfig.timeLabels;
+            const executionIndices = metricConfig.executionIndices;
+
+            const width = Math.max(chartContainer.clientWidth || 820, 820);
+            const height = 250;
+            const padding = { top: 18, right: 20, bottom: 42, left: 58 };
+            const plotWidth = width - padding.left - padding.right;
+            const plotHeight = height - padding.top - padding.bottom;
+
+            const minValue = Math.min(...values);
+            const maxValue = Math.max(...values);
+            const range = Math.max(maxValue - minValue, 1);
+            const stepX = labels.length > 1 ? plotWidth / (labels.length - 1) : 0;
+
+            const points = values.map((value, index) => {
+                const x = padding.left + (stepX * index);
+                const y = padding.top + ((maxValue - value) / range) * plotHeight;
+                return { x, y, value, index };
+            });
+
+            const linePoints = points.map((p) => `${p.x},${p.y}`).join(' ');
+
+            const yTicks = 4;
+            const yTickMarkup = Array.from({ length: yTicks + 1 }, (_, tickIndex) => {
+                const ratio = tickIndex / yTicks;
+                const y = padding.top + ratio * plotHeight;
+                const tickValue = Math.round(maxValue - ratio * range);
+                return `
+                    <line x1="${padding.left}" y1="${y}" x2="${width - padding.right}" y2="${y}" stroke="#E5E7EB" stroke-width="1" />
+                    <text x="${padding.left - 8}" y="${y + 4}" text-anchor="end" font-size="10" fill="#6B7280">${tickValue}</text>
+                `;
+            }).join('');
+
+            const xLabelMarkup = points.map((point, index) => {
+                if (index % 2 !== 0 && index !== points.length - 1) {
+                    return '';
+                }
+                return `<text x="${point.x}" y="${height - 16}" text-anchor="middle" font-size="10" fill="#6B7280">${labels[index]}</text>`;
+            }).join('');
+
+            const eventDotMarkup = executionIndices.map((eventIndex) => {
+                const point = points[eventIndex];
+                if (!point) {
+                    return '';
+                }
+
+                const pointType = getPointType(values, eventIndex);
+                if (!pointType) {
+                    return '';
+                }
+
+                const retentionValue = chartConfig.metrics.retention.values[eventIndex];
+                const serviceLevelValue = chartConfig.metrics.serviceLevel.values[eventIndex];
+                const queueDepthValue = chartConfig.metrics.queueDepth.values[eventIndex];
+                const waitTimeValue = chartConfig.metrics.waitTime.values[eventIndex];
+
+                const tooltipText = [
+                    `Rule Execution`,
+                    `Time: ${labels[eventIndex]}`,
+                    `Agent Retention: ${retentionValue}%`,
+                    `Service Level: ${serviceLevelValue}%`,
+                    `Queue Depth: ${queueDepthValue}`,
+                    `Oldest Wait: ${waitTimeValue}s`
+                ].join('&#10;');
+
+                const markerColor = pointType === 'high' ? '#DC2626' : '#059669';
+
+                return `
+                    <circle cx="${point.x}" cy="${point.y}" r="5" fill="${markerColor}" stroke="#FFFFFF" stroke-width="1.5" class="cursor-pointer">
+                        <title>${tooltipText}</title>
+                    </circle>
+                `;
+            }).join('');
+
+            chartContainer.innerHTML = `
+                <div class="px-3 py-2 border-b border-gray-200 bg-gray-50 flex items-center justify-between text-xs text-gray-600">
+                    <span class="font-semibold text-gray-700">${metricConfig.label} Trend</span>
+                    <span>${executionIndices.length} rule execution events</span>
+                </div>
+                <svg width="100%" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="${metricConfig.label} trend chart">
+                    ${yTickMarkup}
+                    <line x1="${padding.left}" y1="${height - padding.bottom}" x2="${width - padding.right}" y2="${height - padding.bottom}" stroke="#D1D5DB" stroke-width="1" />
+                    <polyline fill="none" stroke="#2563EB" stroke-width="2.5" points="${linePoints}" />
+                    ${points.map((point) => `<circle cx="${point.x}" cy="${point.y}" r="2" fill="#2563EB" />`).join('')}
+                    ${eventDotMarkup}
+                    ${xLabelMarkup}
+                    <text x="12" y="${padding.top + (plotHeight / 2)}" transform="rotate(-90 12 ${padding.top + (plotHeight / 2)})" text-anchor="middle" font-size="10" fill="#6B7280">${metricConfig.yAxis}</text>
+                </svg>
+                <div class="px-3 pb-3 flex items-center gap-4 text-[11px] text-gray-600">
+                    <span class="inline-flex items-center gap-1"><span class="h-2 w-2 rounded-full bg-blue-600"></span>Trend line</span>
+                    <span class="inline-flex items-center gap-1"><span class="h-2.5 w-2.5 rounded-full bg-red-600 border border-white shadow-sm"></span>Rule execution at local high (poor health)</span>
+                    <span class="inline-flex items-center gap-1"><span class="h-2.5 w-2.5 rounded-full bg-emerald-600 border border-white shadow-sm"></span>Rule execution at local low (recovery)</span>
+                </div>
+            `;
         }
 
         const summaryLabel = document.getElementById('list-summary');
@@ -562,7 +1105,7 @@
         function buildFilterOption(container, value, groupName) {
             const item = document.createElement('label');
             item.className = 'flex items-center gap-2 text-sm text-gray-700';
-            item.innerHTML = `<input type="checkbox" class="h-4 w-4 border-gray-300 rounded text-brand focus:ring-brand filter-checkbox" data-group="${groupName}" value="${value}" checked> ${value}`;
+            item.innerHTML = `<input type="checkbox" class="h-4 w-4 border-gray-300 rounded text-primary focus:ring-ring filter-checkbox" data-group="${groupName}" value="${value}" checked> ${value}`;
             container.appendChild(item);
         }
 
@@ -598,7 +1141,7 @@
             exportButton.classList.toggle('text-gray-400', !hasSelection);
             exportButton.classList.toggle('cursor-not-allowed', !hasSelection);
             exportButton.classList.toggle('border-gray-300', !hasSelection);
-            exportButton.classList.toggle('brand-blue', hasSelection);
+            exportButton.classList.toggle('bg-primary', hasSelection);
             exportButton.classList.toggle('text-white', hasSelection);
             exportButton.classList.toggle('border-blue-700', hasSelection);
             exportButton.classList.toggle('hover:bg-blue-800', hasSelection);
@@ -680,7 +1223,7 @@
 
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
-                checkbox.className = 'row-selector h-4 w-4 border-gray-300 rounded text-brand focus:ring-brand';
+                checkbox.className = 'row-selector h-4 w-4 border-gray-300 rounded text-primary focus:ring-ring';
                 checkbox.addEventListener('change', () => {
                     updateSelectAllState();
                     updateSummary();
@@ -719,6 +1262,12 @@
         initializeFilters();
         injectRowSelectors();
 
+        document.querySelectorAll('.qh-metric-select').forEach((select) => {
+            select.addEventListener('change', () => {
+                renderQueueHealthTrend(select.dataset.chart, select.value);
+            });
+        });
+
         document.querySelectorAll('.filter-checkbox').forEach(input => {
             input.addEventListener('change', applyFilters);
         });
@@ -726,13 +1275,9 @@
         applyFilters();
     </script>
 
-    <div class="app-launcher-overlay fixed inset-0 z-50 hidden">
-        <div class="app-launcher-backdrop absolute inset-0 bg-slate-900/45"></div>
-        <div class="app-launcher-panel app-launcher-shadow absolute top-0 left-0 h-full w-80 max-w-[90vw] bg-white text-gray-800 overflow-y-auto">
-            <div class="flex items-center gap-3 px-4 py-3 border-b border-gray-200">
-                <svg class="w-5 h-5 text-gray-900" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"></path></svg>
-                <span class="text-lg font-medium">Applications</span>
-            </div>
+    <div class="app-launcher-overlay hidden" style="position:fixed;inset:0;z-index:50;pointer-events:none;">
+        <div class="app-launcher-backdrop" style="position:absolute;inset:0;pointer-events:all;"></div>
+        <div class="app-launcher-panel app-launcher-shadow" style="position:absolute;top:3.6rem;left:0.5rem;width:20rem;max-height:calc(100vh - 4.5rem);background:#fff;color:#1e293b;overflow-y:auto;border-radius:0.75rem;border:1px solid #e2e8f0;pointer-events:all;">
             <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">General</div>
             <div class="space-y-1 px-2 pb-2">
                 <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-sky-100 text-sky-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v6c0 5-3.4 7.8-8 8-4.6-.2-8-3-8-8V7l8-4z"></path><path d="M9 12h6"></path><path d="M12 9v6"></path></svg></span><span>Admin</span></button>
@@ -761,9 +1306,13 @@
             </div>
             <div class="mx-3 border-t border-gray-200"></div>
             <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Others</div>
-            <div class="space-y-1 px-2 pb-4">
+            <div class="space-y-1 px-2 pb-2">
                 <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-yellow-100 text-yellow-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 9l9 6 9-6"></path></svg></span><span>Digital</span></button>
                 <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="12" r="3"></circle><circle cx="17" cy="12" r="3"></circle><path d="M10 12h4"></path></svg></span><span>Connections Hub</span></button>
+            </div>
+            <!-- NiCE CXone branding footer -->
+            <div class="sticky bottom-0 flex items-center justify-center px-4 py-3 border-t border-slate-200 bg-white">
+                <img src="assets/nice-cxone-logo.png" alt="NiCE CXone" class="h-10 w-full object-contain">
             </div>
         </div>
     </div>
@@ -779,7 +1328,7 @@
             const currentPage = window.location.pathname.split('/').pop() || 'index.html';
             const sidebarPageGroups = {
                 'rrr_library.html': ['rrr_library.html', 'rrr_rulecreate.html', 'step2.html', 'step2_overflow.html', 'step3.html', 'step4.html', 'step5.html'],
-                'execution_logs_primary_skills_buffer.html': ['execution_logs_primary_skills_buffer.html', 'execution_logs_overflow.html', 'execution_logs_queue_health.html'],
+                'execution_logs_overflow.html': ['execution_logs_overflow.html'],
                 'ps_index.html': ['ps_index.html', 'ps_step2.html', 'ps_audit_log.html']
             };
 
@@ -816,20 +1365,31 @@
                 }
             });
 
-            const closeOverlay = () => overlay.classList.add('hidden');
-            const openOverlay = () => overlay.classList.remove('hidden');
+            // Update sticky header app name to reflect current page
+            const currentAppLink = overlay.querySelector('a[aria-current="page"] span:last-child');
+            const currentAppLabel = overlay.querySelector('.app-launcher-current-app');
+            if (currentAppLink && currentAppLabel) {
+                currentAppLabel.textContent = currentAppLink.textContent.trim();
+            }
+
+            const closeOverlay = () => {
+                overlay.classList.add('hidden');
+                toggle.setAttribute('aria-expanded', 'false');
+            };
+            const openOverlay = () => {
+                overlay.classList.remove('hidden');
+                toggle.setAttribute('aria-expanded', 'true');
+            };
+
+            toggle.setAttribute('aria-haspopup', 'true');
+            toggle.setAttribute('aria-expanded', 'false');
 
             toggle.addEventListener('click', (event) => {
                 event.stopPropagation();
-                openOverlay();
+                overlay.classList.contains('hidden') ? openOverlay() : closeOverlay();
             });
 
             backdrop.addEventListener('click', closeOverlay);
-            overlay.addEventListener('click', (event) => {
-                if (!panel.contains(event.target) && event.target !== toggle) {
-                    closeOverlay();
-                }
-            });
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'Escape') closeOverlay();
             });

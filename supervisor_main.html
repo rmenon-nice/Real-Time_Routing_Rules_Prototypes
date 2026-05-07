@@ -4,10 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supervisor - Live Monitoring</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @custom-variant dark (&:is(.dark *));
+        @theme inline {
+          --color-background: var(--background);
+          --color-foreground: var(--foreground);
+          --color-card: var(--card);
+          --color-card-foreground: var(--card-foreground);
+          --color-popover: var(--popover);
+          --color-popover-foreground: var(--popover-foreground);
+          --color-primary: var(--primary);
+          --color-primary-foreground: var(--primary-foreground);
+          --color-secondary: var(--secondary);
+          --color-secondary-foreground: var(--secondary-foreground);
+          --color-muted: var(--muted);
+          --color-muted-foreground: var(--muted-foreground);
+          --color-accent: var(--accent);
+          --color-accent-foreground: var(--accent-foreground);
+          --color-destructive: var(--destructive);
+          --color-border: var(--border);
+          --color-input: var(--input);
+          --color-ring: var(--ring);
+          --color-chart-1: var(--chart-1);
+          --color-chart-2: var(--chart-2);
+          --color-chart-3: var(--chart-3);
+          --color-chart-4: var(--chart-4);
+          --color-chart-5: var(--chart-5);
+          --radius-sm: calc(var(--radius) - 4px);
+          --radius-md: calc(var(--radius) - 2px);
+          --radius-lg: var(--radius);
+          --radius-xl: calc(var(--radius) + 4px);
+          --font-sans: var(--font-inter);
+        }
+        :root {
+          --background: oklch(1 0 0);
+          --card: oklch(1 0 0);
+          --popover: oklch(1 0 0);
+          --secondary: oklch(1 0 0);
+          --accent: oklch(0 0 0 / 0.04);
+          --muted: oklch(0 0 0 / 0.06);
+          --primary: oklch(0.54 0.16 255);
+          --destructive: oklch(0.52 0.19 26.6);
+          --foreground: oklch(0 0 0 / 0.8);
+          --card-foreground: oklch(0 0 0 / 0.8);
+          --popover-foreground: oklch(0 0 0 / 0.8);
+          --primary-foreground: oklch(1 0 0);
+          --secondary-foreground: oklch(0 0 0 / 0.8);
+          --accent-foreground: oklch(0 0 0 / 0.8);
+          --muted-foreground: oklch(0 0 0 / 0.6);
+          --destructive-foreground: oklch(0.97 0.02 17.4);
+          --border: oklch(0 0 0 / 0.1);
+          --input: oklch(0 0 0 / 0.46);
+          --ring: oklch(0.47 0.13 254);
+          --sidebar: oklch(0.98 0 251);
+          --sidebar-accent: oklch(0 0 0 / 0.04);
+          --sidebar-primary: oklch(0.64 0.16 254 / 0.16);
+          --sidebar-foreground: oklch(0 0 0 / 0.8);
+          --sidebar-accent-foreground: oklch(0 0 0 / 0.8);
+          --sidebar-primary-foreground: oklch(1 0 0);
+          --sidebar-border: oklch(0 0 0 / 0.1);
+          --sidebar-ring: oklch(0.47 0.13 254);
+          --chart-1: oklch(0.92 0.03 252);
+          --chart-2: oklch(0.81 0.09 252);
+          --chart-3: oklch(0.66 0.15 253);
+          --chart-4: oklch(0.54 0.16 255);
+          --chart-5: oklch(0.47 0.13 254);
+          --radius: 0.625rem;
+        }
+        @layer base {
+          * { @apply border-border outline-ring/50; }
+          body { @apply bg-background text-foreground; }
+        }
+    </style>
     <style>
         :root {
-            --topbar-blue: #006699;
+            --topbar-blue: var(--primary);
             --page-bg: #f5f5f5;
             --sidebar-bg: #fafafa;
             --line: #d3d3d3;
@@ -170,7 +242,7 @@
         }
 
         .toast-notification-button {
-            background: #006699;
+            background: var(--primary);
             color: white;
             border: none;
             border-radius: 4px;
@@ -186,28 +258,26 @@
         }
     </style>
 </head>
-<body class="h-screen overflow-hidden">
+<body class="bg-[#F3F5F6] font-sans text-slate-800 h-screen flex flex-col overflow-hidden">
     <!-- Header -->
-    <header class="topbar h-16 text-white flex items-center justify-between px-6">
-        <div class="flex items-center gap-3">
-            <button type="button" class="app-launcher-toggle w-8 h-8 rounded flex items-center justify-center hover:bg-white/20 transition" aria-label="Open applications launcher">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"/>
-                </svg>
+    <header class="bg-[#F3F5F6] text-slate-700 h-14 flex items-center justify-between px-4 shrink-0">
+        <div class="flex items-center">
+            <button type="button" class="app-launcher-toggle inline-flex items-center gap-2 rounded-md pl-0 pr-2 py-1.5 transition hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600" aria-label="Open applications launcher">
+                <img src="assets/nice-app-icon.png" alt="" class="h-11 w-11 object-contain" aria-hidden="true">
+                <span class="font-semibold text-lg leading-none text-slate-700">Routing Center</span>
+                <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
             </button>
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
-            <span class="text-sm font-medium">Supervisor</span>
         </div>
-        <div class="text-lg font-semibold">NiCE CXone</div>
-        <div class="flex items-center gap-4">
-            <button aria-label="Help" class="hover:bg-white/20 p-1 rounded transition">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg>
+        <div class="flex items-center space-x-4">
+            <button class="text-slate-500 hover:text-slate-700 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </button>
-            <button aria-label="Notifications" class="hover:bg-white/20 p-1 rounded transition relative">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 7h18s-3 0-3-7"></path><path d="M10 19a2 2 0 0 0 4 0"></path></svg>
-                <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+            <button class="text-slate-500 hover:text-slate-700 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
             </button>
-            <div class="w-8 h-8 rounded-full bg-white text-[#006699] font-bold flex items-center justify-center text-sm">M</div>
+            <div class="w-8 h-8 rounded-full bg-gray-300 border border-white overflow-hidden">
+                <img src="https://i.pravatar.cc/100?img=47" alt="User Profile" class="w-full h-full object-cover">
+            </div>
         </div>
     </header>
 
@@ -233,14 +303,15 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 flex flex-col overflow-hidden">
+        <main class="flex-1 overflow-y-auto pt-3 pl-3 pb-3">
+            <div class="min-h-full bg-white rounded-tl-xl rounded-bl-xl border border-slate-200 overflow-y-auto p-8">
             <!-- Search & Controls -->
             <div class="bg-white border-b border-[var(--line)] px-6 py-4">
                 <div class="flex items-center justify-between gap-4">
                     <div class="flex-1 flex items-center gap-3">
                         <div class="flex-1 flex items-center bg-gray-50 border border-[var(--line)] rounded px-3 py-2 gap-2">
                             <svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
-                            <input type="text" placeholder="Search by name, number, ID, text, or skill" class="flex-1 bg-transparent outline-none text-sm text-gray-700 placeholder-gray-400">
+                            <input type="text" placeholder="Search by name, number, ID, text, or skill" class="flex-1 bg-transparent outline-none text-sm text-gray-700 placeholder:text-gray-400">
                         </div>
                         <button class="p-2 text-blue-600 hover:bg-blue-50 rounded transition">
                             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
@@ -633,6 +704,7 @@
                     </div>
                 </div>
             </div>
+            </div>
         </main>
     </div>
 
@@ -646,13 +718,9 @@
     </div>
 
     <!-- App Launcher Overlay -->
-    <div class="app-launcher-overlay fixed inset-0 z-50 hidden">
-        <div class="app-launcher-backdrop absolute inset-0 bg-slate-900/45"></div>
-        <div class="app-launcher-panel app-launcher-shadow absolute top-0 left-0 h-full w-80 max-w-[90vw] bg-white text-gray-800 overflow-y-auto">
-            <div class="flex items-center gap-3 px-4 py-3 border-b border-gray-200">
-                <svg class="w-5 h-5 text-gray-900" fill="currentColor" viewBox="0 0 24 24"><path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"></path></svg>
-                <span class="text-lg font-medium">Applications</span>
-            </div>
+    <div class="app-launcher-overlay hidden" style="position:fixed;inset:0;z-index:50;pointer-events:none;">
+        <div class="app-launcher-backdrop" style="position:absolute;inset:0;pointer-events:all;"></div>
+        <div class="app-launcher-panel app-launcher-shadow" style="position:absolute;top:3.6rem;left:0.5rem;width:20rem;max-height:calc(100vh - 4.5rem);background:#fff;color:#1e293b;overflow-y:auto;border-radius:0.75rem;border:1px solid #e2e8f0;pointer-events:all;">
             <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">General</div>
             <div class="space-y-1 px-2 pb-2">
                 <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-sky-100 text-sky-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v6c0 5-3.4 7.8-8 8-4.6-.2-8-3-8-8V7l8-4z"></path><path d="M9 12h6"></path><path d="M12 9v6"></path></svg></span><span>Admin</span></button>
@@ -681,9 +749,13 @@
             </div>
             <div class="mx-3 border-t border-gray-200"></div>
             <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Others</div>
-            <div class="space-y-1 px-2 pb-4">
+            <div class="space-y-1 px-2 pb-2">
                 <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-yellow-100 text-yellow-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 9l9 6 9-6"></path></svg></span><span>Digital</span></button>
                 <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="12" r="3"></circle><circle cx="17" cy="12" r="3"></circle><path d="M10 12h4"></path></svg></span><span>Connections Hub</span></button>
+            </div>
+            <!-- NiCE CXone branding footer -->
+            <div class="sticky bottom-0 flex items-center justify-center px-4 py-3 border-t border-slate-200 bg-white">
+                <img src="assets/nice-cxone-logo.png" alt="NiCE CXone" class="h-10 w-full object-contain">
             </div>
         </div>
     </div>
