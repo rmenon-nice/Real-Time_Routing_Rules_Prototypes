@@ -186,83 +186,47 @@
                             <tbody class="divide-y divide-gray-200">
                                 <tr class="hover:bg-gray-50">
                                     <td class="px-3 py-2"><input type="checkbox" class="rounded border-gray-300"></td>
-                                    <td class="px-3 py-2 text-gray-800">Billing Queue Depth Overflow</td>
-                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Broaden proficiency range when billing queue depth exceeds threshold bands.">Broaden proficiency range when billing queue depth exceeds threshold bands.</td>
-                                    <td class="px-3 py-2">Queue Depth</td>
-                                    <td class="px-3 py-2">Billing</td>
-                                    <td class="px-3 py-2"><span class="status-pill bg-gray-100 text-gray-600"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8"></path><circle cx="12" cy="12" r="9" stroke-width="2"></circle></svg>Inactive</span></td>
-                                    <td class="px-3 py-2"><button class="kebab-trigger text-gray-500 hover:text-gray-700" type="button" aria-label="Row actions"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg></button></td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-3 py-2"><input type="checkbox" class="rounded border-gray-300"></td>
-                                    <td class="px-3 py-2 text-gray-800">Support Time in Queue Overflow</td>
-                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Expand agent coverage when oldest support contact wait time crosses limits.">Expand agent coverage when oldest support contact wait time crosses limits.</td>
-                                    <td class="px-3 py-2">Time in Queue</td>
-                                    <td class="px-3 py-2">Support</td>
+                                    <td class="px-3 py-2 text-gray-800">Billing L1 Queue Health Guardrail</td>
+                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Trigger overflow routing and skill broadening when Billing L1 queue health trends below SLA and speed thresholds.">Trigger overflow routing and skill broadening when Billing L1 queue health trends below SLA and speed thresholds.</td>
+                                    <td class="px-3 py-2">Queue Health</td>
+                                    <td class="px-3 py-2">Billing L1</td>
                                     <td class="px-3 py-2"><span class="status-pill bg-emerald-100 text-emerald-700"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Active</span></td>
                                     <td class="px-3 py-2"><button class="kebab-trigger text-gray-500 hover:text-gray-700" type="button" aria-label="Row actions"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg></button></td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
                                     <td class="px-3 py-2"><input type="checkbox" class="rounded border-gray-300"></td>
-                                    <td class="px-3 py-2 text-gray-800">Tech Support Available Agents Overflow</td>
-                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Relax proficiency requirements when available agent count drops below staffing targets.">Relax proficiency requirements when available agent count drops below staffing targets.</td>
-                                    <td class="px-3 py-2">Available Agents</td>
-                                    <td class="px-3 py-2">Tech Support</td>
+                                    <td class="px-3 py-2 text-gray-800">Tech Support L1 Queue Health Guardrail</td>
+                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Expand eligible agent tiers when Tech Support L1 queue health falls below configured response and abandon targets.">Expand eligible agent tiers when Tech Support L1 queue health falls below configured response and abandon targets.</td>
+                                    <td class="px-3 py-2">Queue Health</td>
+                                    <td class="px-3 py-2">Tech Support L1</td>
+                                    <td class="px-3 py-2"><span class="status-pill bg-cyan-100 text-cyan-700"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 3L4 14h7v7l9-11h-7z"></path></svg>Real-Time</span></td>
+                                    <td class="px-3 py-2"><button class="kebab-trigger text-gray-500 hover:text-gray-700" type="button" aria-label="Row actions"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg></button></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-3 py-2"><input type="checkbox" class="rounded border-gray-300"></td>
+                                    <td class="px-3 py-2 text-gray-800">VIP Voice Queue Health Protection</td>
+                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Protect VIP Voice service levels by prioritizing primary-skilled agents when queue health score enters risk range.">Protect VIP Voice service levels by prioritizing primary-skilled agents when queue health score enters risk range.</td>
+                                    <td class="px-3 py-2">Queue Health</td>
+                                    <td class="px-3 py-2">VIP Voice</td>
                                     <td class="px-3 py-2"><span class="status-pill bg-gray-100 text-gray-600"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8"></path><circle cx="12" cy="12" r="9" stroke-width="2"></circle></svg>Inactive</span></td>
                                     <td class="px-3 py-2"><button class="kebab-trigger text-gray-500 hover:text-gray-700" type="button" aria-label="Row actions"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg></button></td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
                                     <td class="px-3 py-2"><input type="checkbox" class="rounded border-gray-300"></td>
-                                    <td class="px-3 py-2 text-gray-800">APAC Available Agents Overflow</td>
-                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Scale eligibility for APAC agents based on available workforce in real time.">Scale eligibility for APAC agents based on available workforce in real time.</td>
-                                    <td class="px-3 py-2">Available Agents</td>
-                                    <td class="px-3 py-2">APAC</td>
-                                    <td class="px-3 py-2"><span class="status-pill bg-gray-100 text-gray-600"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8"></path><circle cx="12" cy="12" r="9" stroke-width="2"></circle></svg>Inactive</span></td>
+                                    <td class="px-3 py-2 text-gray-800">Claims Intake Queue Health Recovery</td>
+                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Escalate overflow and preserve high-proficiency coverage when Claims Intake health score drops to critical thresholds.">Escalate overflow and preserve high-proficiency coverage when Claims Intake health score drops to critical thresholds.</td>
+                                    <td class="px-3 py-2">Queue Health</td>
+                                    <td class="px-3 py-2">Claims Intake</td>
+                                    <td class="px-3 py-2"><span class="status-pill bg-cyan-100 text-cyan-700"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 3L4 14h7v7l9-11h-7z"></path></svg>Real-Time</span></td>
                                     <td class="px-3 py-2"><button class="kebab-trigger text-gray-500 hover:text-gray-700" type="button" aria-label="Row actions"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg></button></td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
                                     <td class="px-3 py-2"><input type="checkbox" class="rounded border-gray-300"></td>
-                                    <td class="px-3 py-2 text-gray-800">Spanish Queue Depth Overflow</td>
-                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Route Spanish interactions to broader proficiency tiers as queue depth increases.">Route Spanish interactions to broader proficiency tiers as queue depth increases.</td>
-                                    <td class="px-3 py-2">Queue Depth</td>
-                                    <td class="px-3 py-2">Spanish</td>
+                                    <td class="px-3 py-2 text-gray-800">Retention Desk Queue Health Balancer</td>
+                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Balance Retention Desk staffing and routing priority when SLA or abandon components of queue health degrade.">Balance Retention Desk staffing and routing priority when SLA or abandon components of queue health degrade.</td>
+                                    <td class="px-3 py-2">Queue Health</td>
+                                    <td class="px-3 py-2">Retention Desk</td>
                                     <td class="px-3 py-2"><span class="status-pill bg-emerald-100 text-emerald-700"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Active</span></td>
-                                    <td class="px-3 py-2"><button class="kebab-trigger text-gray-500 hover:text-gray-700" type="button" aria-label="Row actions"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg></button></td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-3 py-2"><input type="checkbox" class="rounded border-gray-300"></td>
-                                    <td class="px-3 py-2 text-gray-800">Loyalty Program Queue Depth Overflow</td>
-                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Temporarily open wider agent tiers when loyalty queue volume exceeds target depth.">Temporarily open wider agent tiers when loyalty queue volume exceeds target depth.</td>
-                                    <td class="px-3 py-2">Queue Depth</td>
-                                    <td class="px-3 py-2">Loyalty Program</td>
-                                    <td class="px-3 py-2"><span class="status-pill bg-gray-100 text-gray-600"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8"></path><circle cx="12" cy="12" r="9" stroke-width="2"></circle></svg>Inactive</span></td>
-                                    <td class="px-3 py-2"><button class="kebab-trigger text-gray-500 hover:text-gray-700" type="button" aria-label="Row actions"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg></button></td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-3 py-2"><input type="checkbox" class="rounded border-gray-300"></td>
-                                    <td class="px-3 py-2 text-gray-800">General Time in Queue Overflow</td>
-                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Keep average wait under SLA by broadening coverage when time in queue trends high.">Keep average wait under SLA by broadening coverage when time in queue trends high.</td>
-                                    <td class="px-3 py-2">Time in Queue</td>
-                                    <td class="px-3 py-2">General</td>
-                                    <td class="px-3 py-2"><span class="status-pill bg-cyan-100 text-cyan-700"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 3L4 14h7v7l9-11h-7z"></path></svg>Real-Time</span></td>
-                                    <td class="px-3 py-2"><button class="kebab-trigger text-gray-500 hover:text-gray-700" type="button" aria-label="Row actions"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg></button></td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-3 py-2"><input type="checkbox" class="rounded border-gray-300"></td>
-                                    <td class="px-3 py-2 text-gray-800">VIP Queue Health Protection</td>
-                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Protect primary-skilled VIP agents when queue health degrades below service thresholds.">Protect primary-skilled VIP agents when queue health degrades below service thresholds.</td>
-                                    <td class="px-3 py-2">Queue Health</td>
-                                    <td class="px-3 py-2">VIP</td>
-                                    <td class="px-3 py-2"><span class="status-pill bg-gray-100 text-gray-600"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8"></path><circle cx="12" cy="12" r="9" stroke-width="2"></circle></svg>Inactive</span></td>
-                                    <td class="px-3 py-2"><button class="kebab-trigger text-gray-500 hover:text-gray-700" type="button" aria-label="Row actions"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg></button></td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-3 py-2"><input type="checkbox" class="rounded border-gray-300"></td>
-                                    <td class="px-3 py-2 text-gray-800">Escalations Queue Health Reserve</td>
-                                    <td class="px-3 py-2 text-gray-500 truncate max-w-xs" title="Reserve escalation specialists when health score shows increased risk of SLA misses.">Reserve escalation specialists when health score shows increased risk of SLA misses.</td>
-                                    <td class="px-3 py-2">Queue Health</td>
-                                    <td class="px-3 py-2">Escalations</td>
-                                    <td class="px-3 py-2"><span class="status-pill bg-cyan-100 text-cyan-700"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 3L4 14h7v7l9-11h-7z"></path></svg>Real-Time</span></td>
                                     <td class="px-3 py-2"><button class="kebab-trigger text-gray-500 hover:text-gray-700" type="button" aria-label="Row actions"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg></button></td>
                                 </tr>
                             </tbody>

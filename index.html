@@ -382,52 +382,147 @@
         </aside>
 
         <main class="flex-1 overflow-y-auto pt-2 pl-2 pb-2 lg:pt-3 lg:pl-3 lg:pb-3">
-            <div class="w-full min-h-full rounded-tl-xl rounded-bl-xl border border-slate-200 bg-white p-7">
-                <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
-                    <h1 class="text-2xl font-normal text-gray-800 mb-1">Routing Center</h1>
-                    <p class="text-sm text-gray-500 max-w-3xl">Operational overview across routing health, automation activity, and workforce signals. Use the left navigation to move into each application for detail.</p>
+            <div class="w-full min-h-full rounded-tl-xl rounded-bl-xl border border-slate-200 bg-white p-7 flex flex-col">
+                    <div class="mb-4">
+                    <div class="mb-5">
+                        <h1 class="text-2xl font-normal text-gray-800 mb-1">Routing Center</h1>
+                    </div>
+                    <div class="flex items-stretch gap-5">
+                        <!-- Routing AI inline chat -->
+                        <div id="ai-inline-chat" class="dashboard-card flex-1 flex overflow-hidden" style="height:600px">
+                            <!-- Left: history sidebar -->
+                            <div id="ai-history-pane" style="width:219px;flex-shrink:0;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;">
+                                <div style="padding:0.55rem 0.75rem;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;gap:0.4rem;background:#f8fafc;">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                    <span style="font-size:0.68rem;font-weight:700;color:#475569;letter-spacing:0.02em;">Past Sessions</span>
+                                </div>
+                                <div style="flex:1;overflow-y:auto;padding:0.4rem 0.35rem;display:flex;flex-direction:column;gap:0.25rem;">
+                                    <div class="ai-history-item ai-history-active">
+                                        <span class="ai-history-title">Claims Intake — Live Analysis</span>
+                                        <span class="ai-history-meta">Today, 9:41 AM · Active</span>
+                                    </div>
+                                    <div class="ai-history-item">
+                                        <span class="ai-history-title">VIP Voice Abandon Spike</span>
+                                        <span class="ai-history-meta">May 10 · 3 actions taken</span>
+                                    </div>
+                                    <div class="ai-history-item">
+                                        <span class="ai-history-title">Billing L1 SLA Review</span>
+                                        <span class="ai-history-meta">May 9 · 1 rule updated</span>
+                                    </div>
+                                    <div class="ai-history-item">
+                                        <span class="ai-history-title">Tech Support L1 Speed Alert</span>
+                                        <span class="ai-history-meta">May 8 · No changes made</span>
+                                    </div>
+                                    <div class="ai-history-item">
+                                        <span class="ai-history-title">Retention Desk Capacity Check</span>
+                                        <span class="ai-history-meta">May 7 · 2 rules reviewed</span>
+                                    </div>
+                                    <div class="ai-history-item">
+                                        <span class="ai-history-title">Overflow Rule Audit</span>
+                                        <span class="ai-history-meta">May 6 · Exported report</span>
+                                    </div>
+                                    <div class="ai-history-item">
+                                        <span class="ai-history-title">Weekly Health Summary</span>
+                                        <span class="ai-history-meta">May 5 · Read-only</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Right: active chat -->
+                            <div style="flex:1;display:flex;flex-direction:column;min-width:0;">
+                                <div class="ai-inline-header">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+                                    <div><span>Routing AI</span><small>Powered by CXone Intelligence</small></div>
+                                    <span class="ai-pulse" style="margin-left:auto"></span>
+                                </div>
+                                <div id="ai-chat-log"></div>
+                                <div id="ai-chat-input-row">
+                                    <input id="ai-chat-input" type="text" placeholder="Ask about routing health…" autocomplete="off">
+                                    <button id="ai-chat-send" aria-label="Send">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Recommended Actions card -->
+                        <div class="dashboard-card shrink-0 p-4 flex flex-col" style="width:360px;height:600px">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-2">
+                                <span class="flex h-6 w-6 items-center justify-center rounded-full bg-amber-100">
+                                    <svg class="h-3.5 w-3.5 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+                                </span>
+                                <h2 class="text-sm font-semibold text-gray-900">Recommended Actions</h2>
+                            </div>
+                            <span class="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-700">7 items</span>
+                        </div>
+                        <ul class="space-y-2 flex-1 overflow-y-auto pr-1">
+                            <li class="flex items-start gap-2.5 rounded-lg border border-red-100 bg-red-50 px-3 py-2">
+                                <span class="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-red-500"></span>
+                                <div>
+                                    <p class="text-xs font-medium text-gray-800">Claims Intake SLA critically low</p>
+                                    <p class="text-[11px] text-gray-500 mt-0.5">42.6% actual vs 87% target — review overflow rule or expand skill pool.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-2.5 rounded-lg border border-red-100 bg-red-50 px-3 py-2">
+                                <span class="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-red-500"></span>
+                                <div>
+                                    <p class="text-xs font-medium text-gray-800">Claims Intake abandon rate exceeding threshold</p>
+                                    <p class="text-[11px] text-gray-500 mt-0.5">20.3% actual vs 10% target — consider priority queue routing rule.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-2.5 rounded-lg border border-orange-100 bg-orange-50 px-3 py-2">
+                                <span class="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-orange-400"></span>
+                                <div>
+                                    <p class="text-xs font-medium text-gray-800">Tech Support L1 speed of answer above target</p>
+                                    <p class="text-[11px] text-gray-500 mt-0.5">12.7s actual vs 8s target — evaluate agent availability or routing priority.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-2.5 rounded-lg border border-orange-100 bg-orange-50 px-3 py-2">
+                                <span class="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-orange-400"></span>
+                                <div>
+                                    <p class="text-xs font-medium text-gray-800">Billing L1 SLA drifting below target</p>
+                                    <p class="text-[11px] text-gray-500 mt-0.5">82% actual vs 91% target — review active routing rules for skill.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-2.5 rounded-lg border border-orange-100 bg-orange-50 px-3 py-2">
+                                <span class="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-orange-400"></span>
+                                <div>
+                                    <p class="text-xs font-medium text-gray-800">3 routing rules inactive for 7+ days</p>
+                                    <p class="text-[11px] text-gray-500 mt-0.5">Stale rules may cause unintended routing gaps — audit or archive.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-2.5 rounded-lg border border-yellow-100 bg-yellow-50 px-3 py-2">
+                                <span class="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-yellow-400"></span>
+                                <div>
+                                    <p class="text-xs font-medium text-gray-800">Retention Desk primary skills approaching limit</p>
+                                    <p class="text-[11px] text-gray-500 mt-0.5">20 of 22 primary slots filled — consider expanding protected workforce cap.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-2.5 rounded-lg border border-yellow-100 bg-yellow-50 px-3 py-2">
+                                <span class="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-yellow-400"></span>
+                                <div>
+                                    <p class="text-xs font-medium text-gray-800">VIP Voice speed and abandon trending high</p>
+                                    <p class="text-[11px] text-gray-500 mt-0.5">Speed 6.6s vs 4s target; abandon 10.8% vs 5% target — validate routing guardrails.</p>
+                                </div>
+                            </li>
+                        </ul>
+                        </div>
+                    </div><!-- /flex row: ai chat + recommended actions -->
                 </div>
 
-                <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
-                    <section class="dashboard-card h-[470px] p-5 lg:p-6">
+                <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mt-auto">
+                    <section class="dashboard-card h-[400px] p-5 lg:p-6">
                         <div class="flex items-start justify-between gap-4">
                             <div>
                                 <h2 class="text-base font-semibold text-gray-900">Queue Health by Skill</h2>
-                                <p class="mt-1 text-xs leading-5 text-gray-500">Normalized health across SLA, speed of response, and abandon rate.</p>
+                                <p class="mt-1 text-xs leading-5 text-gray-500">Normalized health across SLA, speed of answer / response, and abandon rate.</p>
                             </div>
                             <span class="rounded-full bg-sky-50 px-2.5 py-1 text-[11px] font-medium text-sky-700">Live snapshot</span>
                         </div>
-                        <div id="queueHealthChart" class="mt-5 flex h-[270px] min-h-0 flex-col"></div>
+                        <div id="queueHealthChart" class="mt-5 flex h-[210px] min-h-0 flex-col"></div>
                         <p class="mt-8 text-[11px] text-gray-500">Hover each bar to view raw values, skill-specific targets, and the normalized health score.</p>
                     </section>
 
-                    <section class="dashboard-card h-[470px] p-5 lg:p-6">
-                        <div class="flex items-start justify-between gap-4">
-                            <div>
-                                <h2 class="text-base font-semibold text-gray-900">Rule Activity Trend</h2>
-                                <p class="mt-1 text-xs leading-5 text-gray-500">Trend view by skill, timeframe, and queue-health metric.</p>
-                            </div>
-                            <span id="trendTotalExecutions" class="rounded-full bg-violet-50 px-2.5 py-1 text-[11px] font-medium text-violet-700">12 total executions</span>
-                        </div>
-                        <div class="mt-4 flex h-[360px] min-h-0 flex-col rounded-2xl border border-gray-200 bg-slate-50/70 p-3">
-                            <div class="flex flex-wrap items-center justify-between gap-2">
-                                <div class="flex items-center gap-2">
-                                    <span class="text-[11px] font-semibold uppercase tracking-wide text-gray-500">Skills</span>
-                                    <div id="trendSkillFilters" class="flex flex-wrap items-center gap-1.5"></div>
-                                </div>
-                            </div>
-                            <div class="mt-2 flex flex-wrap items-center justify-between gap-2">
-                                <div id="trendRangeFilters" class="flex items-center gap-1.5"></div>
-                                <div id="trendMetricFilters" class="flex items-center gap-1.5"></div>
-                            </div>
-                            <div id="ruleTrendChart" class="mt-2 min-h-0 flex-1 rounded-xl border border-slate-200 bg-white p-2"></div>
-                            <div class="mt-1 text-[11px] text-gray-500">
-                                Showing <span id="trendMetricLabel" class="font-medium text-gray-700">SLA</span> for selected skills.
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="dashboard-card h-[470px] p-5 lg:p-6">
+                    <section class="dashboard-card h-[400px] p-5 lg:p-6">
                         <div class="flex items-start justify-between gap-4">
                             <div>
                                 <h2 class="text-base font-semibold text-gray-900">Protected Workforce Mix</h2>
@@ -443,9 +538,35 @@
                                 <button type="button" class="trend-toggle" data-contact-window="1h">1 Hour</button>
                             </div>
                         </div>
-                        <div id="workforceMetricOneChart" class="mt-3 min-h-0 flex-1 overflow-hidden rounded-xl border border-slate-200 bg-white p-2"></div>
-                        <div class="mt-4 text-[11px] text-gray-500">
+                        <div id="workforceMetricOneChart" class="mt-2 min-h-0 flex-1 overflow-hidden rounded-xl border border-slate-200 bg-white p-2"></div>
+                        <div class="mt-0 leading-4 text-[11px] text-gray-500">
                             Shadow bars represent total agents in skill proficiency range, with primary assignments overlayed in front, total assigned agents shown in the darker adjacent column, and contacts in queue shown in the lighter right-most column.
+                        </div>
+                    </section>
+
+                    <section class="dashboard-card h-[400px] p-5 lg:p-6">
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <h2 class="text-base font-semibold text-gray-900">Rule Activity Trend</h2>
+                                <p class="mt-1 text-xs leading-5 text-gray-500">Trend view by skill, timeframe, and queue-health metric.</p>
+                            </div>
+                            <span id="trendTotalExecutions" class="rounded-full bg-violet-50 px-2.5 py-1 text-[11px] font-medium text-violet-700">12 total executions</span>
+                        </div>
+                        <div class="mt-4 flex h-[290px] min-h-0 flex-col rounded-2xl border border-gray-200 bg-slate-50/70 p-3">
+                            <div class="flex flex-wrap items-center justify-between gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-[11px] font-semibold uppercase tracking-wide text-gray-500">Skills</span>
+                                    <div id="trendSkillFilters" class="flex flex-wrap items-center gap-1.5"></div>
+                                </div>
+                            </div>
+                            <div class="mt-2 flex flex-wrap items-center justify-between gap-2">
+                                <div id="trendRangeFilters" class="flex items-center gap-1.5"></div>
+                                <div id="trendMetricFilters" class="flex items-center gap-1.5"></div>
+                            </div>
+                            <div id="ruleTrendChart" class="mt-2 min-h-0 flex-1 rounded-xl border border-slate-200 bg-white p-2"></div>
+                            <div class="mt-1 text-[11px] text-gray-500">
+                                Showing <span id="trendMetricLabel" class="font-medium text-gray-700">SLA</span> for selected skills.
+                            </div>
                         </div>
                     </section>
                 </div>
@@ -584,14 +705,14 @@
 
             const metricDefinitions = [
                 { key: 'sla', label: 'SLA', shadeKey: 'light', unit: '%', actualKey: 'slaActual', targetKey: 'slaTarget' },
-                { key: 'speed', label: 'Speed of Response', shadeKey: 'base', unit: 's', actualKey: 'speedActual', targetKey: 'speedTarget' },
+                { key: 'speed', label: 'Speed of Answer / Response', shadeKey: 'base', unit: 's', actualKey: 'speedActual', targetKey: 'speedTarget' },
                 { key: 'abandon', label: 'Abandon Rate', shadeKey: 'dark', unit: '%', actualKey: 'abandonActual', targetKey: 'abandonTarget' }
             ];
             const queueHealthData = [
-                { skill: 'Billing Queue', colors: { light: '#93c5fd', base: '#3b82f6', dark: '#1d4ed8' }, slaTarget: 91, slaActual: 82, speedTarget: 6, speedActual: 9.8, abandonTarget: 7, abandonActual: 8.9 },
-                { skill: 'Tier 1 Support', colors: { light: '#a5f3fc', base: '#06b6d4', dark: '#0e7490' }, slaTarget: 89, slaActual: 76, speedTarget: 8, speedActual: 12.7, abandonTarget: 8, abandonActual: 10.6 },
-                { skill: 'VIP Voice', colors: { light: '#a7f3d0', base: '#10b981', dark: '#047857' }, slaTarget: 94, slaActual: 95, speedTarget: 4, speedActual: 3.8, abandonTarget: 5, abandonActual: 2.9 },
-                { skill: 'Claims Intake', colors: { light: '#fda4af', base: '#f43f5e', dark: '#be123c' }, slaTarget: 87, slaActual: 71, speedTarget: 11, speedActual: 16.8, abandonTarget: 10, abandonActual: 12.2 },
+                { skill: 'Billing L1', colors: { light: '#93c5fd', base: '#3b82f6', dark: '#1d4ed8' }, slaTarget: 91, slaActual: 82, speedTarget: 6, speedActual: 9.8, abandonTarget: 7, abandonActual: 8.9 },
+                { skill: 'Tech Support L1', colors: { light: '#a5f3fc', base: '#06b6d4', dark: '#0e7490' }, slaTarget: 89, slaActual: 76, speedTarget: 8, speedActual: 12.7, abandonTarget: 8, abandonActual: 10.6 },
+                { skill: 'VIP Voice', colors: { light: '#a7f3d0', base: '#10b981', dark: '#047857' }, slaTarget: 94, slaActual: 88, speedTarget: 4, speedActual: 6.6, abandonTarget: 5, abandonActual: 10.8 },
+                { skill: 'Claims Intake', colors: { light: '#fda4af', base: '#f43f5e', dark: '#be123c' }, slaTarget: 87, slaActual: 42.6, speedTarget: 11, speedActual: 28.0, abandonTarget: 10, abandonActual: 20.3 },
                 { skill: 'Retention Desk', colors: { light: '#c4b5fd', base: '#8b5cf6', dark: '#6d28d9' }, slaTarget: 90, slaActual: 88, speedTarget: 5, speedActual: 7.1, abandonTarget: 6, abandonActual: 4.8 }
             ];
 
@@ -611,16 +732,6 @@
                 }
                 return `${value.toFixed(1)}${unit}`;
             };
-
-            const legendMarkup = metricDefinitions.map((metric) => {
-                const legendColor = metric.shadeKey === 'light' ? '#cbd5e1' : metric.shadeKey === 'base' ? '#94a3b8' : '#475569';
-                return `
-                <div class="flex items-center gap-2 text-[11px] font-medium text-gray-500">
-                    <span class="chart-legend-dot square" style="background:${legendColor}"></span>
-                    <span>${metric.label}</span>
-                </div>
-            `;
-            }).join('');
 
             const axisValues = [100, 75, 50, 25, 0];
             const axisMarkup = axisValues.map((value) => `
@@ -659,7 +770,6 @@
             `).join('');
 
             chartHost.innerHTML = `
-                <div class="mb-4 flex flex-wrap items-center gap-4">${legendMarkup}</div>
                 <div class="queue-health-chart-layout">
                     <div class="queue-health-axis">${axisMarkup}</div>
                     <div class="queue-health-stage">
@@ -724,8 +834,8 @@
             if (!chartHost || !skillFilters || !rangeFilters || !metricFilters || !totalExecutionsBadge || !metricLabel) return;
 
             const skillConfigs = [
-                { id: 'billing', label: 'Billing Queue', color: '#3b82f6' },
-                { id: 'tier1', label: 'Tier 1 Support', color: '#06b6d4' },
+                { id: 'billing', label: 'Billing L1', color: '#3b82f6' },
+                { id: 'tier1', label: 'Tech Support L1', color: '#06b6d4' },
                 { id: 'vip', label: 'VIP Voice', color: '#10b981' },
                 { id: 'claims', label: 'Claims Intake', color: '#f43f5e' },
                 { id: 'retention', label: 'Retention Desk', color: '#8b5cf6' }
@@ -733,7 +843,7 @@
 
             const metricConfig = {
                 sla: { label: 'SLA', unit: '%', tickStep: 5 },
-                speed: { label: 'Speed of Response', unit: 's', tickStep: 2 },
+                speed: { label: 'Speed of Answer / Response', unit: 's', tickStep: 2 },
                 abandon: { label: 'Abandon Rate', unit: '%', tickStep: 1 }
             };
 
@@ -746,8 +856,8 @@
                         sla: {
                             billing: [88, 92, 79, 91, 76, 90, 82],
                             tier1: [83, 77, 86, 74, 88, 73, 87],
-                            vip: [95, 90, 96, 89, 97, 88, 95],
-                            claims: [78, 85, 72, 87, 70, 86, 74],
+                            vip: [82, 60, 86, 52, 88, 52, 84],
+                            claims: [47, 51, 43, 52, 42, 52, 44],
                             retention: [91, 80, 92, 81, 93, 79, 90]
                         },
                         speed: {
@@ -773,8 +883,8 @@
                         sla: {
                             billing: [89, 83, 91, 80, 92, 82, 88],
                             tier1: [84, 88, 79, 90, 77, 91, 80],
-                            vip: [94, 92, 95, 91, 96, 90, 94],
-                            claims: [79, 86, 75, 88, 73, 87, 76],
+                            vip: [80, 64, 84, 53, 86, 52, 81],
+                            claims: [47, 52, 45, 53, 44, 52, 46],
                             retention: [90, 81, 93, 82, 94, 80, 89]
                         },
                         speed: {
@@ -800,8 +910,8 @@
                         sla: {
                             billing: [87, 92, 79, 90],
                             tier1: [90, 78, 91, 77],
-                            vip: [93, 95, 92, 96],
-                            claims: [82, 74, 88, 73],
+                            vip: [82, 44, 86, 44],
+                            claims: [49, 44, 53, 44],
                             retention: [91, 80, 94, 81]
                         },
                         speed: {
@@ -823,7 +933,7 @@
             };
 
             const state = {
-                selectedSkills: new Set(skillConfigs.map((skill) => skill.id)),
+                selectedSkills: new Set(['vip', 'claims']),
                 range: 'day',
                 metric: 'sla'
             };
@@ -838,7 +948,7 @@
 
             const renderSkillFilters = () => {
                 skillFilters.innerHTML = skillConfigs.map((skill) => `
-                    <button type="button" class="trend-filter-chip active" data-skill="${skill.id}">
+                    <button type="button" class="trend-filter-chip ${state.selectedSkills.has(skill.id) ? 'active' : ''}" data-skill="${skill.id}">
                         <span class="trend-filter-chip-dot" style="background:${skill.color}"></span>
                         <span>${skill.label}</span>
                     </button>
@@ -887,7 +997,7 @@
             const renderMetricFilters = () => {
                 const metrics = [
                     { key: 'sla', label: 'SLA' },
-                    { key: 'speed', label: 'Speed of Response' },
+                    { key: 'speed', label: 'Speed of Answer / Response' },
                     { key: 'abandon', label: 'Abandon Rate' }
                 ];
                 metricFilters.innerHTML = metrics.map((item) => `
@@ -917,9 +1027,10 @@
                 const allValues = selectedSkillIds.flatMap((skillId) => metricSeries[skillId]);
                 const rawMin = Math.min(...allValues);
                 const rawMax = Math.max(...allValues);
+                const isPercentMetric = state.metric !== 'speed';
                 const padding = Math.max(1, (rawMax - rawMin) * 0.18);
-                const axisMin = Math.max(0, rawMin - padding);
-                const axisMax = rawMax + padding;
+                const axisMin = isPercentMetric ? 0 : Math.max(0, rawMin - padding);
+                const axisMax = isPercentMetric ? 100 : rawMax + padding;
 
                 const width = 760;
                 const height = 250;
@@ -971,24 +1082,48 @@
                     `;
                 }).join('');
 
-                const nowMarkerMarkup = state.range === 'day' && typeof periodData.nowIndex === 'number'
-                    ? (() => {
-                        const x = xForIndex(periodData.nowIndex);
-                        return `
-                            <line x1="${x}" y1="${margin.top}" x2="${x}" y2="${margin.top + plotHeight}" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 4" />
-                            <text x="${x + 6}" y="${margin.top + 12}" font-size="10" fill="#64748b">Now</text>
-                        `;
-                    })()
-                    : '';
-
                 chartHost.innerHTML = `
-                    <svg viewBox="0 0 ${width} ${height}" class="h-full w-full" preserveAspectRatio="none" role="img" aria-label="Rule activity trend chart">
+                    <svg viewBox="0 0 ${width} ${height}" class="h-full w-full" preserveAspectRatio="none" role="img" aria-label="Rule activity trend chart" style="cursor:crosshair;">
                         ${gridMarkup}
                         ${seriesMarkup}
-                        ${nowMarkerMarkup}
                         ${xLabelsMarkup}
+                        <line id="trend-cursor-line" x1="0" y1="${margin.top}" x2="0" y2="${margin.top + plotHeight}" stroke="#475569" stroke-width="1.5" stroke-dasharray="4 4" display="none" pointer-events="none" />
+                        <text id="trend-cursor-label" x="0" y="${margin.top + 12}" font-size="10" fill="#475569" display="none" pointer-events="none"></text>
                     </svg>
                 `;
+
+                (() => {
+                    const svg = chartHost.querySelector('svg');
+                    const cursorLine = svg && svg.querySelector('#trend-cursor-line');
+                    const cursorLabelEl = svg && svg.querySelector('#trend-cursor-label');
+                    if (!svg || !cursorLine || !cursorLabelEl) return;
+
+                    const plotLeft = margin.left;
+                    const plotRight = width - margin.right;
+
+                    svg.addEventListener('mousemove', (event) => {
+                        const rect = svg.getBoundingClientRect();
+                        const svgX = ((event.clientX - rect.left) / rect.width) * width;
+                        const clampedX = Math.max(plotLeft, Math.min(plotRight, svgX));
+
+                        cursorLine.setAttribute('x1', clampedX);
+                        cursorLine.setAttribute('x2', clampedX);
+                        cursorLine.removeAttribute('display');
+
+                        const ratio = (clampedX - plotLeft) / (plotRight - plotLeft);
+                        const closestIndex = Math.round(ratio * (labels.length - 1));
+                        const closestLabel = labels[Math.max(0, Math.min(labels.length - 1, closestIndex))];
+                        const labelX = clampedX + 6 + (clampedX > plotRight - 40 ? -50 : 0);
+                        cursorLabelEl.setAttribute('x', labelX);
+                        cursorLabelEl.textContent = closestLabel;
+                        cursorLabelEl.removeAttribute('display');
+                    });
+
+                    svg.addEventListener('mouseleave', () => {
+                        cursorLine.setAttribute('display', 'none');
+                        cursorLabelEl.setAttribute('display', 'none');
+                    });
+                })();
             };
 
             renderSkillFilters();
@@ -1049,7 +1184,7 @@
 
             const workforceData = [
                 {
-                    skill: 'Billing Queue',
+                    skill: 'Billing L1',
                     totalInRange: 42,
                     primaryAssigned: 28,
                     totalAssigned: 49,
@@ -1059,7 +1194,7 @@
                     lightColor: '#93c5fd'
                 },
                 {
-                    skill: 'Tier 1 Support',
+                    skill: 'Tech Support L1',
                     totalInRange: 56,
                     primaryAssigned: 35,
                     totalAssigned: 64,
@@ -1211,6 +1346,353 @@
                 });
             }
         })();
+    </script>
+
+    <!-- ═══════════════════════════════════════════════
+         AI ASSISTANT INLINE CHAT
+    ═══════════════════════════════════════════════ -->
+    <style>
+        .ai-inline-header {
+            background: linear-gradient(135deg, #1e40af 0%, #4f46e5 100%);
+            color: #fff; padding: 0.6rem 0.85rem;
+            display: flex; align-items: center; gap: 0.5rem;
+            flex-shrink: 0; border-radius: 0.75rem 0.75rem 0 0;
+        }
+        .ai-inline-header span { font-size: 0.78rem; font-weight: 700; }
+        .ai-inline-header small { font-size: 0.62rem; opacity: 0.8; display: block; margin-top: -1px; }
+        .ai-pulse { width: 0.5rem; height: 0.5rem; border-radius: 9999px; background: #34d399; flex-shrink: 0; box-shadow: 0 0 0 0 rgba(52,211,153,0.7); animation: ai-pulse 1.8s infinite; }
+        @keyframes ai-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(52,211,153,0.7)} 50%{box-shadow:0 0 0 5px rgba(52,211,153,0)} }
+
+        #ai-chat-log {
+            flex: 1; overflow-y: auto; padding: 0.75rem;
+            display: flex; flex-direction: column; gap: 0.6rem;
+            scroll-behavior: smooth;
+        }
+        .ai-msg { display: flex; flex-direction: column; gap: 0.25rem; max-width: 90%; }
+        .ai-msg.ai { align-self: flex-start; }
+        .ai-msg.user { align-self: flex-end; }
+        .ai-bubble {
+            border-radius: 1rem; padding: 0.55rem 0.75rem;
+            font-size: 0.72rem; line-height: 1.5;
+        }
+        .ai-msg.ai .ai-bubble {
+            background: #f1f5f9; color: #1e293b;
+            border-bottom-left-radius: 0.25rem;
+        }
+        .ai-msg.user .ai-bubble {
+            background: linear-gradient(135deg, #1e40af, #4f46e5);
+            color: #fff; border-bottom-right-radius: 0.25rem;
+        }
+        .ai-bubble b { font-weight: 700; }
+        .ai-bubble ul { margin: 0.3rem 0 0 0; padding-left: 1rem; }
+        .ai-bubble li { margin-bottom: 0.2rem; }
+        .ai-bubble .tag { display: inline-block; font-size: 0.62rem; font-weight: 600; padding: 0.1rem 0.4rem; border-radius: 9999px; margin-right: 0.25rem; }
+        .tag-red { background: #fee2e2; color: #b91c1c; }
+        .tag-orange { background: #ffedd5; color: #c2410c; }
+        .tag-yellow { background: #fef9c3; color: #a16207; }
+        .tag-green { background: #dcfce7; color: #15803d; }
+        .ai-bubble table { width: 100%; border-collapse: collapse; margin-top: 0.4rem; font-size: 0.68rem; }
+        .ai-bubble th { background: #e2e8f0; padding: 0.2rem 0.4rem; text-align: left; font-weight: 700; }
+        .ai-bubble td { padding: 0.2rem 0.4rem; border-bottom: 1px solid #e2e8f0; }
+        .ai-bubble td.before { color: #ef4444; }
+        .ai-bubble td.after { color: #16a34a; font-weight: 600; }
+        .ai-quick-replies { display: flex; flex-direction: column; gap: 0.35rem; margin-top: 0.1rem; }
+        .ai-qr-btn {
+            background: #fff; border: 1.5px solid #6366f1; color: #4f46e5;
+            border-radius: 0.5rem; padding: 0.35rem 0.65rem;
+            font-size: 0.69rem; font-weight: 600; cursor: pointer; text-align: left;
+            transition: background 0.15s, color 0.15s;
+        }
+        .ai-qr-btn:hover { background: #eef2ff; }
+        .ai-qr-btn.warn { border-color: #f59e0b; color: #b45309; }
+        .ai-qr-btn.warn:hover { background: #fffbeb; }
+        .ai-qr-btn.success { border-color: #10b981; color: #065f46; }
+        .ai-qr-btn.success:hover { background: #ecfdf5; }
+        .ai-qr-btn.link { border-color: #64748b; color: #475569; }
+        .ai-qr-btn.link:hover { background: #f8fafc; }
+        .ai-qr-btn.disabled { opacity: 0.45; pointer-events: none; }
+        .ai-sender-label { font-size: 0.6rem; color: #94a3b8; margin: 0 0.25rem; }
+        .ai-typing-indicator { display: flex; align-items: center; gap: 0.3rem; padding: 0.5rem 0.75rem; background: #f1f5f9; border-radius: 1rem; width: fit-content; }
+        .ai-dot { width: 0.38rem; height: 0.38rem; border-radius: 9999px; background: #94a3b8; animation: ai-dot-bounce 1s infinite; }
+        .ai-dot:nth-child(2) { animation-delay: 0.15s; }
+        .ai-dot:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes ai-dot-bounce { 0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-4px)} }
+
+        #ai-chat-input-row {
+            display: flex; align-items: center; gap: 0.4rem;
+            padding: 0.6rem 0.75rem; border-top: 1px solid #e2e8f0; flex-shrink: 0;
+        }
+        #ai-chat-input {
+            flex: 1; border: 1px solid #e2e8f0; border-radius: 0.5rem;
+            padding: 0.38rem 0.6rem; font-size: 0.72rem; outline: none;
+            background: #f8fafc; color: #1e293b;
+        }
+        #ai-chat-input:focus { border-color: #6366f1; background: #fff; }
+        #ai-chat-send {
+            background: linear-gradient(135deg, #1e40af, #4f46e5);
+            border: none; border-radius: 0.45rem; color: #fff;
+            padding: 0.38rem 0.6rem; cursor: pointer; line-height: 1;
+        }
+        #ai-chat-send:hover { opacity: 0.9; }
+
+        .ai-history-item {
+            display: flex; flex-direction: column; gap: 0.1rem;
+            padding: 0.38rem 0.5rem; border-radius: 0.4rem; cursor: pointer;
+            border: 1px solid transparent;
+            transition: background 0.12s;
+        }
+        .ai-history-item:hover { background: #f1f5f9; }
+        .ai-history-item.ai-history-active {
+            background: #eef2ff; border-color: #c7d2fe;
+        }
+        .ai-history-title {
+            font-size: 0.68rem; font-weight: 600; color: #1e293b;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .ai-history-active .ai-history-title { color: #3730a3; }
+        .ai-history-meta {
+            font-size: 0.6rem; color: #94a3b8;
+        }
+        .ai-history-active .ai-history-meta { color: #6366f1; }
+    </style>
+
+
+    <script>
+    (() => {
+        const log = document.getElementById('ai-chat-log');
+        const inputEl = document.getElementById('ai-chat-input');
+        const sendBtn = document.getElementById('ai-chat-send');
+
+        // ── conversation script ──────────────────────────────────
+        const FLOW = [
+            // Step 0 — auto greeting on open
+            {
+                id: 'greeting',
+                role: 'ai',
+                bubble: `👋 Hi! I'm monitoring your Routing Center health.<br><br>
+                    <span class="tag tag-red">⚠ Critical</span> <b>Claims Intake</b> is in a critical state across all three health metrics. Its Queue Health Recovery rule may need adjustment to stabilize the skill.<br><br>
+                    Would you like me to analyze the rule and recommend changes?`,
+                replies: [
+                    { label: '🔍 Yes, analyze Claims Intake rule', next: 'analysis' },
+                    { label: 'Show me all current health issues', next: 'health_summary' },
+                ]
+            },
+            // Step — health summary branch
+            {
+                id: 'health_summary',
+                role: 'ai',
+                bubble: `Here's a snapshot of current Queue Health across your skills:<br><br>
+                    <span class="tag tag-red">Critical</span> <b>Claims Intake</b> — SLA 42.6% vs 87% target<br>
+                    <span class="tag tag-red">Critical</span> <b>Claims Intake</b> — Abandon 20.3% vs 10% target<br>
+                    <span class="tag tag-orange">Warning</span> <b>Billing L1</b> — SLA 82% vs 91% target<br>
+                    <span class="tag tag-orange">Warning</span> <b>Tech Support L1</b> — Speed 12.7s vs 8s target<br>
+                    <span class="tag tag-yellow">Caution</span> <b>VIP Voice</b> — Abandon 10.8% vs 5% target<br><br>
+                    Claims Intake is the most urgent. Want to drill in?`,
+                replies: [
+                    { label: '🔍 Analyze Claims Intake rule', next: 'analysis' },
+                ]
+            },
+            // Step — analysis
+            {
+                id: 'analysis',
+                role: 'ai',
+                bubble: `I reviewed the <b>Claims Intake Queue Health Recovery</b> rule. Here's what I found:<br><br>
+                    <b>Current configuration</b><br>
+                    <ul>
+                        <li>Trigger condition: Abandon Rate &gt; 12%</li>
+                        <li>Action: Expand proficiency eligibility to Level 3+ agents</li>
+                        <li>Mode: Real-Time</li>
+                    </ul>
+                    <b>Problem</b><br>Abandon is already at <b>20.3%</b> — well past the 12% trigger — but the action is too conservative. Expanding to Level 3+ only brings in a small additional agent pool.<br><br>
+                    <b>Proposed changes</b><br>
+                    <ul>
+                        <li>Lower trigger threshold: Abandon &gt; <b>8%</b></li>
+                        <li>Broaden action: Expand eligibility to <b>Level 2+ agents</b></li>
+                        <li>Add secondary condition: SLA &lt; <b>70%</b></li>
+                    </ul>
+                    Before we proceed — there are some risks you should review. Shall I walk through them?`,
+                replies: [
+                    { label: '⚠️ Show me the risks', next: 'risks', style: 'warn' },
+                    { label: 'Skip to proposed change summary', next: 'change_table' },
+                ]
+            },
+            // Step — risks
+            {
+                id: 'risks',
+                role: 'ai',
+                bubble: `<b>⚠️ Risks &amp; things to watch</b><br><br>
+                    <b>1. Tech Support L1 agent overlap</b><br>
+                    14 agents are proficiency Level 2+ in <i>both</i> Claims Intake and Tech Support L1. Pulling them into Claims during a spike could degrade Tech Support L1 response times — which is already above target at 12.7s.<br><br>
+                    <b>2. Retention Desk contention</b><br>
+                    8 agents share Level 2 proficiency across Claims Intake and Retention Desk. Simultaneous queue spikes in both skills could create a staffing conflict and trigger cascading SLA misses.<br><br>
+                    <b>3. VIP Voice primary skill protection</b><br>
+                    6 Level 2 agents have VIP Voice as a Primary Skill. Routing them into Claims Intake may conflict with their protected assignments and violate workforce mix guardrails.<br><br>
+                    <b>4. Post-change monitoring</b><br>
+                    Watch Billing L1 SLA — it shares the same supervisor team. A spike in Claims volume could draw supervisor attention away.<br><br>
+                    <span class="tag tag-yellow">💡 Tip</span> You can review exact agent overlaps in <b>Primary Skills</b> before committing.`,
+                replies: [
+                    { label: '👥 Review agent overlaps in Primary Skills', next: 'ps_link', style: 'link' },
+                    { label: '📋 I understand the risks — show me the change', next: 'change_table', style: 'success' },
+                ]
+            },
+            // Step — PS link (soft navigation prompt)
+            {
+                id: 'ps_link',
+                role: 'ai',
+                bubble: `The <b>Primary Skills</b> page will show you the full proficiency overlap matrix — you can filter by skill and see which agents are shared across Claims Intake, Tech Support L1, and Retention Desk.<br><br>
+                    When you're done reviewing, come back here to continue the rule adjustment.<br><br>
+                    <a href="ps_index.html" style="color:#4f46e5;font-weight:700;text-decoration:underline;">Open Primary Skills →</a>`,
+                replies: [
+                    { label: '↩ I\'ve reviewed — show me the proposed change', next: 'change_table', style: 'success' },
+                ]
+            },
+            // Step — change table
+            {
+                id: 'change_table',
+                role: 'ai',
+                bubble: `Here's a summary of the proposed update to <b>Claims Intake Queue Health Recovery</b>:<br>
+                    <table>
+                        <tr><th>Setting</th><th>Current</th><th>Proposed</th></tr>
+                        <tr><td>Condition: Abandon Rate</td><td class="before">&gt; 12%</td><td class="after">&gt; 8%</td></tr>
+                        <tr><td>Condition: SLA</td><td class="before">—</td><td class="after">&lt; 70%</td></tr>
+                        <tr><td>Action: Agent eligibility</td><td class="before">Level 3+</td><td class="after">Level 2+</td></tr>
+                        <tr><td>Mode</td><td>Real-Time</td><td class="after">Real-Time</td></tr>
+                    </table>
+                    <br>Expected outcome: ~18 additional eligible agents, faster overflow coverage, SLA recovery within 15–20 min of trigger.<br><br>
+                    Ready to make these changes in the rule?`,
+                replies: [
+                    { label: '✅ Apply changes in the Routing Rule', next: 'apply', style: 'success' },
+                    { label: '✏️ I want to adjust the values first', next: 'adjust_values' },
+                ]
+            },
+            // Step — adjust values
+            {
+                id: 'adjust_values',
+                role: 'ai',
+                bubble: `Understood — when you go into the Real-Time Routing Rule editor you'll be able to set exact threshold values for each condition and action during the two-step update process.<br><br>
+                    The rule editor will walk you through:<br>
+                    <ul>
+                        <li><b>Step 1:</b> Adjust conditions (Abandon Rate %, SLA % thresholds)</li>
+                        <li><b>Step 2:</b> Adjust actions (eligible proficiency band, routing priority)</li>
+                    </ul>
+                    You'll also see a live preview of how many agents will become eligible before you save.`,
+                replies: [
+                    { label: '✅ Go to the rule now', next: 'apply', style: 'success' },
+                ]
+            },
+            // Step — apply (navigates)
+            {
+                id: 'apply',
+                role: 'ai',
+                bubble: `Opening the <b>Claims Intake Queue Health Recovery</b> rule in the Real-Time Routing Rules editor.<br><br>
+                    The two-step Real-Time Update process will guide you through conditions first, then actions. After saving, return here — I'll monitor the health metrics and confirm whether the changes are taking effect.<br><br>
+                    <a href="rrr_library.html" style="color:#4f46e5;font-weight:700;text-decoration:underline;">Open Real-Time Routing Rules →</a>`,
+                replies: []
+            },
+        ];
+
+        const findStep = (id) => FLOW.find(s => s.id === id);
+
+        // ── helpers ─────────────────────────────────────────────
+        const scrollLog = () => { log.scrollTop = log.scrollHeight; };
+
+        const addUserBubble = (label) => {
+            const wrap = document.createElement('div');
+            wrap.className = 'ai-msg user';
+            wrap.innerHTML = `<span class="ai-sender-label" style="text-align:right">You</span>
+                <div class="ai-bubble">${label}</div>`;
+            log.appendChild(wrap);
+            scrollLog();
+        };
+
+        const addTypingIndicator = () => {
+            const el = document.createElement('div');
+            el.className = 'ai-msg ai';
+            el.id = 'ai-typing';
+            el.innerHTML = `<span class="ai-sender-label">Routing AI</span>
+                <div class="ai-typing-indicator">
+                    <span class="ai-dot"></span><span class="ai-dot"></span><span class="ai-dot"></span>
+                </div>`;
+            log.appendChild(el);
+            scrollLog();
+            return el;
+        };
+
+        const removeTypingIndicator = () => {
+            const el = document.getElementById('ai-typing');
+            if (el) el.remove();
+        };
+
+        const disableAllReplies = () => {
+            log.querySelectorAll('.ai-qr-btn').forEach(b => b.classList.add('disabled'));
+        };
+
+        const renderStep = (stepId, delay = 0) => {
+            const step = findStep(stepId);
+            if (!step) return;
+
+            // show typing indicator after delay
+            setTimeout(() => {
+                const typing = addTypingIndicator();
+
+                setTimeout(() => {
+                    removeTypingIndicator();
+
+                    const wrap = document.createElement('div');
+                    wrap.className = 'ai-msg ai';
+                    let html = `<span class="ai-sender-label">Routing AI</span>
+                        <div class="ai-bubble">${step.bubble}</div>`;
+
+                    if (step.replies && step.replies.length) {
+                        html += `<div class="ai-quick-replies">`;
+                        step.replies.forEach(r => {
+                            const style = r.style ? ` ${r.style}` : '';
+                            html += `<button class="ai-qr-btn${style}" data-next="${r.next}">${r.label}</button>`;
+                        });
+                        html += `</div>`;
+                    }
+
+                    wrap.innerHTML = html;
+
+                    wrap.querySelectorAll('.ai-qr-btn').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            disableAllReplies();
+                            addUserBubble(btn.textContent.trim());
+                            renderStep(btn.dataset.next, 150);
+                        });
+                    });
+
+                    log.appendChild(wrap);
+                    scrollLog();
+                }, 900);
+            }, delay);
+        };
+
+        // ── auto-start on page load ───────────────────────────
+        renderStep('greeting', 600);
+
+        // ── manual input (non-scripted) ──────────────────────────
+        const handleManualSend = () => {
+            const text = inputEl.value.trim();
+            if (!text) return;
+            inputEl.value = '';
+            disableAllReplies();
+            addUserBubble(text);
+            const typing = addTypingIndicator();
+            setTimeout(() => {
+                removeTypingIndicator();
+                const wrap = document.createElement('div');
+                wrap.className = 'ai-msg ai';
+                wrap.innerHTML = `<span class="ai-sender-label">Routing AI</span>
+                    <div class="ai-bubble">I've noted your input. For this demo, use the quick-reply buttons above to walk through the guided analysis flow. Full natural language routing is coming in the next release!</div>`;
+                log.appendChild(wrap);
+                scrollLog();
+            }, 900);
+        };
+
+        sendBtn.addEventListener('click', handleManualSend);
+        inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') handleManualSend(); });
+    })();
     </script>
 </body>
 </html>
