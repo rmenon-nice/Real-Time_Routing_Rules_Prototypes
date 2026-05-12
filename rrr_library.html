@@ -240,7 +240,7 @@
 
     <div id="kebab-menu" class="kebab-menu hidden fixed z-50 bg-white border border-gray-200 rounded shadow-lg py-1">
         <button id="kebab-status-action" type="button" class="w-full text-left px-3 py-2 text-sm text-blue-700 hover:bg-gray-50">Activate</button>
-        <button type="button" class="w-full text-left px-3 py-2 text-sm text-blue-700 hover:bg-gray-50">Real-Time Update</button>
+        <button id="kebab-realtime-action" type="button" class="w-full text-left px-3 py-2 text-sm text-blue-700 hover:bg-gray-50">Real-Time Update</button>
         <button type="button" class="w-full text-left px-3 py-2 text-sm text-blue-700 hover:bg-gray-50">Edit Rule Settings</button>
         <div class="my-1 border-t border-gray-200"></div>
         <button type="button" class="w-full text-left px-3 py-2 text-sm text-blue-700 hover:bg-gray-50">Audit Log</button>
@@ -251,6 +251,7 @@
     <script>
         const kebabMenu = document.getElementById("kebab-menu");
         const statusAction = document.getElementById("kebab-status-action");
+        const realTimeAction = document.getElementById("kebab-realtime-action");
         const kebabButtons = document.querySelectorAll(".kebab-trigger");
 
         let activeRow = null;
@@ -276,6 +277,11 @@
             const isInactive = pill.textContent.trim().includes("Inactive");
             setStatusPill(pill, isInactive ? "Active" : "Inactive");
             closeKebabMenu();
+        });
+
+        realTimeAction.addEventListener("click", () => {
+            closeKebabMenu();
+            window.location.href = "real_time_update.html";
         });
 
         kebabButtons.forEach((button) => {
