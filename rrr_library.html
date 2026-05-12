@@ -91,12 +91,33 @@
         }
             .app-launcher-shadow { box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28); }
     </style>
+
+
+
+    <style>
+        /* Default: static blue, smooth transition back */
+        .nice-logo-path { fill: #3694FD; transition: fill 0.35s ease; }
+        @keyframes nice-one-wink { 0%, 100% { transform: scaleY(1); } 35% { transform: scaleY(0.07); } 55% { transform: scaleY(1); } }
+        #nice-eye-left.nice-winking { animation: nice-one-wink 0.45s ease-out forwards; transform-box: fill-box; transform-origin: center; }
+        @keyframes nice-both-blink { 0%, 100% { transform: scaleY(1); } 30% { transform: scaleY(0.07); } 50% { transform: scaleY(1); } }
+        #nice-eye-left.nice-blinking,
+        #nice-eye-right.nice-blinking { animation: nice-both-blink 0.4s ease-out forwards; transform-box: fill-box; transform-origin: center; }
+        #nice-eye-right.nice-blinking { animation-delay: 0.04s; }
+    </style>
 </head>
 <body class="bg-[#F3F5F6] font-sans text-slate-800 h-screen flex flex-col overflow-hidden">
     <header class="bg-[#F3F5F6] text-slate-700 h-14 flex items-center justify-between px-4 shrink-0">
         <div class="flex items-center">
             <button type="button" class="app-launcher-toggle inline-flex items-center gap-2 rounded-md pl-0 pr-2 py-1.5 transition hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600" aria-label="Open applications launcher">
-                <img src="assets/nice-app-icon.png" alt="" class="h-11 w-11 object-contain" aria-hidden="true">
+                <svg id="nice-icon-svg" width="28" height="28" viewBox="0 0 71 66" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink:0;">
+                    <g id="nice-eye-left">
+                        <path d="M33.7472 0C38.4351 0 42.2495 3.79044 42.2495 8.44892C42.2495 13.1074 38.4351 16.8979 33.7472 16.8979C29.0593 16.8979 25.2449 13.1074 25.2449 8.44892C25.2449 3.79044 29.0593 0 33.7472 0Z" class="nice-logo-path" id="nice-path-eye-left"/>
+                    </g>
+                    <g id="nice-eye-right">
+                        <path d="M8.50231 16.8979C3.81439 16.8979 0 13.1074 0 8.44892C0 3.79044 3.81439 0 8.50231 0C13.1902 0 17.0046 3.79044 17.0046 8.44892C17.0046 13.1074 13.1902 16.8979 8.50231 16.8979Z" class="nice-logo-path" id="nice-path-eye-right"/>
+                    </g>
+                    <path d="M22.1584 66C21.6052 66 21.1393 65.566 21.1393 64.9873V52.285C21.1393 51.7352 21.5761 51.3012 22.1002 51.2722C40.4151 50.7804 55.2068 36.0526 55.7309 17.8527C55.7309 17.3029 56.1968 16.8979 56.75 16.8979H69.5326C70.0858 16.8979 70.5517 17.3608 70.5517 17.9106C70.0276 44.1833 48.5971 65.4502 22.1875 65.9711L22.1584 66Z" class="nice-logo-path" id="nice-path-body"/>
+                </svg>
                 <span class="font-semibold text-lg leading-none text-slate-700">Routing Center</span>
                 <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
             </button>
@@ -432,6 +453,56 @@
             });
         })();
     </script>
+
+
+
+
+
+    <script>
+        // Nice icon hover stages
+        (() => {
+            const toggle = document.querySelector('.app-launcher-toggle');
+            const eyeLeft = document.getElementById('nice-path-eye-left');
+            const eyeRight = document.getElementById('nice-path-eye-right');
+            const body = document.getElementById('nice-path-body');
+            const eyeLeftG = document.getElementById('nice-eye-left');
+            const eyeRightG = document.getElementById('nice-eye-right');
+            if (!toggle || !eyeLeft || !eyeRight || !body || !eyeLeftG || !eyeRightG) return;
+            const BASE = '#3694FD';
+            const STAGES = [
+                { el: [BASE, '#6366F1', '#6366F1'], blink: 'both' },
+                { el: [BASE, '#6366F1', '#6366F1'], blink: false },
+                { el: [BASE, '#6366F1', '#6366F1'], blink: 'both' },
+                { el: ['#A855F7', '#A855F7', '#A855F7'], wink: true },
+                { el: ['#A855F7', '#A855F7', '#A855F7'], blink: 'both' },
+                { el: ['#EC4899', '#F472B6', '#EC4899'], stagger: true },
+                { el: ['#F59E0B', '#F59E0B', '#F59E0B'] },
+                { el: ['#6366F1', '#10B981', '#F59E0B'] }
+            ];
+            let stage = 0;
+            const triggerBlink = () => {
+                [eyeLeftG, eyeRightG].forEach(g => { g.classList.remove('nice-blinking'); void g.offsetWidth; g.classList.add('nice-blinking'); });
+            };
+            const setPaths = (colors, stagger) => {
+                [eyeLeft, eyeRight, body].forEach((p, i) => { const delay = stagger ? i * 80 : 0; setTimeout(() => { p.style.fill = colors[i]; }, delay); });
+            };
+            const resetPaths = () => {
+                [eyeLeft, eyeRight, body].forEach(p => { p.style.fill = BASE; });
+                eyeLeftG.classList.remove('nice-winking', 'nice-blinking');
+                eyeRightG.classList.remove('nice-blinking');
+            };
+            toggle.addEventListener('mouseenter', () => {
+                const s = STAGES[stage];
+                setPaths(s.el, s.stagger || false);
+                if (s.wink) { eyeLeftG.classList.remove('nice-winking'); void eyeLeftG.offsetWidth; eyeLeftG.classList.add('nice-winking'); }
+                else if (s.blink === 'both') { triggerBlink(); }
+                stage = (stage + 1) % STAGES.length;
+            });
+            toggle.addEventListener('mouseleave', resetPaths);
+        })();
+    </script>
+
+<script>/* iconHoverStages */(()=>{const t=document.querySelector(".app-launcher-toggle"),l=document.getElementById("nice-path-eye-left"),r=document.getElementById("nice-path-eye-right"),b=document.getElementById("nice-path-body"),lg=document.getElementById("nice-eye-left"),rg=document.getElementById("nice-eye-right");if(!t||!l||!r||!b||!lg||!rg)return;const BASE="#3694FD",paths=[l,r,b],st=[{c:[BASE,"#6366F1","#6366F1"],bl:1},{c:[BASE,"#6366F1","#6366F1"]},{c:[BASE,"#6366F1","#6366F1"],bl:1},{c:["#A855F7","#A855F7","#A855F7"],wk:1},{c:["#A855F7","#A855F7","#A855F7"],bl:1},{c:["#EC4899","#F472B6","#EC4899"],sg:1},{c:["#F59E0B","#F59E0B","#F59E0B"]},{c:["#6366F1","#10B981","#F59E0B"]}];let i=0;paths.forEach(p=>{p.style.fill=BASE;p.style.transition="fill .35s ease"});const blink=()=>[lg,rg].forEach((g,j)=>g.animate([{transform:"scaleY(1)"},{transform:"scaleY(.07)"},{transform:"scaleY(1)"}],{duration:400,easing:"ease-out",delay:j?40:0}));const wink=()=>lg.animate([{transform:"scaleY(1)"},{transform:"scaleY(.07)"},{transform:"scaleY(1)"}],{duration:450,easing:"ease-out"});t.addEventListener("mouseenter",()=>{const s=st[i];paths.forEach((p,k)=>setTimeout(()=>p.style.fill=s.c[k],s.sg?k*80:0));if(s.wk)wink();else if(s.bl)blink();i=(i+1)%st.length});t.addEventListener("mouseleave",()=>paths.forEach(p=>p.style.fill=BASE));})();</script>
 </body>
 </html>
 
