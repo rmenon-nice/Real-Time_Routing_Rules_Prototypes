@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routing Center - Select Agent Capacity Assignments</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @custom-variant dark (&:is(.dark *));
+        @theme inline { --color-primary: var(--primary); }
+        :root { --primary: oklch(0.54 0.16 255); }
+    </style>
+    <style>
+        .app-launcher-shadow { box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28); }
+
+        .nice-logo-path {
+            fill: #3694FD;
+            transition: fill 0.35s ease;
+        }
+
+        @keyframes nice-one-wink {
+            0%, 100% { transform: scaleY(1); }
+            35% { transform: scaleY(0.07); }
+            55% { transform: scaleY(1); }
+        }
+
+        #nice-eye-left.nice-winking {
+            animation: nice-one-wink 0.45s ease-out forwards;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        @keyframes nice-both-blink {
+            0%, 100% { transform: scaleY(1); }
+            30% { transform: scaleY(0.07); }
+            50% { transform: scaleY(1); }
+        }
+
+        #nice-eye-left.nice-blinking,
+        #nice-eye-right.nice-blinking {
+            animation: nice-both-blink 0.4s ease-out forwards;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        #nice-eye-right.nice-blinking {
+            animation-delay: 0.04s;
+        }
+    </style>
+</head>
+<body class="bg-[#F3F5F6] font-sans text-slate-800 h-screen flex flex-col overflow-hidden">
+    <header class="bg-[#F3F5F6] text-slate-700 h-14 flex items-center justify-between px-4 shrink-0">
+        <div class="flex items-center">
+            <button type="button" class="app-launcher-toggle inline-flex items-center gap-2 rounded-md pl-0 pr-2 py-1.5 transition hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600" aria-label="Open applications launcher">
+                <svg id="nice-icon-svg" width="28" height="28" viewBox="0 0 71 66" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink:0;"><g id="nice-eye-left"><path d="M33.7472 0C38.4351 0 42.2495 3.79044 42.2495 8.44892C42.2495 13.1074 38.4351 16.8979 33.7472 16.8979C29.0593 16.8979 25.2449 13.1074 25.2449 8.44892C25.2449 3.79044 29.0593 0 33.7472 0Z" class="nice-logo-path" id="nice-path-eye-left"/></g><g id="nice-eye-right"><path d="M8.50231 16.8979C3.81439 16.8979 0 13.1074 0 8.44892C0 3.79044 3.81439 0 8.50231 0C13.1902 0 17.0046 3.79044 17.0046 8.44892C17.0046 13.1074 13.1902 16.8979 8.50231 16.8979Z" class="nice-logo-path" id="nice-path-eye-right"/></g><path d="M22.1584 66C21.6052 66 21.1393 65.566 21.1393 64.9873V52.285C21.1393 51.7352 21.5761 51.3012 22.1002 51.2722C40.4151 50.7804 55.2068 36.0526 55.7309 17.8527C55.7309 17.3029 56.1968 16.8979 56.75 16.8979H69.5326C70.0858 16.8979 70.5517 17.3608 70.5517 17.9106C70.0276 44.1833 48.5971 65.4502 22.1875 65.9711L22.1584 66Z" class="nice-logo-path" id="nice-path-body"/></svg>
+                <span class="app-launcher-current-app font-semibold text-lg leading-none text-slate-700">Routing Center</span>
+                <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button class="text-slate-500 hover:text-slate-700 transition" aria-label="Help">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+            <button class="text-slate-500 hover:text-slate-700 transition" aria-label="Notifications">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+            </button>
+            <div class="w-8 h-8 rounded-full bg-gray-300 border border-white overflow-hidden">
+                <img src="https://i.pravatar.cc/100?img=47" alt="User Profile" class="w-full h-full object-cover">
+            </div>
+        </div>
+    </header>
+    <div class="flex flex-1 overflow-hidden">
+        <aside class="w-64 bg-[#F3F5F6] shrink-0 flex flex-col">
+            <nav class="flex-1 py-4 space-y-1">
+                <a href="agent_capacity_profiles.html" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path stroke="#0EA5E9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M17 20h5V4H2v16h5m10 0v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4m10 0H7"></path></svg>
+                    <span class="text-sm font-medium">Agent Capacity Rules</span>
+                </a>
+            </nav>
+        </aside>
+        <main class="flex-1 overflow-y-auto pt-3 pl-3 pb-3">
+            <div class="min-h-full bg-white rounded-tl-xl rounded-bl-xl border border-slate-200 overflow-y-auto p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-normal text-gray-800">Create New Agent Capacity Profile</h1>
+                    <div class="flex space-x-3">
+                        <a href="agent_capacity_profiles.html" class="px-4 py-2 border border-gray-300 rounded text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition">Cancel</a>
+                        <a href="agent_capacity_create_step2.html" class="px-4 py-2 border border-gray-300 rounded text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                            Back
+                        </a>
+                        <button id="finishButton" type="button" class="px-4 py-2 border border-transparent rounded text-sm font-medium text-white bg-primary hover:bg-blue-800 transition">Finish</button>
+                    </div>
+                </div>
+                <div class="bg-white rounded shadow-xs p-8 mb-6">
+                    <div class="flex items-center justify-between max-w-3xl mx-auto relative pb-8 pt-4">
+                        <div class="absolute top-8 left-0 right-0 h-0.5 bg-gray-300 z-0" style="width: 74%; left: 13%;"></div>
+                        <div class="flex flex-col items-center relative z-10 w-40"><div class="w-9 h-9 bg-white border-2 border-gray-300 text-gray-500 rounded-full flex items-center justify-center font-bold">1</div><div class="text-sm mt-3 text-gray-500 absolute top-10 whitespace-nowrap">Configuration</div></div>
+                        <div class="flex flex-col items-center relative z-10 w-40"><div class="w-9 h-9 bg-white border-2 border-gray-300 text-gray-500 rounded-full flex items-center justify-center font-bold">2</div><div class="text-sm mt-3 text-gray-500 absolute top-10 whitespace-nowrap">Define Conditions</div></div>
+                        <div class="flex flex-col items-center relative z-10 w-40"><div class="w-9 h-9 bg-primary text-white rounded-full flex items-center justify-center font-bold shadow">3</div><div class="text-sm font-semibold mt-3 text-gray-800 absolute top-10 whitespace-nowrap">Select Assignments</div></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded shadow-xs p-8 mb-6 border-t-4 border-primary">
+                    <h2 class="text-2xl font-semibold text-slate-800 mb-2">Assign agents to this profile</h2>
+                    <p class="text-xl text-slate-500 mb-8">The priority conditions will apply to the selected agents. Agents can only be assigned to one profile. In case an agent is assigned to a team with a different profile, the agent profile will take effect.</p>
+
+                    <div class="border-b border-slate-200 mb-10">
+                        <div class="flex items-center gap-8">
+                            <button id="teamsTab" type="button" class="assignment-tab pb-3 text-2xl font-semibold border-b-4 border-blue-600 text-blue-700" data-target="teamsPanel" aria-selected="true">Teams (0)</button>
+                            <button id="agentsTab" type="button" class="assignment-tab pb-3 text-2xl font-semibold border-b-4 border-transparent text-slate-600" data-target="agentsPanel" aria-selected="false">Agents (0)</button>
+                        </div>
+                    </div>
+
+                    <div id="teamsPanel" class="assignment-panel"></div>
+
+                    <div id="agentsPanel" class="assignment-panel hidden"></div>
+
+                    <a href="agent_capacity_create_step2.html" class="inline-block mt-6 text-sm text-sky-700 hover:underline">Back to Define Conditions</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="app-launcher-overlay hidden" style="position:fixed;inset:0;z-index:50;pointer-events:none;">
+        <div class="app-launcher-backdrop" style="position:absolute;inset:0;pointer-events:all;"></div>
+        <div class="app-launcher-panel app-launcher-shadow" style="position:absolute;top:3.6rem;left:0.5rem;width:20rem;max-height:calc(100vh - 4.5rem);background:#fff;color:#1e293b;overflow-y:auto;border-radius:0.75rem;border:1px solid #e2e8f0;pointer-events:all;">
+                        <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">General</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/admin.png" alt="" class="h-6 w-6 object-contain"></span><span>Admin</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/TM.png" alt="" class="h-6 w-6 object-contain"></span><span>TM</span></button>
+                <a href="supervisor_main.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/Supervisor.png" alt="" class="h-6 w-6 object-contain"></span><span>Supervisor</span></a>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/message%20center.png" alt="" class="h-6 w-6 object-contain"></span><span>Message Center</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/AI%20Studio.png" alt="" class="h-6 w-6 object-contain"></span><span>AI Studio</span></button>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Automation</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/ai%20agents.png" alt="" class="h-6 w-6 object-contain"></span><span>AI Agents</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/agent%20integrations.png" alt="" class="h-6 w-6 object-contain"></span><span>Agent Integrations</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/wfi.png" alt="" class="h-6 w-6 object-contain"></span><span>WFI</span></button>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Omnichannel Routing</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/ACD.png" alt="" class="h-6 w-6 object-contain"></span><span>ACD</span></button>
+                <a href="agent_rule_alert.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/agent.png" alt="" class="h-6 w-6 object-contain"></span><span>Agent</span></a>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/studio.png" alt="" class="h-6 w-6 object-contain"></span><span>Studio</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/studio%20authentication.png" alt="" class="h-6 w-6 object-contain"></span><span>Studio Authentication</span></button>
+                <a href="index.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/routing%20center.png" alt="" class="h-6 w-6 object-contain"></span><span>Routing Center</span></a>
+            </div>
+            <div class="sticky bottom-0 flex items-center justify-center px-4 py-3 border-t border-slate-200 bg-white">
+                <img src="assets/nice-cxone-logo.png" alt="NiCE CXone" class="h-10 w-full object-contain">
+            </div>
+        </div>
+    </div>
+
+    <div id="assignmentSelectorOverlay" class="hidden fixed inset-0 z-50 bg-slate-900/45 p-8">
+        <div class="mx-auto h-full max-w-[1120px] overflow-hidden rounded-lg bg-white shadow-2xl border border-slate-300 flex flex-col">
+            <div class="px-6 py-4 border-b border-slate-200">
+                <h3 id="selectorTitle" class="text-3xl font-semibold text-slate-800">Select Teams</h3>
+            </div>
+
+            <div class="p-6 flex-1 overflow-auto">
+                <div class="flex items-center gap-6 bg-slate-50 border border-slate-200 px-4 py-3 mb-4">
+                    <p id="selectorTotal" class="text-sm text-slate-600">1 Total</p>
+                    <div class="relative w-[320px]">
+                        <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path stroke-linecap="round" d="M21 21l-4.3-4.3"></path>
+                        </svg>
+                        <input id="selectorSearch" type="text" class="w-full h-10 rounded border border-slate-300 pl-9 pr-3 text-sm text-slate-700 focus:border-primary focus:outline-none" placeholder="Search teams...">
+                    </div>
+                </div>
+
+                <table class="w-full border-collapse text-sm">
+                    <thead>
+                        <tr class="border-b border-slate-300 text-left text-slate-700">
+                            <th class="w-12 px-2 py-2"><input id="selectorSelectAll" type="checkbox" class="h-4 w-4 rounded border-slate-300"></th>
+                            <th id="selectorCol1" class="px-2 py-2 font-semibold">NAME</th>
+                            <th id="selectorCol2" class="px-2 py-2 font-semibold">TEAM ID</th>
+                            <th id="selectorCol3" class="px-2 py-2 font-semibold">TEAM PROFILES</th>
+                        </tr>
+                    </thead>
+                    <tbody id="selectorTableBody"></tbody>
+                </table>
+            </div>
+
+            <div class="px-6 py-3 border-t border-slate-200 bg-slate-50 flex items-center justify-end gap-3">
+                <button id="selectorCancel" type="button" class="px-4 py-2 text-sm border border-sky-200 rounded text-sky-700 hover:bg-sky-50 transition">Cancel</button>
+                <button id="selectorConfirm" type="button" class="px-4 py-2 text-sm border border-slate-300 rounded text-slate-400 bg-slate-100 cursor-not-allowed" disabled>Select</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="finishDialogOverlay" class="hidden fixed inset-0 z-[60] bg-slate-900/45 p-8">
+        <div class="mx-auto mt-32 max-w-[920px] rounded-lg bg-white border border-slate-300 shadow-2xl">
+            <div class="px-8 py-6">
+                <div class="flex items-start justify-between gap-6">
+                    <h3 class="text-5xl font-semibold text-slate-800 leading-tight">Agent Capacity Profile Created</h3>
+                    <button id="finishDialogClose" type="button" class="text-5xl leading-none text-slate-700 hover:text-slate-900" aria-label="Close dialog">&times;</button>
+                </div>
+                <p class="mt-6 text-3xl text-slate-600">To apply the conditions you must activate the profile. Would you like to activate it now?</p>
+                <div class="mt-8 flex items-center justify-end gap-3">
+                    <button id="activateLaterButton" type="button" class="px-6 py-3 text-2xl border border-sky-200 rounded text-sky-700 hover:bg-sky-50 transition">Activate Later</button>
+                    <button id="activateNowButton" type="button" class="px-6 py-3 text-2xl border border-transparent rounded text-white bg-primary hover:bg-blue-800 transition">Activate Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    (() => {
+        const toggle = document.querySelector('.app-launcher-toggle');
+        const overlay = document.querySelector('.app-launcher-overlay');
+        const panel = document.querySelector('.app-launcher-panel');
+        const backdrop = document.querySelector('.app-launcher-backdrop');
+        if (toggle && overlay && panel && backdrop) {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const sidebarPageGroups = {
+                'rrr_library.html': ['rrr_library.html', 'rrr_rulecreate.html', 'step2.html', 'step2_overflow.html', 'step3.html', 'step4.html', 'step5.html'],
+                'execution_logs_overflow.html': ['execution_logs_overflow.html'],
+                'ps_index.html': ['ps_index.html', 'ps_step2.html', 'ps_audit_log.html'],
+                'agent_capacity_profiles.html': ['agent_capacity_profiles.html', 'agent_capacity_create_step1.html', 'agent_capacity_create_step2.html', 'agent_capacity_create_step3.html', 'Agent_capacity_update.html']
+            };
+
+            document.querySelectorAll('aside nav a[href]').forEach((link) => {
+                const linkHref = link.getAttribute('href');
+                if (!linkHref || linkHref === '#') return;
+                const linkTarget = new URL(linkHref, window.location.href).pathname.split('/').pop();
+                const linkedPages = sidebarPageGroups[linkTarget] || [linkTarget];
+                if (!linkedPages.includes(currentPage)) return;
+                link.classList.remove('text-gray-600', 'border-transparent');
+                link.classList.add('bg-sky-50', 'text-sky-800', 'border-sky-500', 'font-semibold');
+                link.setAttribute('aria-current', 'page');
+                const icon = link.querySelector('svg');
+                if (icon) {
+                    icon.classList.remove('text-gray-400');
+                    icon.classList.add('text-sky-600');
+                }
+            });
+
+            overlay.querySelectorAll('a[href]').forEach((link) => {
+                const linkTarget = new URL(link.getAttribute('href'), window.location.href).pathname.split('/').pop();
+                if (linkTarget === currentPage) {
+                    link.classList.remove('hover:bg-gray-50');
+                    link.classList.add('bg-sky-50', 'text-sky-900', 'font-semibold', 'ring-1', 'ring-sky-200');
+                    link.setAttribute('aria-current', 'page');
+                }
+            });
+
+            const currentAppLink = overlay.querySelector('a[aria-current="page"] span:last-child');
+            const currentAppLabel = overlay.querySelector('.app-launcher-current-app');
+            if (currentAppLink && currentAppLabel) currentAppLabel.textContent = currentAppLink.textContent.trim();
+
+            const closeOverlay = () => {
+                overlay.classList.add('hidden');
+                toggle.setAttribute('aria-expanded', 'false');
+            };
+            const openOverlay = () => {
+                overlay.classList.remove('hidden');
+                toggle.setAttribute('aria-expanded', 'true');
+            };
+
+            toggle.setAttribute('aria-haspopup', 'true');
+            toggle.setAttribute('aria-expanded', 'false');
+            toggle.addEventListener('click', (event) => {
+                event.stopPropagation();
+                overlay.classList.contains('hidden') ? openOverlay() : closeOverlay();
+            });
+            backdrop.addEventListener('click', closeOverlay);
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') closeOverlay();
+            });
+        }
+
+        const iconToggle = document.querySelector('.app-launcher-toggle');
+        const eyeLeft = document.getElementById('nice-path-eye-left');
+        const eyeRight = document.getElementById('nice-path-eye-right');
+        const body = document.getElementById('nice-path-body');
+        const eyeLeftG = document.getElementById('nice-eye-left');
+        const eyeRightG = document.getElementById('nice-eye-right');
+        if (!iconToggle || !eyeLeft || !eyeRight || !body || !eyeLeftG || !eyeRightG) return;
+
+        const baseColor = '#3694FD';
+        const stages = [
+            { el: [baseColor, '#6366F1', '#6366F1'], blink: 'both' },
+            { el: [baseColor, '#6366F1', '#6366F1'], blink: false },
+            { el: [baseColor, '#6366F1', '#6366F1'], blink: 'both' },
+            { el: ['#A855F7', '#A855F7', '#A855F7'], wink: true },
+            { el: ['#A855F7', '#A855F7', '#A855F7'], blink: 'both' },
+            { el: ['#EC4899', '#F472B6', '#EC4899'], stagger: true },
+            { el: ['#F59E0B', '#F59E0B', '#F59E0B'] },
+            { el: ['#6366F1', '#10B981', '#F59E0B'] },
+        ];
+        let stage = 0;
+
+        const triggerBlink = () => {
+            [eyeLeftG, eyeRightG].forEach((g) => {
+                g.classList.remove('nice-blinking');
+                void g.offsetWidth;
+                g.classList.add('nice-blinking');
+            });
+        };
+
+        const setPaths = (colors, stagger) => {
+            [eyeLeft, eyeRight, body].forEach((path, i) => {
+                const delay = stagger ? i * 80 : 0;
+                setTimeout(() => { path.style.fill = colors[i]; }, delay);
+            });
+        };
+
+        const resetPaths = () => {
+            [eyeLeft, eyeRight, body].forEach((path) => { path.style.fill = baseColor; });
+            eyeLeftG.classList.remove('nice-winking', 'nice-blinking');
+            eyeRightG.classList.remove('nice-blinking');
+        };
+
+        iconToggle.addEventListener('mouseenter', () => {
+            const current = stages[stage];
+            setPaths(current.el, Boolean(current.stagger));
+            if (current.wink) {
+                eyeLeftG.classList.remove('nice-winking');
+                void eyeLeftG.offsetWidth;
+                eyeLeftG.classList.add('nice-winking');
+            } else if (current.blink === 'both') {
+                triggerBlink();
+            }
+            stage = (stage + 1) % stages.length;
+        });
+
+        iconToggle.addEventListener('mouseleave', resetPaths);
+    })();
+
+    const assignmentTabs = document.querySelectorAll('.assignment-tab');
+    const assignmentPanels = document.querySelectorAll('.assignment-panel');
+    const teamsTab = document.getElementById('teamsTab');
+    const agentsTab = document.getElementById('agentsTab');
+
+    const overlay = document.getElementById('assignmentSelectorOverlay');
+    const selectorTitle = document.getElementById('selectorTitle');
+    const selectorTotal = document.getElementById('selectorTotal');
+    const selectorSearch = document.getElementById('selectorSearch');
+    const selectorSelectAll = document.getElementById('selectorSelectAll');
+    const selectorCol1 = document.getElementById('selectorCol1');
+    const selectorCol2 = document.getElementById('selectorCol2');
+    const selectorCol3 = document.getElementById('selectorCol3');
+    const selectorTableBody = document.getElementById('selectorTableBody');
+    const selectorCancel = document.getElementById('selectorCancel');
+    const selectorConfirm = document.getElementById('selectorConfirm');
+    const finishButton = document.getElementById('finishButton');
+
+    const finishDialogOverlay = document.getElementById('finishDialogOverlay');
+    const finishDialogClose = document.getElementById('finishDialogClose');
+    const activateLaterButton = document.getElementById('activateLaterButton');
+    const activateNowButton = document.getElementById('activateNowButton');
+
+    const teamsPanel = document.getElementById('teamsPanel');
+    const agentsPanel = document.getElementById('agentsPanel');
+
+    const selectorConfigs = {
+        teams: {
+            title: 'Select Teams',
+            searchPlaceholder: 'Search teams...',
+            columns: ['NAME', 'TEAM ID', 'TEAM PROFILES'],
+            rows: [
+                { id: 'team-1101', col1: 'Voice Support Tier 1', col2: '1101', col3: 'Standard Voice Profile' },
+                { id: 'team-1102', col1: 'Voice Escalations', col2: '1102', col3: 'Escalation Priority Profile' },
+                { id: 'team-1103', col1: 'Digital Messaging', col2: '1103', col3: 'Async Digital Profile' },
+                { id: 'team-1104', col1: 'Email Resolution Desk', col2: '1104', col3: 'Email First Profile' },
+                { id: 'team-1105', col1: 'Chat Specialists', col2: '1105', col3: 'Chat Fast Response Profile' },
+                { id: 'team-1106', col1: 'Billing and Payments', col2: '1106', col3: 'Billing Sensitive Profile' },
+                { id: 'team-1107', col1: 'Retention Save Team', col2: '1107', col3: 'Retention Priority Profile' },
+                { id: 'team-1108', col1: 'Premium Care', col2: '1108', col3: 'VIP Handling Profile' },
+                { id: 'team-1109', col1: 'Spanish Language Support', col2: '1109', col3: 'Bilingual Routing Profile' },
+                { id: 'team-1110', col1: 'Work Item Operations', col2: '1110', col3: 'Back Office Work Item Profile' }
+            ]
+        },
+        agents: {
+            title: 'Select Agents',
+            searchPlaceholder: 'Search agents...',
+            columns: ['NAME', 'AGENT ID', 'TEAM'],
+            rows: [
+                { id: 'agent-3001', col1: 'Ava Martinez', col2: '3001', col3: 'Voice Support Tier 1' },
+                { id: 'agent-3002', col1: 'Jordan Lee', col2: '3002', col3: 'Digital Messaging' },
+                { id: 'agent-3003', col1: 'Noah Patel', col2: '3003', col3: 'Chat Specialists' },
+                { id: 'agent-3004', col1: 'Mia Johnson', col2: '3004', col3: 'Email Resolution Desk' },
+                { id: 'agent-3005', col1: 'Ethan Kim', col2: '3005', col3: 'Billing and Payments' },
+                { id: 'agent-3006', col1: 'Sophia Davis', col2: '3006', col3: 'Retention Save Team' },
+                { id: 'agent-3007', col1: 'Liam Walker', col2: '3007', col3: 'Premium Care' },
+                { id: 'agent-3008', col1: 'Olivia Garcia', col2: '3008', col3: 'Spanish Language Support' },
+                { id: 'agent-3009', col1: 'Lucas Brown', col2: '3009', col3: 'Voice Escalations' },
+                { id: 'agent-3010', col1: 'Emma Wilson', col2: '3010', col3: 'Work Item Operations' },
+                { id: 'agent-3011', col1: 'Mason Nguyen', col2: '3011', col3: 'Digital Messaging' },
+                { id: 'agent-3012', col1: 'Isabella Thomas', col2: '3012', col3: 'Premium Care' }
+            ]
+        }
+    };
+
+    let selectorMode = 'teams';
+    let selectedRows = new Set();
+    let assignedTeams = [];
+    let assignedAgents = [];
+    const assignmentSearchQuery = { teams: '', agents: '' };
+
+    const getAssignedList = (mode) => (mode === 'teams' ? assignedTeams : assignedAgents);
+
+    const setAssignedList = (mode, items) => {
+        if (mode === 'teams') {
+            assignedTeams = items;
+        }
+        if (mode === 'agents') {
+            assignedAgents = items;
+        }
+    };
+
+    const updateTabCounts = () => {
+        if (teamsTab) {
+            teamsTab.textContent = `Teams (${assignedTeams.length})`;
+        }
+        if (agentsTab) {
+            agentsTab.textContent = `Agents (${assignedAgents.length})`;
+        }
+    };
+
+    const renderEmptyPanel = (mode) => {
+        const panel = mode === 'teams' ? teamsPanel : agentsPanel;
+        if (!panel) return;
+
+        const label = mode === 'teams' ? 'teams' : 'agents';
+        const actionLabel = mode === 'teams' ? 'Select Teams' : 'Select Agents';
+
+        panel.innerHTML = `
+            <div class="min-h-[360px] flex flex-col items-center justify-center">
+                <svg width="120" height="96" viewBox="0 0 120 96" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <ellipse cx="60" cy="78" rx="40" ry="2" fill="#A3B8CC"/>
+                    <path d="M32 48C32 36.9543 40.9543 28 52 28H72C83.0457 28 92 36.9543 92 48V60H32V48Z" fill="#DCE8F4"/>
+                    <path d="M52 50H80L74 36H46L52 50Z" fill="#C7B27A"/>
+                    <rect x="50" y="50" width="30" height="20" fill="#D7C182"/>
+                    <path d="M50 50L44 42H74L80 50H50Z" fill="#E8D6A2"/>
+                    <circle cx="44" cy="34" r="5" fill="#58A6E7"/>
+                    <path d="M40 44C40 39.5817 43.5817 36 48 36H48.5V70H40V44Z" fill="#2E6E9E"/>
+                    <rect x="45" y="44" width="4" height="18" fill="#1E4F76"/>
+                    <path d="M44 70H50L48 78H42L44 70Z" fill="#334155"/>
+                    <circle cx="49" cy="28" r="2" fill="#1E3A5F"/>
+                </svg>
+                <p class="mt-6 text-2xl text-slate-500">No ${label} found</p>
+                <button type="button" class="open-selector mt-4 inline-flex items-center gap-3 px-5 py-3 border border-sky-200 rounded-md text-sky-700 text-2xl font-semibold hover:bg-sky-50 transition" data-mode="${mode}">
+                    <span class="text-3xl leading-none">+</span>
+                    <span>${actionLabel}</span>
+                </button>
+            </div>
+        `;
+    };
+
+    const renderAssignedPanel = (mode) => {
+        const panel = mode === 'teams' ? teamsPanel : agentsPanel;
+        const items = getAssignedList(mode);
+        if (!panel) return;
+
+        const query = assignmentSearchQuery[mode].trim().toLowerCase();
+        const filtered = items.filter((item) => {
+            return [item.col1, item.col2].join(' ').toLowerCase().includes(query);
+        });
+
+        const searchPlaceholder = mode === 'teams' ? 'Search Teams' : 'Search Agents';
+        const addLabel = mode === 'teams' ? 'Add Teams' : 'Add Agents';
+        const col2Label = mode === 'teams' ? 'TEAM ID' : 'AGENT ID';
+
+        panel.innerHTML = `
+            <div class="space-y-4">
+                <div class="bg-slate-50 border border-slate-200 p-4 flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-4">
+                        <p class="text-xl text-slate-600">${items.length} ${mode}</p>
+                        <div class="relative w-[340px]">
+                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path stroke-linecap="round" d="M21 21l-4.3-4.3"></path>
+                            </svg>
+                            <input type="text" class="assigned-search w-full h-11 rounded border border-slate-300 pl-10 pr-3 text-xl text-slate-700 focus:border-primary focus:outline-none" data-mode="${mode}" placeholder="${searchPlaceholder}" value="${assignmentSearchQuery[mode]}">
+                        </div>
+                    </div>
+                    <button type="button" class="open-selector inline-flex items-center gap-2 px-5 py-2.5 border border-sky-200 rounded-md text-sky-700 text-2xl font-semibold hover:bg-sky-50 transition" data-mode="${mode}">
+                        <span class="text-3xl leading-none">+</span>
+                        <span>${addLabel}</span>
+                    </button>
+                </div>
+
+                <table class="w-full border-collapse text-xl">
+                    <thead>
+                        <tr class="border-b border-slate-300 text-left text-slate-700">
+                            <th class="px-3 py-3 font-semibold">NAME</th>
+                            <th class="px-3 py-3 font-semibold">${col2Label}</th>
+                            <th class="w-20 px-3 py-3"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${filtered.map((item) => `
+                            <tr class="border-b border-slate-200 text-slate-700">
+                                <td class="px-3 py-3">${item.col1}</td>
+                                <td class="px-3 py-3">${item.col2}</td>
+                                <td class="px-3 py-3 text-center">
+                                    <button type="button" class="remove-assignment text-3xl leading-none text-slate-500 hover:text-slate-700" data-mode="${mode}" data-id="${item.id}" aria-label="Remove ${mode.slice(0, -1)}">×</button>
+                                </td>
+                            </tr>
+                        `).join('') || '<tr><td colspan="3" class="px-3 py-6 text-center text-slate-500">No matching results</td></tr>'}
+                    </tbody>
+                </table>
+            </div>
+        `;
+    };
+
+    const renderAssignmentPanel = (mode) => {
+        if (getAssignedList(mode).length === 0) {
+            renderEmptyPanel(mode);
+            return;
+        }
+        renderAssignedPanel(mode);
+    };
+
+    const renderAssignmentPanels = () => {
+        renderAssignmentPanel('teams');
+        renderAssignmentPanel('agents');
+        updateTabCounts();
+    };
+
+    assignmentTabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+            const targetId = tab.getAttribute('data-target');
+
+            assignmentTabs.forEach((otherTab) => {
+                const isActive = otherTab === tab;
+                otherTab.setAttribute('aria-selected', String(isActive));
+                otherTab.classList.toggle('border-blue-600', isActive);
+                otherTab.classList.toggle('text-blue-700', isActive);
+                otherTab.classList.toggle('border-transparent', !isActive);
+                otherTab.classList.toggle('text-slate-600', !isActive);
+            });
+
+            assignmentPanels.forEach((panel) => {
+                panel.classList.toggle('hidden', panel.id !== targetId);
+            });
+        });
+    });
+
+    const updateSelectButtonState = () => {
+        if (!selectorConfirm) return;
+        const hasSelection = selectedRows.size > 0;
+        selectorConfirm.disabled = !hasSelection;
+        selectorConfirm.classList.toggle('cursor-not-allowed', !hasSelection);
+        selectorConfirm.classList.toggle('text-slate-400', !hasSelection);
+        selectorConfirm.classList.toggle('bg-slate-100', !hasSelection);
+        selectorConfirm.classList.toggle('border-slate-300', !hasSelection);
+        selectorConfirm.classList.toggle('text-white', hasSelection);
+        selectorConfirm.classList.toggle('bg-primary', hasSelection);
+        selectorConfirm.classList.toggle('border-primary', hasSelection);
+    };
+
+    const renderSelectorRows = () => {
+        const config = selectorConfigs[selectorMode];
+        if (!config || !selectorTableBody || !selectorSearch) return;
+
+        const query = selectorSearch.value.trim().toLowerCase();
+        const filteredRows = config.rows.filter((row) => {
+            return [row.col1, row.col2, row.col3].join(' ').toLowerCase().includes(query);
+        });
+
+        selectorTotal.textContent = `${config.rows.length} Total`;
+        selectorTableBody.innerHTML = filteredRows.map((row) => {
+            const checked = selectedRows.has(row.id) ? 'checked' : '';
+            return `
+                <tr class="border-b border-slate-200 text-slate-700">
+                    <td class="px-2 py-3"><input type="checkbox" class="selector-row h-4 w-4 rounded border-slate-300" data-row-id="${row.id}" ${checked}></td>
+                    <td class="px-2 py-3">${row.col1}</td>
+                    <td class="px-2 py-3">${row.col2}</td>
+                    <td class="px-2 py-3">${row.col3}</td>
+                </tr>
+            `;
+        }).join('');
+
+        const totalFiltered = filteredRows.length;
+        const selectedFiltered = filteredRows.filter((row) => selectedRows.has(row.id)).length;
+        selectorSelectAll.checked = totalFiltered > 0 && selectedFiltered === totalFiltered;
+        updateSelectButtonState();
+    };
+
+    const openSelector = (mode) => {
+        const config = selectorConfigs[mode];
+        if (!config || !overlay) return;
+
+        selectorMode = mode;
+        selectedRows = new Set(getAssignedList(mode).map((item) => item.id));
+
+        selectorTitle.textContent = config.title;
+        selectorSearch.value = '';
+        selectorSearch.placeholder = config.searchPlaceholder;
+        selectorCol1.textContent = config.columns[0];
+        selectorCol2.textContent = config.columns[1];
+        selectorCol3.textContent = config.columns[2];
+        selectorSelectAll.checked = false;
+
+        renderSelectorRows();
+        updateSelectButtonState();
+
+        overlay.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+        selectorSearch.focus();
+    };
+
+    const closeSelector = () => {
+        if (!overlay) return;
+        overlay.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+    };
+
+    const openFinishDialog = () => {
+        if (!finishDialogOverlay) return;
+        finishDialogOverlay.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+    };
+
+    const closeFinishDialog = () => {
+        if (!finishDialogOverlay) return;
+        finishDialogOverlay.classList.add('hidden');
+        if (overlay.classList.contains('hidden')) {
+            document.body.classList.remove('overflow-hidden');
+        }
+    };
+
+    [teamsPanel, agentsPanel].forEach((panel) => {
+        if (!panel) return;
+
+        panel.addEventListener('click', (event) => {
+            const openSelectorButton = event.target.closest('.open-selector');
+            if (openSelectorButton) {
+                const mode = openSelectorButton.getAttribute('data-mode');
+                if (mode) {
+                    openSelector(mode);
+                }
+                return;
+            }
+
+            const removeButton = event.target.closest('.remove-assignment');
+            if (removeButton) {
+                const mode = removeButton.getAttribute('data-mode');
+                const id = removeButton.getAttribute('data-id');
+                if (!mode || !id) return;
+
+                const items = getAssignedList(mode).filter((item) => item.id !== id);
+                setAssignedList(mode, items);
+                renderAssignmentPanels();
+            }
+        });
+
+        panel.addEventListener('input', (event) => {
+            const searchInput = event.target.closest('.assigned-search');
+            if (!searchInput) return;
+            const mode = searchInput.getAttribute('data-mode');
+            if (!mode) return;
+            assignmentSearchQuery[mode] = searchInput.value;
+            renderAssignmentPanel(mode);
+        });
+    });
+
+    selectorSearch.addEventListener('input', () => {
+        renderSelectorRows();
+    });
+
+    selectorTableBody.addEventListener('change', (event) => {
+        const checkbox = event.target.closest('.selector-row');
+        if (!checkbox) return;
+        const rowId = checkbox.getAttribute('data-row-id');
+        if (!rowId) return;
+
+        if (checkbox.checked) {
+            selectedRows.add(rowId);
+        } else {
+            selectedRows.delete(rowId);
+        }
+
+        renderSelectorRows();
+    });
+
+    selectorSelectAll.addEventListener('change', () => {
+        const config = selectorConfigs[selectorMode];
+        if (!config || !selectorSearch) return;
+
+        const query = selectorSearch.value.trim().toLowerCase();
+        const filteredRows = config.rows.filter((row) => {
+            return [row.col1, row.col2, row.col3].join(' ').toLowerCase().includes(query);
+        });
+
+        if (selectorSelectAll.checked) {
+            filteredRows.forEach((row) => selectedRows.add(row.id));
+        } else {
+            filteredRows.forEach((row) => selectedRows.delete(row.id));
+        }
+
+        renderSelectorRows();
+    });
+
+    selectorCancel.addEventListener('click', closeSelector);
+
+    selectorConfirm.addEventListener('click', () => {
+        const config = selectorConfigs[selectorMode];
+        if (!config) return;
+
+        const selected = config.rows.filter((row) => selectedRows.has(row.id));
+        setAssignedList(selectorMode, selected);
+        renderAssignmentPanels();
+        closeSelector();
+    });
+
+    overlay.addEventListener('click', (event) => {
+        if (event.target === overlay) {
+            closeSelector();
+        }
+    });
+
+    if (finishButton) {
+        finishButton.addEventListener('click', openFinishDialog);
+    }
+
+    if (finishDialogClose) {
+        finishDialogClose.addEventListener('click', closeFinishDialog);
+    }
+
+    if (activateLaterButton) {
+        activateLaterButton.addEventListener('click', closeFinishDialog);
+    }
+
+    if (activateNowButton) {
+        activateNowButton.addEventListener('click', closeFinishDialog);
+    }
+
+    if (finishDialogOverlay) {
+        finishDialogOverlay.addEventListener('click', (event) => {
+            if (event.target === finishDialogOverlay) {
+                closeFinishDialog();
+            }
+        });
+    }
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') return;
+        if (!overlay.classList.contains('hidden')) {
+            closeSelector();
+            return;
+        }
+        if (finishDialogOverlay && !finishDialogOverlay.classList.contains('hidden')) {
+            closeFinishDialog();
+        }
+    });
+
+    renderAssignmentPanels();
+</script>
+</body>
+</html>

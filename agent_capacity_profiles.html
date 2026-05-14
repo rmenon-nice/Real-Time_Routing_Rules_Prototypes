@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routing Center - Agent Capacity Profiles</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @custom-variant dark (&:is(.dark *));
+        @theme inline {
+          --color-background: var(--background);
+          --color-foreground: var(--foreground);
+          --color-card: var(--card);
+          --color-card-foreground: var(--card-foreground);
+          --color-popover: var(--popover);
+          --color-popover-foreground: var(--popover-foreground);
+          --color-primary: var(--primary);
+          --color-primary-foreground: var(--primary-foreground);
+          --color-secondary: var(--secondary);
+          --color-secondary-foreground: var(--secondary-foreground);
+          --color-muted: var(--muted);
+          --color-muted-foreground: var(--muted-foreground);
+          --color-accent: var(--accent);
+          --color-accent-foreground: var(--accent-foreground);
+          --color-destructive: var(--destructive);
+          --color-border: var(--border);
+          --color-input: var(--input);
+          --color-ring: var(--ring);
+          --color-chart-1: var(--chart-1);
+          --color-chart-2: var(--chart-2);
+          --color-chart-3: var(--chart-3);
+          --color-chart-4: var(--chart-4);
+          --color-chart-5: var(--chart-5);
+          --radius-sm: calc(var(--radius) - 4px);
+          --radius-md: calc(var(--radius) - 2px);
+          --radius-lg: var(--radius);
+          --radius-xl: calc(var(--radius) + 4px);
+          --font-sans: var(--font-inter);
+        }
+        :root {
+          --background: oklch(1 0 0);
+          --card: oklch(1 0 0);
+          --popover: oklch(1 0 0);
+          --secondary: oklch(1 0 0);
+          --accent: oklch(0 0 0 / 0.04);
+          --muted: oklch(0 0 0 / 0.06);
+          --primary: oklch(0.54 0.16 255);
+          --destructive: oklch(0.52 0.19 26.6);
+          --foreground: oklch(0 0 0 / 0.8);
+          --card-foreground: oklch(0 0 0 / 0.8);
+          --popover-foreground: oklch(0 0 0 / 0.8);
+          --primary-foreground: oklch(1 0 0);
+          --secondary-foreground: oklch(0 0 0 / 0.8);
+          --accent-foreground: oklch(0 0 0 / 0.8);
+          --muted-foreground: oklch(0 0 0 / 0.6);
+          --destructive-foreground: oklch(0.97 0.02 17.4);
+          --border: oklch(0 0 0 / 0.1);
+          --input: oklch(0 0 0 / 0.46);
+          --ring: oklch(0.47 0.13 254);
+          --sidebar: oklch(0.98 0 251);
+          --sidebar-accent: oklch(0 0 0 / 0.04);
+          --sidebar-primary: oklch(0.64 0.16 254 / 0.16);
+          --sidebar-foreground: oklch(0 0 0 / 0.8);
+          --sidebar-accent-foreground: oklch(0 0 0 / 0.8);
+          --sidebar-primary-foreground: oklch(1 0 0);
+          --sidebar-border: oklch(0 0 0 / 0.1);
+          --sidebar-ring: oklch(0.47 0.13 254);
+          --chart-1: oklch(0.92 0.03 252);
+          --chart-2: oklch(0.81 0.09 252);
+          --chart-3: oklch(0.66 0.15 253);
+          --chart-4: oklch(0.54 0.16 255);
+          --chart-5: oklch(0.47 0.13 254);
+          --radius: 0.625rem;
+        }
+        @layer base {
+          * { @apply border-border outline-ring/50; }
+          body { @apply bg-background text-foreground; }
+        }
+    </style>
+    <style>
+            .app-launcher-shadow { box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28); }
+
+            .nice-logo-path {
+                fill: #3694FD;
+                transition: fill 0.35s ease;
+            }
+
+            @keyframes nice-one-wink {
+                0%, 100% { transform: scaleY(1); }
+                35% { transform: scaleY(0.07); }
+                55% { transform: scaleY(1); }
+            }
+
+            #nice-eye-left.nice-winking {
+                animation: nice-one-wink 0.45s ease-out forwards;
+                transform-box: fill-box;
+                transform-origin: center;
+            }
+
+            @keyframes nice-both-blink {
+                0%, 100% { transform: scaleY(1); }
+                30% { transform: scaleY(0.07); }
+                50% { transform: scaleY(1); }
+            }
+
+            #nice-eye-left.nice-blinking,
+            #nice-eye-right.nice-blinking {
+                animation: nice-both-blink 0.4s ease-out forwards;
+                transform-box: fill-box;
+                transform-origin: center;
+            }
+
+            #nice-eye-right.nice-blinking {
+                animation-delay: 0.04s;
+            }
+    </style>
+</head>
+<body class="bg-[#F3F5F6] font-sans text-slate-800 h-screen flex flex-col overflow-hidden">
+
+    <header class="bg-[#F3F5F6] text-slate-700 h-14 flex items-center justify-between px-4 shrink-0">
+        <div class="flex items-center">
+            <button type="button" class="app-launcher-toggle inline-flex items-center gap-2 rounded-md pl-0 pr-2 py-1.5 transition hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600" aria-label="Open applications launcher">
+                <svg id="nice-icon-svg" width="28" height="28" viewBox="0 0 71 66" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink:0;"><g id="nice-eye-left"><path d="M33.7472 0C38.4351 0 42.2495 3.79044 42.2495 8.44892C42.2495 13.1074 38.4351 16.8979 33.7472 16.8979C29.0593 16.8979 25.2449 13.1074 25.2449 8.44892C25.2449 3.79044 29.0593 0 33.7472 0Z" class="nice-logo-path" id="nice-path-eye-left"/></g><g id="nice-eye-right"><path d="M8.50231 16.8979C3.81439 16.8979 0 13.1074 0 8.44892C0 3.79044 3.81439 0 8.50231 0C13.1902 0 17.0046 3.79044 17.0046 8.44892C17.0046 13.1074 13.1902 16.8979 8.50231 16.8979Z" class="nice-logo-path" id="nice-path-eye-right"/></g><path d="M22.1584 66C21.6052 66 21.1393 65.566 21.1393 64.9873V52.285C21.1393 51.7352 21.5761 51.3012 22.1002 51.2722C40.4151 50.7804 55.2068 36.0526 55.7309 17.8527C55.7309 17.3029 56.1968 16.8979 56.75 16.8979H69.5326C70.0858 16.8979 70.5517 17.3608 70.5517 17.9106C70.0276 44.1833 48.5971 65.4502 22.1875 65.9711L22.1584 66Z" class="nice-logo-path" id="nice-path-body"/></svg>
+                <span class="app-launcher-current-app font-semibold text-lg leading-none text-slate-700">Routing Center</span>
+                <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button class="text-slate-500 hover:text-slate-700 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+            <button class="text-slate-500 hover:text-slate-700 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+            </button>
+            <div class="w-8 h-8 rounded-full bg-gray-300 border border-white overflow-hidden">
+                <img src="https://i.pravatar.cc/100?img=47" alt="User Profile" class="w-full h-full object-cover">
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+        <aside class="w-64 bg-[#F3F5F6] shrink-0 flex flex-col">
+            <nav class="flex-1 py-4 space-y-1">
+                <a href="rrr_library.html" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white hover:text-slate-800 border-l-4 border-transparent transition">
+                    <img src="assets/real time routing rules.png" alt="" class="w-5 h-5 object-contain">
+                    <span class="text-sm font-medium">Real-Time Routing Rules</span>
+                </a>
+                <a href="agent_capacity_profiles.html" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white hover:text-slate-800 border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path stroke="#0EA5E9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M17 20h5V4H2v16h5m10 0v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4m10 0H7"></path></svg>
+                    <span class="text-sm font-medium">Agent Capacity Rules</span>
+                </a>
+                <a href="execution_logs_overflow.html" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white hover:text-slate-800 border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><line x1="4" y1="20" x2="20" y2="20" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/><rect x="6" y="12" width="3" height="8" rx="1" fill="#EF4444"/><rect x="11" y="9" width="3" height="11" rx="1" fill="#F59E0B"/><rect x="16" y="6" width="3" height="14" rx="1" fill="#22C55E"/></svg>
+                    <span class="text-sm font-medium">Execution Logs</span>
+                </a>
+                <a href="ps_index.html" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white hover:text-slate-800 border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    <span class="text-sm font-medium">Primary Skills</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto pt-3 pl-3 pb-3">
+            <div class="min-h-full bg-white rounded-tl-xl rounded-bl-xl border border-slate-200 overflow-y-auto p-8">
+                <div class="w-full">
+                    <div class="mb-6 flex items-start justify-between">
+                        <div>
+                            <p class="text-sm text-primary">Routing Center</p>
+                            <h1 class="text-2xl font-normal text-gray-800">Agent Capacity Profiles</h1>
+                            <p class="text-sm text-gray-500 mt-1">Define the priority of interactions for your agents. <a href="#" class="text-primary hover:underline">Learn more</a>.</p>
+                        </div>
+                        <a href="agent_capacity_create_step1.html" class="inline-flex px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 transition">
+                            New Profile
+                        </a>
+                    </div>
+
+                    <div class="bg-white border border-gray-200 rounded-lg shadow-xs overflow-hidden">
+                        <div class="px-4 py-3 border-b border-gray-200 bg-gray-50 flex items-center justify-between gap-4 flex-wrap">
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <div class="text-sm text-gray-600 font-medium">8 Total</div>
+                                <div class="relative">
+                                    <input id="search-input" type="text" placeholder="Search agent capacity profiles..." class="w-72 border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-ring focus:border-primary" />
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <select id="status-filter" class="border border-gray-300 rounded px-3 py-1.5 text-sm bg-white hover:bg-gray-50">
+                                    <option value="">All</option>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50 border-b border-gray-200 text-gray-600 uppercase text-xs tracking-wide">
+                                <tr>
+                                    <th class="px-3 py-3 w-12 text-left">
+                                        <input type="checkbox" class="h-4 w-4 border-gray-300 rounded text-primary focus:ring-ring" />
+                                    </th>
+                                    <th class="px-4 py-3 text-left">Name</th>
+                                    <th class="px-4 py-3 text-left">Description</th>
+                                    <th class="px-4 py-3 text-left">Status</th>
+                                    <th class="px-4 py-3 w-12"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-3 py-3">
+                                        <input type="checkbox" class="h-4 w-4 border-gray-300 rounded text-primary focus:ring-ring" />
+                                    </td>
+                                    <td class="px-4 py-3 font-medium text-gray-900">VIP Customer Priority</td>
+                                    <td class="px-4 py-3 text-gray-600">Route high-value customers to premium tier agents</td>
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center gap-2">
+                                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 text-right">
+                                        <button class="text-gray-400 hover:text-gray-600 transition">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-3 py-3">
+                                        <input type="checkbox" class="h-4 w-4 border-gray-300 rounded text-primary focus:ring-ring" />
+                                    </td>
+                                    <td class="px-4 py-3 font-medium text-gray-900">High Complexity Cases</td>
+                                    <td class="px-4 py-3 text-gray-600">Dedicated agents for complex technical issues requiring senior expertise</td>
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center gap-2">
+                                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 text-right">
+                                        <button class="text-gray-400 hover:text-gray-600 transition">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-3 py-3">
+                                        <input type="checkbox" class="h-4 w-4 border-gray-300 rounded text-primary focus:ring-ring" />
+                                    </td>
+                                    <td class="px-4 py-3 font-medium text-gray-900">Escalation Pool</td>
+                                    <td class="px-4 py-3 text-gray-600">Senior agents available for escalated customer service issues</td>
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center gap-2">
+                                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 text-right">
+                                        <button class="text-gray-400 hover:text-gray-600 transition">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-3 py-3">
+                                        <input type="checkbox" class="h-4 w-4 border-gray-300 rounded text-primary focus:ring-ring" />
+                                    </td>
+                                    <td class="px-4 py-3 font-medium text-gray-900">Backup Team Coverage</td>
+                                    <td class="px-4 py-3 text-gray-600">Secondary team for overflow and surge capacity management</td>
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center gap-2">
+                                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 text-right">
+                                        <button class="text-gray-400 hover:text-gray-600 transition">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-3 py-3">
+                                        <input type="checkbox" class="h-4 w-4 border-gray-300 rounded text-primary focus:ring-ring" />
+                                    </td>
+                                    <td class="px-4 py-3 font-medium text-gray-900">Training & Mentorship</td>
+                                    <td class="px-4 py-3 text-gray-600">New hires with reduced capacity under senior agent supervision</td>
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center gap-2">
+                                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 text-right">
+                                        <button class="text-gray-400 hover:text-gray-600 transition">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-3 py-3">
+                                        <input type="checkbox" class="h-4 w-4 border-gray-300 rounded text-primary focus:ring-ring" />
+                                    </td>
+                                    <td class="px-4 py-3 font-medium text-gray-900">Quality Assurance</td>
+                                    <td class="px-4 py-3 text-gray-600">Agents dedicated to QA callbacks and call evaluations</td>
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center gap-2">
+                                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 8l8 8M16 8l-8 8"/></svg>
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Inactive</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 text-right">
+                                        <button class="text-gray-400 hover:text-gray-600 transition">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-3 py-3">
+                                        <input type="checkbox" class="h-4 w-4 border-gray-300 rounded text-primary focus:ring-ring" />
+                                    </td>
+                                    <td class="px-4 py-3 font-medium text-gray-900">Outbound Campaign</td>
+                                    <td class="px-4 py-3 text-gray-600">Dedicated agents for outbound calling campaigns and follow-ups</td>
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center gap-2">
+                                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 text-right">
+                                        <button class="text-gray-400 hover:text-gray-600 transition">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-3 py-3">
+                                        <input type="checkbox" class="h-4 w-4 border-gray-300 rounded text-primary focus:ring-ring" />
+                                    </td>
+                                    <td class="px-4 py-3 font-medium text-gray-900">Chat-Only Team</td>
+                                    <td class="px-4 py-3 text-gray-600">Agents specializing in digital channels and messaging platforms</td>
+                                    <td class="px-4 py-3">
+                                        <div class="flex items-center gap-2">
+                                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 8l8 8M16 8l-8 8"/></svg>
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Inactive</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 text-right">
+                                        <button class="text-gray-400 hover:text-gray-600 transition">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="app-launcher-overlay hidden" style="position:fixed;inset:0;z-index:50;pointer-events:none;">
+        <div class="app-launcher-backdrop" style="position:absolute;inset:0;pointer-events:all;"></div>
+        <div class="app-launcher-panel app-launcher-shadow" style="position:absolute;top:3.6rem;left:0.5rem;width:20rem;max-height:calc(100vh - 4.5rem);background:#fff;color:#1e293b;overflow-y:auto;border-radius:0.75rem;border:1px solid #e2e8f0;pointer-events:all;">
+                        <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">General</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/admin.png" alt="" class="h-6 w-6 object-contain"></span><span>Admin</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/TM.png" alt="" class="h-6 w-6 object-contain"></span><span>TM</span></button>
+                <a href="supervisor_main.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/Supervisor.png" alt="" class="h-6 w-6 object-contain"></span><span>Supervisor</span></a>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/message%20center.png" alt="" class="h-6 w-6 object-contain"></span><span>Message Center</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/AI%20Studio.png" alt="" class="h-6 w-6 object-contain"></span><span>AI Studio</span></button>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Automation</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/ai%20agents.png" alt="" class="h-6 w-6 object-contain"></span><span>AI Agents</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/agent%20integrations.png" alt="" class="h-6 w-6 object-contain"></span><span>Agent Integrations</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/wfi.png" alt="" class="h-6 w-6 object-contain"></span><span>WFI</span></button>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Omnichannel Routing</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/ACD.png" alt="" class="h-6 w-6 object-contain"></span><span>ACD</span></button>
+                <a href="agent_rule_alert.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/agent.png" alt="" class="h-6 w-6 object-contain"></span><span>Agent</span></a>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/studio.png" alt="" class="h-6 w-6 object-contain"></span><span>Studio</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/studio%20authentication.png" alt="" class="h-6 w-6 object-contain"></span><span>Studio Authentication</span></button>
+                <a href="index.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/routing%20center.png" alt="" class="h-6 w-6 object-contain"></span><span>Routing Center</span></a>
+            </div>
+            <div class="sticky bottom-0 flex items-center justify-center px-4 py-3 border-t border-slate-200 bg-white">
+                <img src="assets/nice-cxone-logo.png" alt="NiCE CXone" class="h-10 w-full object-contain">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (() => {
+            const toggle = document.querySelector('.app-launcher-toggle');
+            const overlay = document.querySelector('.app-launcher-overlay');
+            const panel = document.querySelector('.app-launcher-panel');
+            const backdrop = document.querySelector('.app-launcher-backdrop');
+            if (toggle && overlay && panel && backdrop) {
+                const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+                const sidebarPageGroups = {
+                    'rrr_library.html': ['rrr_library.html', 'rrr_rulecreate.html', 'step2.html', 'step2_overflow.html', 'step3.html', 'step4.html', 'step5.html'],
+                    'execution_logs_overflow.html': ['execution_logs_overflow.html'],
+                    'ps_index.html': ['ps_index.html', 'ps_step2.html', 'ps_audit_log.html'],
+                    'agent_capacity_profiles.html': ['agent_capacity_profiles.html', 'agent_capacity_create_step1.html', 'agent_capacity_create_step2.html', 'agent_capacity_create_step3.html', 'Agent_capacity_update.html']
+                };
+
+                document.querySelectorAll('aside nav a[href]').forEach((link) => {
+                    const linkHref = link.getAttribute('href');
+                    if (!linkHref || linkHref === '#') return;
+                    const linkTarget = new URL(linkHref, window.location.href).pathname.split('/').pop();
+                    const linkedPages = sidebarPageGroups[linkTarget] || [linkTarget];
+                    if (!linkedPages.includes(currentPage)) return;
+                    link.classList.remove('text-gray-600', 'border-transparent');
+                    link.classList.add('bg-sky-50', 'text-sky-800', 'border-sky-500', 'font-semibold');
+                    link.setAttribute('aria-current', 'page');
+                    const icon = link.querySelector('svg');
+                    if (icon) {
+                        icon.classList.remove('text-gray-400');
+                        icon.classList.add('text-sky-600');
+                    }
+                });
+
+                overlay.querySelectorAll('a[href]').forEach((link) => {
+                    const linkTarget = new URL(link.getAttribute('href'), window.location.href).pathname.split('/').pop();
+                    if (linkTarget === currentPage) {
+                        link.classList.remove('hover:bg-gray-50');
+                        link.classList.add('bg-sky-50', 'text-sky-900', 'font-semibold', 'ring-1', 'ring-sky-200');
+                        link.setAttribute('aria-current', 'page');
+                    }
+                });
+
+                const currentAppLink = overlay.querySelector('a[aria-current="page"] span:last-child');
+                const currentAppLabel = overlay.querySelector('.app-launcher-current-app');
+                if (currentAppLink && currentAppLabel) currentAppLabel.textContent = currentAppLink.textContent.trim();
+
+                const closeOverlay = () => {
+                    overlay.classList.add('hidden');
+                    toggle.setAttribute('aria-expanded', 'false');
+                };
+                const openOverlay = () => {
+                    overlay.classList.remove('hidden');
+                    toggle.setAttribute('aria-expanded', 'true');
+                };
+
+                toggle.setAttribute('aria-haspopup', 'true');
+                toggle.setAttribute('aria-expanded', 'false');
+                toggle.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    overlay.classList.contains('hidden') ? openOverlay() : closeOverlay();
+                });
+                backdrop.addEventListener('click', closeOverlay);
+                document.addEventListener('keydown', (event) => {
+                    if (event.key === 'Escape') closeOverlay();
+                });
+            }
+
+            const iconToggle = document.querySelector('.app-launcher-toggle');
+            const eyeLeft = document.getElementById('nice-path-eye-left');
+            const eyeRight = document.getElementById('nice-path-eye-right');
+            const body = document.getElementById('nice-path-body');
+            const eyeLeftG = document.getElementById('nice-eye-left');
+            const eyeRightG = document.getElementById('nice-eye-right');
+            if (iconToggle && eyeLeft && eyeRight && body && eyeLeftG && eyeRightG) {
+                const baseColor = '#3694FD';
+                const stages = [
+                    { el: [baseColor, '#6366F1', '#6366F1'], blink: 'both' },
+                    { el: [baseColor, '#6366F1', '#6366F1'], blink: false },
+                    { el: [baseColor, '#6366F1', '#6366F1'], blink: 'both' },
+                    { el: ['#A855F7', '#A855F7', '#A855F7'], wink: true },
+                    { el: ['#A855F7', '#A855F7', '#A855F7'], blink: 'both' },
+                    { el: ['#EC4899', '#F472B6', '#EC4899'], stagger: true },
+                    { el: ['#F59E0B', '#F59E0B', '#F59E0B'] },
+                    { el: ['#6366F1', '#10B981', '#F59E0B'] },
+                ];
+                let stage = 0;
+
+                const triggerBlink = () => {
+                    [eyeLeftG, eyeRightG].forEach((g) => {
+                        g.classList.remove('nice-blinking');
+                        void g.offsetWidth;
+                        g.classList.add('nice-blinking');
+                    });
+                };
+
+                const setPaths = (colors, stagger) => {
+                    [eyeLeft, eyeRight, body].forEach((path, i) => {
+                        const delay = stagger ? i * 80 : 0;
+                        setTimeout(() => { path.style.fill = colors[i]; }, delay);
+                    });
+                };
+
+                const resetPaths = () => {
+                    [eyeLeft, eyeRight, body].forEach((path) => { path.style.fill = baseColor; });
+                    eyeLeftG.classList.remove('nice-winking', 'nice-blinking');
+                    eyeRightG.classList.remove('nice-blinking');
+                };
+
+                iconToggle.addEventListener('mouseenter', () => {
+                    const current = stages[stage];
+                    setPaths(current.el, Boolean(current.stagger));
+                    if (current.wink) {
+                        eyeLeftG.classList.remove('nice-winking');
+                        void eyeLeftG.offsetWidth;
+                        eyeLeftG.classList.add('nice-winking');
+                    } else if (current.blink === 'both') {
+                        triggerBlink();
+                    }
+                    stage = (stage + 1) % stages.length;
+                });
+
+                iconToggle.addEventListener('mouseleave', resetPaths);
+            }
+
+            const rowButtons = document.querySelectorAll('tbody tr td:last-child button');
+            const menu = document.createElement('div');
+            menu.id = 'profile-kebab-menu';
+            menu.className = 'hidden fixed z-50 min-w-[180px] rounded-md border border-slate-200 bg-white py-1 shadow-lg';
+            document.body.appendChild(menu);
+
+            const commonItems = ['Edit Profile', 'Edit Conditions', 'Edit Assignments', 'Delete', 'Audit History'];
+            let activeButton = null;
+
+            const setRowStatus = (row, nextStatus) => {
+                const statusContainer = row ? row.querySelector('td:nth-child(4) .flex.items-center.gap-2') : null;
+                if (!statusContainer) return;
+
+                if (nextStatus === 'active') {
+                    statusContainer.innerHTML = `
+                        <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>
+                    `;
+                    return;
+                }
+
+                statusContainer.innerHTML = `
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 8l8 8M16 8l-8 8"/></svg>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Inactive</span>
+                `;
+            };
+
+            const closeMenu = () => {
+                menu.classList.add('hidden');
+                menu.innerHTML = '';
+                activeButton = null;
+            };
+
+            const openMenu = (button, items) => {
+                menu.innerHTML = '';
+
+                items.forEach((item) => {
+                    const actionBtn = document.createElement('button');
+                    actionBtn.type = 'button';
+                    actionBtn.className = 'block w-full px-3 py-1.5 text-left text-sm text-slate-700 hover:bg-slate-50';
+                    actionBtn.textContent = item;
+                    actionBtn.dataset.action = item.toLowerCase().replace(/\s+/g, '-');
+                    menu.appendChild(actionBtn);
+                });
+
+                const rect = button.getBoundingClientRect();
+                const menuWidth = 180;
+                const menuHeight = items.length * 34 + 8;
+                const left = Math.min(rect.right - menuWidth, window.innerWidth - menuWidth - 8);
+                const top = Math.min(rect.bottom + 6, window.innerHeight - menuHeight - 8);
+
+                menu.style.left = `${Math.max(8, left)}px`;
+                menu.style.top = `${Math.max(8, top)}px`;
+                menu.classList.remove('hidden');
+                activeButton = button;
+            };
+
+            rowButtons.forEach((button) => {
+                button.type = 'button';
+                button.classList.add('profile-kebab-btn');
+                button.setAttribute('aria-label', 'Open profile actions');
+
+                button.addEventListener('click', (event) => {
+                    event.stopPropagation();
+
+                    if (!button.closest('tr')) return;
+                    const row = button.closest('tr');
+                    const statusBadge = row.querySelector('td:nth-child(4) span');
+                    const isInactive = statusBadge && statusBadge.textContent.trim().toLowerCase() === 'inactive';
+                    const firstAction = isInactive ? 'Activate' : 'Deactivate';
+                    const items = [firstAction, ...commonItems];
+
+                    if (!menu.classList.contains('hidden') && activeButton === button) {
+                        closeMenu();
+                        return;
+                    }
+
+                    openMenu(button, items);
+                });
+            });
+
+            menu.addEventListener('click', (event) => {
+                const actionButton = event.target.closest('button[data-action]');
+                if (!actionButton || !activeButton) return;
+
+                const row = activeButton.closest('tr');
+                const profileNameCell = row ? row.querySelector('td:nth-child(2)') : null;
+                const profileName = profileNameCell ? profileNameCell.textContent.trim() : '';
+
+                console.log('Profile action selected:', {
+                    action: actionButton.dataset.action,
+                    label: actionButton.textContent,
+                    profileName,
+                });
+
+                if (actionButton.dataset.action === 'activate') {
+                    setRowStatus(row, 'active');
+                }
+
+                if (actionButton.dataset.action === 'deactivate') {
+                    setRowStatus(row, 'inactive');
+                }
+
+                const tabActionMap = {
+                    'edit-profile': 'profile',
+                    'edit-conditions': 'conditions',
+                    'edit-assignments': 'assignments',
+                    'audit-history': 'audit-history',
+                };
+
+                const tabName = tabActionMap[actionButton.dataset.action];
+                if (tabName) {
+                    window.location.href = `Agent_capacity_update.html?tab=${tabName}`;
+                    return;
+                }
+
+                closeMenu();
+            });
+
+            document.addEventListener('click', (event) => {
+                if (menu.classList.contains('hidden')) return;
+                if (menu.contains(event.target)) return;
+                if (event.target.closest('.profile-kebab-btn')) return;
+                closeMenu();
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    closeMenu();
+                }
+            });
+        })();
+    </script>
+
+</body>
+</html>

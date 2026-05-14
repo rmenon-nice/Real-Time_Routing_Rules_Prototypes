@@ -404,19 +404,19 @@
         <aside class="w-64 bg-[#F3F5F6] shrink-0 flex flex-col">
             <nav class="flex-1 py-4 space-y-1">
                 <a href="rrr_library.html" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white hover:text-slate-800 border-l-4 border-transparent transition">
-                    <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <img src="assets/real time routing rules.png" alt="" class="w-5 h-5 object-contain">
                     <span class="text-sm font-medium">Real-Time Routing Rules</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white hover:text-slate-800 border-l-4 border-transparent transition">
-                    <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5V4H2v16h5m10 0v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4m10 0H7"></path></svg>
+                <a href="agent_capacity_profiles.html" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white hover:text-slate-800 border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path stroke="#0EA5E9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M17 20h5V4H2v16h5m10 0v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4m10 0H7"></path></svg>
                     <span class="text-sm font-medium">Agent Capacity Rules</span>
                 </a>
                 <a href="execution_logs_overflow.html" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white hover:text-slate-800 border-l-4 border-transparent transition">
-                    <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6m4 6V7m4 10V4M5 20h14"></path></svg>
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><line x1="4" y1="20" x2="20" y2="20" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/><rect x="6" y="12" width="3" height="8" rx="1" fill="#EF4444"/><rect x="11" y="9" width="3" height="11" rx="1" fill="#F59E0B"/><rect x="16" y="6" width="3" height="14" rx="1" fill="#22C55E"/></svg>
                     <span class="text-sm font-medium">Execution Logs</span>
                 </a>
                 <a href="ps_index.html" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white hover:text-slate-800 border-l-4 border-transparent transition">
-                    <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                     <span class="text-sm font-medium">Primary Skills</span>
                 </a>
             </nav>
@@ -437,7 +437,7 @@
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                                     <span style="font-size:0.68rem;font-weight:700;color:#475569;letter-spacing:0.02em;">Past Sessions</span>
                                 </div>
-                                <div style="flex:1;overflow-y:auto;padding:0.4rem 0.35rem;display:flex;flex-direction:column;gap:0.25rem;">
+                                <div id="ai-history-list" style="flex:1;overflow-y:auto;padding:0.4rem 0.35rem;display:flex;flex-direction:column;gap:0.25rem;">
                                     <div class="ai-history-item ai-history-active">
                                         <span class="ai-history-title">Claims Intake — Live Analysis</span>
                                         <span class="ai-history-meta">Today, 9:41 AM · Active</span>
@@ -496,7 +496,7 @@
                             <span class="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-700">7 items</span>
                         </div>
                         <ul class="space-y-2 flex-1 overflow-y-auto pr-1">
-                            <li class="flex items-start gap-2.5 rounded-lg border border-red-100 bg-red-50 px-3 py-2">
+                            <li id="claims-intake-action-trigger" class="flex items-start gap-2.5 rounded-lg border border-red-100 bg-red-50 px-3 py-2 cursor-pointer hover:bg-red-100 transition" role="button" tabindex="0" aria-label="Open Claims Intake story">
                                 <span class="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-red-500"></span>
                                 <div>
                                     <p class="text-xs font-medium text-gray-800">Claims Intake SLA critically low</p>
@@ -508,6 +508,13 @@
                                 <div>
                                     <p class="text-xs font-medium text-gray-800">Claims Intake abandon rate exceeding threshold</p>
                                     <p class="text-[11px] text-gray-500 mt-0.5">20.3% actual vs 10% target — consider priority queue routing rule.</p>
+                                </div>
+                            </li>
+                            <li id="agent-capacity-action-trigger" class="flex items-start gap-2.5 rounded-lg border border-red-100 bg-red-50 px-3 py-2 cursor-pointer hover:bg-red-100 transition" role="button" tabindex="0" aria-label="Open Agent Capacity story">
+                                <span class="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-red-500"></span>
+                                <div>
+                                    <p class="text-[11px] leading-tight font-medium text-gray-800">Agent Capacity Alert - Create Agent Capacity Rule</p>
+                                    <p class="text-[10px] leading-tight text-gray-500 mt-0.5">25 contacts are currently queued for Voice channel Skill VIP Customer<br>50 Agents are currently channel locked in Digital</p>
                                 </div>
                             </li>
                             <li class="flex items-start gap-2.5 rounded-lg border border-orange-100 bg-orange-50 px-3 py-2">
@@ -522,13 +529,6 @@
                                 <div>
                                     <p class="text-xs font-medium text-gray-800">Billing L1 SLA drifting below target</p>
                                     <p class="text-[11px] text-gray-500 mt-0.5">82% actual vs 91% target — review active routing rules for skill.</p>
-                                </div>
-                            </li>
-                            <li class="flex items-start gap-2.5 rounded-lg border border-orange-100 bg-orange-50 px-3 py-2">
-                                <span class="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-orange-400"></span>
-                                <div>
-                                    <p class="text-xs font-medium text-gray-800">3 routing rules inactive for 7+ days</p>
-                                    <p class="text-[11px] text-gray-500 mt-0.5">Stale rules may cause unintended routing gaps — audit or archive.</p>
                                 </div>
                             </li>
                             <li class="flex items-start gap-2.5 rounded-lg border border-yellow-100 bg-yellow-50 px-3 py-2">
@@ -622,39 +622,30 @@
     <div class="app-launcher-overlay hidden" style="position:fixed;inset:0;z-index:50;pointer-events:none;">
         <div class="app-launcher-backdrop" style="position:absolute;inset:0;pointer-events:all;"></div>
         <div class="app-launcher-panel app-launcher-shadow" style="position:absolute;top:3.6rem;left:0.5rem;width:20rem;max-height:calc(100vh - 4.5rem);background:#fff;color:#1e293b;overflow-y:auto;border-radius:0.75rem;border:1px solid #e2e8f0;pointer-events:all;">
-            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">General</div>
+                        <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">General</div>
             <div class="space-y-1 px-2 pb-2">
-                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-sky-100 text-sky-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v6c0 5-3.4 7.8-8 8-4.6-.2-8-3-8-8V7l8-4z"></path><path d="M9 12h6"></path><path d="M12 9v6"></path></svg></span><span>Admin</span></button>
-                <a href="supervisor_main.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 text-amber-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path><path d="M8 8l8 8"></path><path d="M16 8l-8 8"></path></svg></span><span>Supervisor</span></a>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/admin.png" alt="" class="h-6 w-6 object-contain"></span><span>Admin</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/TM.png" alt="" class="h-6 w-6 object-contain"></span><span>TM</span></button>
+                <a href="supervisor_main.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/Supervisor.png" alt="" class="h-6 w-6 object-contain"></span><span>Supervisor</span></a>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/message%20center.png" alt="" class="h-6 w-6 object-contain"></span><span>Message Center</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/AI%20Studio.png" alt="" class="h-6 w-6 object-contain"></span><span>AI Studio</span></button>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Automation</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/ai%20agents.png" alt="" class="h-6 w-6 object-contain"></span><span>AI Agents</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/agent%20integrations.png" alt="" class="h-6 w-6 object-contain"></span><span>Agent Integrations</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/wfi.png" alt="" class="h-6 w-6 object-contain"></span><span>WFI</span></button>
             </div>
             <div class="mx-3 border-t border-gray-200"></div>
             <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Omnichannel Routing</div>
             <div class="space-y-1 px-2 pb-2">
-                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="16" height="12" rx="2"></rect><path d="M4 10h16"></path></svg></span><span>ACD</span></button>
-                <a href="agent_rule_alert.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"></circle><path d="M5 19c1.8-3 4.1-4.5 7-4.5s5.2 1.5 7 4.5"></path></svg></span><span>Agent</span></a>
-                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"></path><path d="M4 12h10"></path><path d="M4 17h16"></path></svg></span><span>Studio</span></button>
-                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-600"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 4v5c0 4.2-2.8 6.8-7 7.8-4.2-1-7-3.6-7-7.8V7l7-4z"></path><path d="M9.5 12l2 2 3-3"></path></svg></span><span>Studio Authentication</span></button>
-                <a href="index.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-100 text-cyan-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"></path><path d="M12 3v18"></path></svg></span><span>Routing Center</span></a>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/ACD.png" alt="" class="h-6 w-6 object-contain"></span><span>ACD</span></button>
+                <a href="agent_rule_alert.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/agent.png" alt="" class="h-6 w-6 object-contain"></span><span>Agent</span></a>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/studio.png" alt="" class="h-6 w-6 object-contain"></span><span>Studio</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/studio%20authentication.png" alt="" class="h-6 w-6 object-contain"></span><span>Studio Authentication</span></button>
+                <a href="index.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/routing%20center.png" alt="" class="h-6 w-6 object-contain"></span><span>Routing Center</span></a>
             </div>
-            <div class="mx-3 border-t border-gray-200"></div>
-            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Workforce Engagement</div>
-            <div class="space-y-1 px-2 pb-2">
-                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-100 text-cyan-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M8 10h8"></path><path d="M8 14h6"></path></svg></span><span>Interactions Hub</span></button>
-                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-violet-100 text-violet-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"></circle><path d="M12 8v4l3 2"></path></svg></span><span>My Zone</span></button>
-            </div>
-            <div class="mx-3 border-t border-gray-200"></div>
-            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Data &amp; Analytics</div>
-            <div class="space-y-1 px-2 pb-2">
-                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-rose-100 text-rose-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16l4-4 3 3 6-6"></path><path d="M5 19h14"></path></svg></span><span>Reporting</span></button>
-                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-100 text-indigo-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18h16"></path><path d="M7 15V9"></path><path d="M12 15V6"></path><path d="M17 15v-3"></path></svg></span><span>Metrics</span></button>
-            </div>
-            <div class="mx-3 border-t border-gray-200"></div>
-            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Others</div>
-            <div class="space-y-1 px-2 pb-2">
-                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-yellow-100 text-yellow-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 9l9 6 9-6"></path></svg></span><span>Digital</span></button>
-                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-orange-700"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="12" r="3"></circle><circle cx="17" cy="12" r="3"></circle><path d="M10 12h4"></path></svg></span><span>Connections Hub</span></button>
-            </div>
-            <!-- NiCE CXone branding footer -->
             <div class="sticky bottom-0 flex items-center justify-center px-4 py-3 border-t border-slate-200 bg-white">
                 <img src="assets/nice-cxone-logo.png" alt="NiCE CXone" class="h-10 w-full object-contain">
             </div>
@@ -1577,6 +1568,17 @@
         const log = document.getElementById('ai-chat-log');
         const inputEl = document.getElementById('ai-chat-input');
         const sendBtn = document.getElementById('ai-chat-send');
+        const inputRow = document.getElementById('ai-chat-input-row');
+        const historyPane = document.getElementById('ai-history-pane');
+        const historyList = document.getElementById('ai-history-list');
+        const headerTitle = document.querySelector('.ai-inline-header div span');
+        const headerSubtitle = document.querySelector('.ai-inline-header div small');
+        const claimsIntakeStoryTrigger = document.getElementById('claims-intake-action-trigger');
+        const actionStoryTrigger = document.getElementById('agent-capacity-action-trigger');
+        const defaultHistoryMarkup = historyList ? historyList.innerHTML : '';
+
+        let flowRunId = 0;
+        let isSpotlightRunning = false;
 
         // ── conversation script ──────────────────────────────────
         const FLOW = [
@@ -1704,6 +1706,41 @@
                     <a href="rrr_library.html" style="color:#4f46e5;font-weight:700;text-decoration:underline;">Open Real-Time Routing Rules →</a>`,
                 replies: []
             },
+            {
+                id: 'ac_intro',
+                role: 'ai',
+                bubble: `You're looking at a capacity mismatch that routing rules alone cannot fully solve.<br><br>
+                    <span class="tag tag-red">⚠ Capacity Risk</span> <b>VIP Customer Voice</b> has <b>25 queued contacts</b>, while <b>50 agents are locked in Digital</b> and unavailable for Voice demand.<br><br>
+                    Agent Capacity Rules let you rebalance channel availability dynamically so priority demand gets capacity when it spikes.<br><br>
+                    Want to see the recommended rule approach?`,
+                replies: [
+                    { label: 'Show recommended Agent Capacity approach', next: 'ac_recommendation', style: 'warn' }
+                ]
+            },
+            {
+                id: 'ac_recommendation',
+                role: 'ai',
+                bubble: `Recommended action: create an <b>Agent Capacity Rule</b> for <b>VIP Customer</b> that prioritizes Voice when queue pressure rises.<br><br>
+                    <table>
+                        <tr><th>Signal</th><th>Current</th><th>Recommended</th></tr>
+                        <tr><td>Queued VIP Voice contacts</td><td class="before">25</td><td class="after">Reduce via priority routing</td></tr>
+                        <tr><td>Agents channel-locked in Digital</td><td class="before">50</td><td class="after">Release controlled capacity to Voice</td></tr>
+                        <tr><td>Rule objective</td><td class="before">Static channel distribution</td><td class="after">Dynamic, demand-aware capacity</td></tr>
+                    </table>
+                    <br>This gives operations a safer, guided way to shift availability without breaking active routing guardrails.<br><br>
+                    Ready to create the rule now?`,
+                replies: [
+                    { label: 'Create Agent Capacity Rule', next: 'ac_open', style: 'success', url: 'agent_capacity_create_step1.html' }
+                ]
+            },
+            {
+                id: 'ac_open',
+                role: 'ai',
+                bubble: `Opening Agent Capacity Rule creation.<br><br>
+                    You can define profile setup, conditions, and assignments in the guided 3-step flow.<br><br>
+                    <a href="agent_capacity_create_step1.html" style="color:#4f46e5;font-weight:700;text-decoration:underline;">Open Agent Capacity Rules →</a>`,
+                replies: []
+            },
         ];
 
         const findStep = (id) => FLOW.find(s => s.id === id);
@@ -1738,6 +1775,63 @@
             if (el) el.remove();
         };
 
+        const resetAIPanelForStory = () => {
+            if (historyPane) {
+                historyPane.style.display = 'flex';
+            }
+            if (historyList) {
+                historyList.innerHTML = `
+                    <div class="ai-history-item ai-history-active">
+                        <span class="ai-history-title">Agent Capacity Alert - Live</span>
+                        <span class="ai-history-meta">Today, 10:12 AM · Active</span>
+                    </div>
+                    <div class="ai-history-item">
+                        <span class="ai-history-title">VIP Voice Capacity Spike</span>
+                        <span class="ai-history-meta">Today, 9:48 AM · Suggested action</span>
+                    </div>
+                    <div class="ai-history-item">
+                        <span class="ai-history-title">Digital Channel Lock Review</span>
+                        <span class="ai-history-meta">May 12 · Capacity rebalancing</span>
+                    </div>
+                    <div class="ai-history-item">
+                        <span class="ai-history-title">Agent Assignment Pressure Check</span>
+                        <span class="ai-history-meta">May 11 · 2 recommendations</span>
+                    </div>
+                    <div class="ai-history-item">
+                        <span class="ai-history-title">Voice Coverage Health Summary</span>
+                        <span class="ai-history-meta">May 10 · Read-only</span>
+                    </div>
+                `;
+            }
+            if (inputRow) {
+                inputRow.style.display = 'none';
+            }
+            if (headerTitle) {
+                headerTitle.textContent = 'Agent Capacity Advisor';
+            }
+            if (headerSubtitle) {
+                headerSubtitle.textContent = 'Guided by CXone Intelligence';
+            }
+        };
+
+        const resetAIPanelForDefault = () => {
+            if (historyPane) {
+                historyPane.style.display = 'flex';
+            }
+            if (historyList) {
+                historyList.innerHTML = defaultHistoryMarkup;
+            }
+            if (inputRow) {
+                inputRow.style.display = 'flex';
+            }
+            if (headerTitle) {
+                headerTitle.textContent = 'Routing AI';
+            }
+            if (headerSubtitle) {
+                headerSubtitle.textContent = 'Powered by CXone Intelligence';
+            }
+        };
+
         const disableAllReplies = () => {
             log.querySelectorAll('.ai-qr-btn').forEach(b => b.classList.add('disabled'));
         };
@@ -1745,12 +1839,15 @@
         const renderStep = (stepId, delay = 0) => {
             const step = findStep(stepId);
             if (!step) return;
+            const runId = flowRunId;
 
             // show typing indicator after delay
             setTimeout(() => {
+                if (runId !== flowRunId) return;
                 const typing = addTypingIndicator();
 
                 setTimeout(() => {
+                    if (runId !== flowRunId) return;
                     removeTypingIndicator();
 
                     const wrap = document.createElement('div');
@@ -1788,7 +1885,153 @@
             }, delay);
         };
 
+        const startAgentCapacityStory = () => {
+            flowRunId += 1;
+            resetAIPanelForStory();
+            log.innerHTML = '';
+            addUserBubble('Agent Capacity Alert - Create Agent Capacity Rule');
+            renderStep('ac_intro', 120);
+        };
+
+        const startDefaultRoutingStory = () => {
+            flowRunId += 1;
+            resetAIPanelForDefault();
+            log.innerHTML = '';
+            renderStep('greeting', 120);
+        };
+
+        const runAgentCapacitySpotlightSequence = () => {
+            if (!actionStoryTrigger || isSpotlightRunning) {
+                return;
+            }
+
+            isSpotlightRunning = true;
+
+            const rect = actionStoryTrigger.getBoundingClientRect();
+            const overlay = document.createElement('div');
+            overlay.style.position = 'fixed';
+            overlay.style.inset = '0';
+            overlay.style.zIndex = '80';
+            overlay.style.background = 'rgba(15, 23, 42, 0.24)';
+            overlay.style.backdropFilter = 'blur(6px)';
+            overlay.style.webkitBackdropFilter = 'blur(6px)';
+            overlay.style.pointerEvents = 'none';
+
+            const clone = actionStoryTrigger.cloneNode(true);
+            clone.removeAttribute('id');
+            clone.style.position = 'fixed';
+            clone.style.margin = '0';
+            clone.style.left = `${rect.left}px`;
+            clone.style.top = `${rect.top}px`;
+            clone.style.width = `${rect.width}px`;
+            clone.style.height = `${rect.height}px`;
+            clone.style.zIndex = '81';
+            clone.style.pointerEvents = 'none';
+            clone.style.transition = 'all 650ms cubic-bezier(0.22, 1, 0.36, 1)';
+            clone.style.boxShadow = '0 10px 28px rgba(15, 23, 42, 0.24)';
+            clone.style.transformOrigin = 'center center';
+
+            document.body.appendChild(overlay);
+            document.body.appendChild(clone);
+
+            const centeredWidth = Math.min(Math.max(rect.width * 1.75, 560), window.innerWidth - 64);
+            const centeredLeft = (window.innerWidth - centeredWidth) / 2;
+            const centeredTop = Math.max((window.innerHeight - rect.height * 1.85) / 2, 90);
+
+            requestAnimationFrame(() => {
+                clone.style.left = `${centeredLeft}px`;
+                clone.style.top = `${centeredTop}px`;
+                clone.style.width = `${centeredWidth}px`;
+                clone.style.transform = 'scale(1.08)';
+                clone.style.boxShadow = '0 24px 56px rgba(15, 23, 42, 0.34)';
+            });
+
+            const holdMs = 10000;
+            const settleMs = 700;
+
+            window.setTimeout(() => {
+                clone.style.left = `${rect.left}px`;
+                clone.style.top = `${rect.top}px`;
+                clone.style.width = `${rect.width}px`;
+                clone.style.transform = 'scale(1)';
+                clone.style.boxShadow = '0 10px 28px rgba(15, 23, 42, 0.2)';
+
+                window.setTimeout(() => {
+                    clone.remove();
+                    overlay.remove();
+                    isSpotlightRunning = false;
+                    startAgentCapacityStory();
+                }, settleMs);
+            }, holdMs);
+        };
+
+        const runClaimsIntakeSpotlightSequence = () => {
+            if (!claimsIntakeStoryTrigger || isSpotlightRunning) {
+                return;
+            }
+
+            isSpotlightRunning = true;
+
+            const rect = claimsIntakeStoryTrigger.getBoundingClientRect();
+            const overlay = document.createElement('div');
+            overlay.style.position = 'fixed';
+            overlay.style.inset = '0';
+            overlay.style.zIndex = '80';
+            overlay.style.background = 'rgba(15, 23, 42, 0.24)';
+            overlay.style.backdropFilter = 'blur(6px)';
+            overlay.style.webkitBackdropFilter = 'blur(6px)';
+            overlay.style.pointerEvents = 'none';
+
+            const clone = claimsIntakeStoryTrigger.cloneNode(true);
+            clone.removeAttribute('id');
+            clone.style.position = 'fixed';
+            clone.style.margin = '0';
+            clone.style.left = `${rect.left}px`;
+            clone.style.top = `${rect.top}px`;
+            clone.style.width = `${rect.width}px`;
+            clone.style.height = `${rect.height}px`;
+            clone.style.zIndex = '81';
+            clone.style.pointerEvents = 'none';
+            clone.style.transition = 'all 650ms cubic-bezier(0.22, 1, 0.36, 1)';
+            clone.style.boxShadow = '0 10px 28px rgba(15, 23, 42, 0.24)';
+            clone.style.transformOrigin = 'center center';
+
+            document.body.appendChild(overlay);
+            document.body.appendChild(clone);
+
+            const centeredWidth = Math.min(Math.max(rect.width * 1.75, 560), window.innerWidth - 64);
+            const centeredLeft = (window.innerWidth - centeredWidth) / 2;
+            const centeredTop = Math.max((window.innerHeight - rect.height * 1.85) / 2, 90);
+
+            requestAnimationFrame(() => {
+                clone.style.left = `${centeredLeft}px`;
+                clone.style.top = `${centeredTop}px`;
+                clone.style.width = `${centeredWidth}px`;
+                clone.style.transform = 'scale(1.08)';
+                clone.style.boxShadow = '0 24px 56px rgba(15, 23, 42, 0.34)';
+            });
+
+            const holdMs = 10000;
+            const settleMs = 700;
+
+            window.setTimeout(() => {
+                clone.style.left = `${rect.left}px`;
+                clone.style.top = `${rect.top}px`;
+                clone.style.width = `${rect.width}px`;
+                clone.style.transform = 'scale(1)';
+                clone.style.boxShadow = '0 10px 28px rgba(15, 23, 42, 0.2)';
+
+                window.setTimeout(() => {
+                    clone.remove();
+                    overlay.remove();
+                    isSpotlightRunning = false;
+                    startDefaultRoutingStory();
+                }, settleMs);
+            }, holdMs);
+        };
+
         // ── auto-start on page load ───────────────────────────
+        flowRunId += 1;
         renderStep('greeting', 600);
 
         // ── manual input (non-scripted) ──────────────────────────
@@ -1812,6 +2055,26 @@
 
         sendBtn.addEventListener('click', handleManualSend);
         inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') handleManualSend(); });
+
+        if (actionStoryTrigger) {
+            actionStoryTrigger.addEventListener('click', runAgentCapacitySpotlightSequence);
+            actionStoryTrigger.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    runAgentCapacitySpotlightSequence();
+                }
+            });
+        }
+
+        if (claimsIntakeStoryTrigger) {
+            claimsIntakeStoryTrigger.addEventListener('click', runClaimsIntakeSpotlightSequence);
+            claimsIntakeStoryTrigger.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    runClaimsIntakeSpotlightSequence();
+                }
+            });
+        }
     })();
     </script>
 </body>

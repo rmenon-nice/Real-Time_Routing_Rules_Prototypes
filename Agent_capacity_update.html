@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routing Center - Agent Capacity Update</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @custom-variant dark (&:is(.dark *));
+        @theme inline { --color-primary: var(--primary); }
+        :root { --primary: oklch(0.54 0.16 255); }
+    </style>
+    <style>
+        .app-launcher-shadow { box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28); }
+
+        .nice-logo-path {
+            fill: #3694FD;
+            transition: fill 0.35s ease;
+        }
+
+        @keyframes nice-one-wink {
+            0%, 100% { transform: scaleY(1); }
+            35% { transform: scaleY(0.07); }
+            55% { transform: scaleY(1); }
+        }
+
+        #nice-eye-left.nice-winking {
+            animation: nice-one-wink 0.45s ease-out forwards;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        @keyframes nice-both-blink {
+            0%, 100% { transform: scaleY(1); }
+            30% { transform: scaleY(0.07); }
+            50% { transform: scaleY(1); }
+        }
+
+        #nice-eye-left.nice-blinking,
+        #nice-eye-right.nice-blinking {
+            animation: nice-both-blink 0.4s ease-out forwards;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        #nice-eye-right.nice-blinking {
+            animation-delay: 0.04s;
+        }
+    </style>
+</head>
+<body class="bg-[#F3F5F6] font-sans text-slate-800 h-screen flex flex-col overflow-hidden">
+    <header class="bg-[#F3F5F6] text-slate-700 h-14 flex items-center justify-between px-4 shrink-0">
+        <div class="flex items-center">
+            <button type="button" class="app-launcher-toggle inline-flex items-center gap-2 rounded-md pl-0 pr-2 py-1.5 transition hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600" aria-label="Open applications launcher">
+                <svg id="nice-icon-svg" width="28" height="28" viewBox="0 0 71 66" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink:0;"><g id="nice-eye-left"><path d="M33.7472 0C38.4351 0 42.2495 3.79044 42.2495 8.44892C42.2495 13.1074 38.4351 16.8979 33.7472 16.8979C29.0593 16.8979 25.2449 13.1074 25.2449 8.44892C25.2449 3.79044 29.0593 0 33.7472 0Z" class="nice-logo-path" id="nice-path-eye-left"/></g><g id="nice-eye-right"><path d="M8.50231 16.8979C3.81439 16.8979 0 13.1074 0 8.44892C0 3.79044 3.81439 0 8.50231 0C13.1902 0 17.0046 3.79044 17.0046 8.44892C17.0046 13.1074 13.1902 16.8979 8.50231 16.8979Z" class="nice-logo-path" id="nice-path-eye-right"/></g><path d="M22.1584 66C21.6052 66 21.1393 65.566 21.1393 64.9873V52.285C21.1393 51.7352 21.5761 51.3012 22.1002 51.2722C40.4151 50.7804 55.2068 36.0526 55.7309 17.8527C55.7309 17.3029 56.1968 16.8979 56.75 16.8979H69.5326C70.0858 16.8979 70.5517 17.3608 70.5517 17.9106C70.0276 44.1833 48.5971 65.4502 22.1875 65.9711L22.1584 66Z" class="nice-logo-path" id="nice-path-body"/></svg>
+                <span class="app-launcher-current-app font-semibold text-lg leading-none text-slate-700">Routing Center</span>
+                <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button class="text-slate-500 hover:text-slate-700 transition" aria-label="Help">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+            <button class="text-slate-500 hover:text-slate-700 transition" aria-label="Notifications">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+            </button>
+            <div class="w-8 h-8 rounded-full bg-gray-300 border border-white overflow-hidden">
+                <img src="https://i.pravatar.cc/100?img=47" alt="User Profile" class="w-full h-full object-cover">
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+        <aside class="w-64 bg-[#F3F5F6] shrink-0 flex-col hidden md:flex">
+            <nav class="flex-1 py-4 space-y-1">
+                <a href="rrr_library.html" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white border-l-4 border-transparent transition">
+                    <img src="assets/real time routing rules.png" alt="" class="w-5 h-5 object-contain">
+                    <span class="text-sm font-medium">Real-Time Routing Rules</span>
+                </a>
+                <a href="agent_capacity_profiles.html" class="flex items-center space-x-3 px-4 py-2 text-slate-800 bg-white border-l-4 border-primary transition">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path stroke="#0EA5E9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M17 20h5V4H2v16h5m10 0v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4m10 0H7"></path></svg>
+                    <span class="text-sm font-medium">Agent Capacity Rules</span>
+                </a>
+                <a href="execution_logs_overflow.html" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><line x1="4" y1="20" x2="20" y2="20" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/><rect x="6" y="12" width="3" height="8" rx="1" fill="#EF4444"/><rect x="11" y="9" width="3" height="11" rx="1" fill="#F59E0B"/><rect x="16" y="6" width="3" height="14" rx="1" fill="#22C55E"/></svg>
+                    <span class="text-sm font-medium">Execution Logs</span>
+                </a>
+                <a href="ps_index.html" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    <span class="text-sm font-medium">Primary Skills</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto pt-3 pl-3 pb-3">
+            <div class="min-h-full bg-white rounded-tl-xl rounded-bl-xl border border-slate-200 overflow-y-auto p-6 md:p-8">
+                <div class="w-full">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                        <div>
+                            <h1 class="text-2xl font-normal text-gray-800">Agent Capacity Profile Update</h1>
+                            <p class="text-sm text-gray-500 mt-1">Manage profile details, conditions, assignments, and history from one place.</p>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <a href="agent_capacity_profiles.html" class="px-4 py-2 border border-gray-300 rounded text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition">Cancel</a>
+                            <button type="button" class="px-4 py-2 border border-primary rounded text-sm font-medium text-primary bg-white hover:bg-blue-50 transition">Save Draft</button>
+                            <button type="button" class="px-4 py-2 border border-transparent rounded text-sm font-medium text-white bg-primary hover:bg-blue-800 transition">Save Changes</button>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-lg overflow-hidden mb-6">
+                        <div class="grid grid-cols-2 md:grid-cols-4 bg-gray-50">
+                            <button type="button" data-tab="profile" class="tab-button px-4 py-3 text-sm font-semibold border-b-2 transition">Edit Profile</button>
+                            <button type="button" data-tab="conditions" class="tab-button px-4 py-3 text-sm font-semibold border-b-2 transition">Edit Conditions</button>
+                            <button type="button" data-tab="assignments" class="tab-button px-4 py-3 text-sm font-semibold border-b-2 transition">Edit Assignments</button>
+                            <button type="button" data-tab="audit-history" class="tab-button px-4 py-3 text-sm font-semibold border-b-2 transition">Audit History</button>
+                        </div>
+                    </div>
+
+                    <section id="tab-profile" class="tab-panel bg-white rounded border border-gray-200 p-6 md:p-8">
+                        <h2 class="text-lg font-medium text-gray-800 mb-4">Edit Profile</h2>
+                        <div class="max-w-3xl space-y-5">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Profile Name</label>
+                                <input type="text" value="VIP Customer Priority" class="w-full border border-gray-300 rounded-md px-4 py-2.5 text-gray-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Profile Description</label>
+                                <textarea rows="4" class="w-full border border-gray-300 rounded-md px-4 py-2.5 text-gray-700 resize-none focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">Route high-value customers to premium tier agents</textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                                <div class="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-green-50 text-green-700 border border-green-200 text-sm font-medium">
+                                    <span class="w-2 h-2 bg-green-600 rounded-full"></span>
+                                    Active
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="tab-conditions" class="tab-panel hidden bg-white rounded border border-gray-200 p-6 md:p-8">
+                        <p class="text-sm text-gray-500 mb-6">Specify the queue priority for agents based on their current interaction. Thresholds are defined in the Contact Settings page.</p>
+
+                        <div class="flex items-center justify-between mb-6 relative">
+                            <h2 class="text-2xl font-semibold text-slate-800">Conditions</h2>
+                            <button id="ucAddConditionButton" type="button" class="inline-flex items-center gap-2 px-4 py-2 border border-sky-200 rounded-md text-sky-700 font-semibold hover:bg-sky-50 transition" aria-haspopup="true" aria-expanded="false" aria-controls="ucAddConditionMenu">
+                                + Add Condition
+                            </button>
+
+                            <div id="ucAddConditionMenu" class="hidden absolute right-0 top-14 w-[340px] rounded-xl border border-slate-200 bg-white p-3 shadow-xl z-20" role="menu" aria-label="Add condition options">
+                                <button type="button" class="uc-condition-option w-full text-left px-4 py-3 text-[16px] leading-tight text-slate-700 rounded-lg hover:bg-slate-50" role="menuitem" data-condition-type="channel-working">
+                                    When agent is working on a channel
+                                </button>
+                                <button type="button" class="uc-condition-option w-full text-left px-4 py-3 text-[16px] leading-tight text-slate-700 rounded-lg hover:bg-slate-50" role="menuitem" data-condition-type="channel-top">
+                                    When channel is top of the queue
+                                </button>
+                                <button type="button" class="uc-condition-option w-full text-left px-4 py-3 text-[16px] leading-tight text-slate-700 rounded-lg hover:bg-slate-50" role="menuitem" data-condition-type="skill-working">
+                                    When agent is working on a skill
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="ucConditionsContainer" class="space-y-4 mb-4"></div>
+
+                        <div id="ucConditionsEmptyState" class="min-h-[280px] border border-slate-200 rounded-md bg-slate-50 flex flex-col items-center justify-center">
+                            <svg width="120" height="96" viewBox="0 0 120 96" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <ellipse cx="60" cy="78" rx="40" ry="2" fill="#A3B8CC"/>
+                                <path d="M32 48C32 36.9543 40.9543 28 52 28H72C83.0457 28 92 36.9543 92 48V60H32V48Z" fill="#DCE8F4"/>
+                                <path d="M52 50H80L74 36H46L52 50Z" fill="#C7B27A"/>
+                                <rect x="50" y="50" width="30" height="20" fill="#D7C182"/>
+                                <path d="M50 50L44 42H74L80 50H50Z" fill="#E8D6A2"/>
+                                <circle cx="44" cy="34" r="5" fill="#58A6E7"/>
+                                <path d="M40 44C40 39.5817 43.5817 36 48 36H48.5V70H40V44Z" fill="#2E6E9E"/>
+                                <rect x="45" y="44" width="4" height="18" fill="#1E4F76"/>
+                                <path d="M44 70H50L48 78H42L44 70Z" fill="#334155"/>
+                                <circle cx="49" cy="28" r="2" fill="#1E3A5F"/>
+                            </svg>
+                            <p class="mt-6 text-2xl text-slate-500">No conditions created yet</p>
+                        </div>
+                    </section>
+
+                    <section id="tab-assignments" class="tab-panel hidden bg-white rounded border border-gray-200 p-6 md:p-8">
+                        <h2 class="text-2xl font-semibold text-slate-800 mb-2">Assign agents to this profile</h2>
+                        <p class="text-xl text-slate-500 mb-8">The priority conditions will apply to the selected agents. Agents can only be assigned to one profile. In case an agent is assigned to a team with a different profile, the agent profile will take effect.</p>
+
+                        <div class="border-b border-slate-200 mb-10">
+                            <div class="flex items-center gap-8">
+                                <button id="uaTeamsTab" type="button" class="ua-assignment-tab pb-3 text-2xl font-semibold border-b-4 border-blue-600 text-blue-700" data-target="uaTeamsPanel" aria-selected="true">Teams (0)</button>
+                                <button id="uaAgentsTab" type="button" class="ua-assignment-tab pb-3 text-2xl font-semibold border-b-4 border-transparent text-slate-600" data-target="uaAgentsPanel" aria-selected="false">Agents (0)</button>
+                            </div>
+                        </div>
+
+                        <div id="uaTeamsPanel" class="ua-assignment-panel"></div>
+                        <div id="uaAgentsPanel" class="ua-assignment-panel hidden"></div>
+                    </section>
+
+                    <section id="tab-audit-history" class="tab-panel hidden bg-white rounded shadow-xs p-6 md:p-8 border border-gray-200">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                            <div>
+                                <h2 class="text-lg font-medium text-gray-800">Audit History</h2>
+                                <p class="text-sm text-gray-500 mt-1">Review field-level changes made to this profile across configuration, conditions, and assignments.</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="px-3 py-2 border border-gray-300 rounded text-xs font-semibold text-gray-700 bg-white hover:bg-gray-50">Export</button>
+                                <button class="px-3 py-2 border border-gray-300 rounded text-xs font-semibold text-gray-700 bg-white hover:bg-gray-50">Run Report</button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-5">
+                            <div class="border border-gray-200 rounded-lg p-3 bg-gray-50">
+                                <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-500">Last Modified By</p>
+                                <p class="text-sm font-semibold text-gray-800 mt-1">Jordan Hayes</p>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg p-3 bg-gray-50">
+                                <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-500">Last Modified</p>
+                                <p class="text-sm font-semibold text-gray-800 mt-1">May 13, 2026 11:42 AM</p>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg p-3 bg-gray-50">
+                                <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-500">Total Changes</p>
+                                <p class="text-sm font-semibold text-gray-800 mt-1">8</p>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg p-3 bg-gray-50">
+                                <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-500">Unique Contributors</p>
+                                <p class="text-sm font-semibold text-gray-800 mt-1">3</p>
+                            </div>
+                        </div>
+
+                        <div class="border border-gray-200 rounded-lg overflow-hidden">
+                            <div class="px-4 py-3 border-b border-gray-200 bg-gray-50 flex items-center justify-between gap-3 flex-wrap">
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <input type="text" placeholder="Search changed field or user" class="w-72 border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-ring focus:border-primary">
+                                    <select class="border border-gray-300 rounded px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-ring focus:border-primary">
+                                        <option>All Change Types</option>
+                                        <option>Profile</option>
+                                        <option>Condition</option>
+                                        <option>Assignment</option>
+                                        <option>Status</option>
+                                    </select>
+                                </div>
+                                <div class="text-xs text-gray-500">Showing latest 8 changes</div>
+                            </div>
+
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-gray-50 border-b border-gray-200 text-gray-500 uppercase text-[11px] tracking-wide">
+                                        <tr>
+                                            <th class="px-4 py-3 text-left font-semibold">Date</th>
+                                            <th class="px-4 py-3 text-left font-semibold">Modified By</th>
+                                            <th class="px-4 py-3 text-left font-semibold">Changed Field</th>
+                                            <th class="px-4 py-3 text-left font-semibold">Old Value</th>
+                                            <th class="px-4 py-3 text-left font-semibold">New Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-100">
+                                        <tr>
+                                            <td class="px-4 py-3 text-gray-700">May 13, 2026 11:42 AM</td>
+                                            <td class="px-4 py-3 text-gray-700">Jordan Hayes</td>
+                                            <td class="px-4 py-3 text-gray-700">Profile Description</td>
+                                            <td class="px-4 py-3 text-gray-500">Route enterprise contacts to premium tier agents</td>
+                                            <td class="px-4 py-3 text-gray-800">Route high-value customers to premium tier agents</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 text-gray-700">May 13, 2026 11:40 AM</td>
+                                            <td class="px-4 py-3 text-gray-700">Riley Chen</td>
+                                            <td class="px-4 py-3 text-gray-700">Status</td>
+                                            <td class="px-4 py-3 text-gray-500">Inactive</td>
+                                            <td class="px-4 py-3 text-gray-800">Active</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 text-gray-700">May 13, 2026 11:37 AM</td>
+                                            <td class="px-4 py-3 text-gray-700">Routing Admin</td>
+                                            <td class="px-4 py-3 text-gray-700">Condition: Working Channel</td>
+                                            <td class="px-4 py-3 text-gray-500">VOICE -> VOICE, CHAT</td>
+                                            <td class="px-4 py-3 text-gray-800">DIGITAL -> EMAIL, CHAT, VOICEMAIL, WORKITEM, SMS, DIGITAL</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 text-gray-700">May 13, 2026 11:36 AM</td>
+                                            <td class="px-4 py-3 text-gray-700">Routing Admin</td>
+                                            <td class="px-4 py-3 text-gray-700">Condition: Queue Top Handling</td>
+                                            <td class="px-4 py-3 text-gray-500">DIGITAL -> DIGITAL</td>
+                                            <td class="px-4 py-3 text-gray-800">DIGITAL -> DIGITAL, EMAIL</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 text-gray-700">May 13, 2026 11:35 AM</td>
+                                            <td class="px-4 py-3 text-gray-700">Routing Admin</td>
+                                            <td class="px-4 py-3 text-gray-700">Condition: Skill Priority</td>
+                                            <td class="px-4 py-3 text-gray-500">Technical Support Tier 2 -> EMAIL</td>
+                                            <td class="px-4 py-3 text-gray-800">Billing Escalations -> EMAIL, WORKITEM</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 text-gray-700">May 13, 2026 11:31 AM</td>
+                                            <td class="px-4 py-3 text-gray-700">Routing Admin</td>
+                                            <td class="px-4 py-3 text-gray-700">Assignments: Teams</td>
+                                            <td class="px-4 py-3 text-gray-500">Voice Support Tier 1</td>
+                                            <td class="px-4 py-3 text-gray-800">Voice Support Tier 1, Premium Care</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 text-gray-700">May 13, 2026 11:31 AM</td>
+                                            <td class="px-4 py-3 text-gray-700">Routing Admin</td>
+                                            <td class="px-4 py-3 text-gray-700">Assignments: Agents</td>
+                                            <td class="px-4 py-3 text-gray-500">Ava Martinez</td>
+                                            <td class="px-4 py-3 text-gray-800">Ava Martinez, Liam Walker</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-3 text-gray-700">May 10, 2026 9:14 AM</td>
+                                            <td class="px-4 py-3 text-gray-700">Melissa Winegar</td>
+                                            <td class="px-4 py-3 text-gray-700">Profile Name</td>
+                                            <td class="px-4 py-3 text-gray-500">-</td>
+                                            <td class="px-4 py-3 text-gray-800">VIP Customer Priority</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="app-launcher-overlay hidden" style="position:fixed;inset:0;z-index:50;pointer-events:none;">
+        <div class="app-launcher-backdrop" style="position:absolute;inset:0;pointer-events:all;"></div>
+        <div class="app-launcher-panel app-launcher-shadow" style="position:absolute;top:3.6rem;left:0.5rem;width:20rem;max-height:calc(100vh - 4.5rem);background:#fff;color:#1e293b;overflow-y:auto;border-radius:0.75rem;border:1px solid #e2e8f0;pointer-events:all;">
+                        <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">General</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/admin.png" alt="" class="h-6 w-6 object-contain"></span><span>Admin</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/TM.png" alt="" class="h-6 w-6 object-contain"></span><span>TM</span></button>
+                <a href="supervisor_main.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/Supervisor.png" alt="" class="h-6 w-6 object-contain"></span><span>Supervisor</span></a>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/message%20center.png" alt="" class="h-6 w-6 object-contain"></span><span>Message Center</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/AI%20Studio.png" alt="" class="h-6 w-6 object-contain"></span><span>AI Studio</span></button>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Automation</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/ai%20agents.png" alt="" class="h-6 w-6 object-contain"></span><span>AI Agents</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/agent%20integrations.png" alt="" class="h-6 w-6 object-contain"></span><span>Agent Integrations</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/wfi.png" alt="" class="h-6 w-6 object-contain"></span><span>WFI</span></button>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Omnichannel Routing</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/ACD.png" alt="" class="h-6 w-6 object-contain"></span><span>ACD</span></button>
+                <a href="agent_rule_alert.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/agent.png" alt="" class="h-6 w-6 object-contain"></span><span>Agent</span></a>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/studio.png" alt="" class="h-6 w-6 object-contain"></span><span>Studio</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/studio%20authentication.png" alt="" class="h-6 w-6 object-contain"></span><span>Studio Authentication</span></button>
+                <a href="index.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/routing%20center.png" alt="" class="h-6 w-6 object-contain"></span><span>Routing Center</span></a>
+            </div>
+            <div class="sticky bottom-0 flex items-center justify-center px-4 py-3 border-t border-slate-200 bg-white">
+                <img src="assets/nice-cxone-logo.png" alt="NiCE CXone" class="h-10 w-full object-contain">
+            </div>
+        </div>
+    </div>
+
+    <div id="uaAssignmentSelectorOverlay" class="hidden fixed inset-0 z-50 bg-slate-900/45 p-8">
+        <div class="mx-auto h-full max-w-[1120px] overflow-hidden rounded-lg bg-white shadow-2xl border border-slate-300 flex flex-col">
+            <div class="px-6 py-4 border-b border-slate-200">
+                <h3 id="uaSelectorTitle" class="text-3xl font-semibold text-slate-800">Select Teams</h3>
+            </div>
+            <div class="p-6 flex-1 overflow-auto">
+                <div class="flex items-center gap-6 bg-slate-50 border border-slate-200 px-4 py-3 mb-4">
+                    <p id="uaSelectorTotal" class="text-sm text-slate-600">1 Total</p>
+                    <div class="relative w-[320px]">
+                        <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path stroke-linecap="round" d="M21 21l-4.3-4.3"></path></svg>
+                        <input id="uaSelectorSearch" type="text" class="w-full h-10 rounded border border-slate-300 pl-9 pr-3 text-sm text-slate-700 focus:border-primary focus:outline-none" placeholder="Search teams...">
+                    </div>
+                </div>
+                <table class="w-full border-collapse text-sm">
+                    <thead>
+                        <tr class="border-b border-slate-300 text-left text-slate-700">
+                            <th class="w-12 px-2 py-2"><input id="uaSelectorSelectAll" type="checkbox" class="h-4 w-4 rounded border-slate-300"></th>
+                            <th id="uaSelectorCol1" class="px-2 py-2 font-semibold">NAME</th>
+                            <th id="uaSelectorCol2" class="px-2 py-2 font-semibold">TEAM ID</th>
+                            <th id="uaSelectorCol3" class="px-2 py-2 font-semibold">TEAM PROFILES</th>
+                        </tr>
+                    </thead>
+                    <tbody id="uaSelectorTableBody"></tbody>
+                </table>
+            </div>
+            <div class="px-6 py-3 border-t border-slate-200 bg-slate-50 flex items-center justify-end gap-3">
+                <button id="uaSelectorCancel" type="button" class="px-4 py-2 text-sm border border-sky-200 rounded text-sky-700 hover:bg-sky-50 transition">Cancel</button>
+                <button id="uaSelectorConfirm" type="button" class="px-4 py-2 text-sm border border-slate-300 rounded text-slate-400 bg-slate-100 cursor-not-allowed" disabled>Select</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (() => {
+            const launcherToggle = document.querySelector('.app-launcher-toggle');
+            const launcherOverlay = document.querySelector('.app-launcher-overlay');
+            const launcherPanel = document.querySelector('.app-launcher-panel');
+            const launcherBackdrop = document.querySelector('.app-launcher-backdrop');
+            if (launcherToggle && launcherOverlay && launcherPanel && launcherBackdrop) {
+                const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+                const sidebarPageGroups = {
+                    'rrr_library.html': ['rrr_library.html', 'rrr_rulecreate.html', 'step2.html', 'step2_overflow.html', 'step3.html', 'step4.html', 'step5.html'],
+                    'execution_logs_overflow.html': ['execution_logs_overflow.html'],
+                    'ps_index.html': ['ps_index.html', 'ps_step2.html', 'ps_audit_log.html'],
+                    'agent_capacity_profiles.html': ['agent_capacity_profiles.html', 'agent_capacity_create_step1.html', 'agent_capacity_create_step2.html', 'agent_capacity_create_step3.html', 'Agent_capacity_update.html']
+                };
+
+                document.querySelectorAll('aside nav a[href]').forEach((link) => {
+                    const linkHref = link.getAttribute('href');
+                    if (!linkHref || linkHref === '#') return;
+                    const linkTarget = new URL(linkHref, window.location.href).pathname.split('/').pop();
+                    const linkedPages = sidebarPageGroups[linkTarget] || [linkTarget];
+                    if (!linkedPages.includes(currentPage)) return;
+                    link.classList.remove('text-gray-600', 'border-transparent');
+                    link.classList.add('bg-sky-50', 'text-sky-800', 'border-sky-500', 'font-semibold');
+                    link.setAttribute('aria-current', 'page');
+                    const icon = link.querySelector('svg');
+                    if (icon) {
+                        icon.classList.remove('text-gray-400');
+                        icon.classList.add('text-sky-600');
+                    }
+                });
+
+                launcherOverlay.querySelectorAll('a[href]').forEach((link) => {
+                    const linkTarget = new URL(link.getAttribute('href'), window.location.href).pathname.split('/').pop();
+                    if (linkTarget === currentPage) {
+                        link.classList.remove('hover:bg-gray-50');
+                        link.classList.add('bg-sky-50', 'text-sky-900', 'font-semibold', 'ring-1', 'ring-sky-200');
+                        link.setAttribute('aria-current', 'page');
+                    }
+                });
+
+                const currentAppLink = launcherOverlay.querySelector('a[aria-current="page"] span:last-child');
+                const currentAppLabel = launcherOverlay.querySelector('.app-launcher-current-app');
+                if (currentAppLink && currentAppLabel) currentAppLabel.textContent = currentAppLink.textContent.trim();
+
+                const closeOverlay = () => {
+                    launcherOverlay.classList.add('hidden');
+                    launcherToggle.setAttribute('aria-expanded', 'false');
+                };
+                const openOverlay = () => {
+                    launcherOverlay.classList.remove('hidden');
+                    launcherToggle.setAttribute('aria-expanded', 'true');
+                };
+
+                launcherToggle.setAttribute('aria-haspopup', 'true');
+                launcherToggle.setAttribute('aria-expanded', 'false');
+                launcherToggle.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    launcherOverlay.classList.contains('hidden') ? openOverlay() : closeOverlay();
+                });
+                launcherBackdrop.addEventListener('click', closeOverlay);
+                document.addEventListener('keydown', (event) => {
+                    if (event.key === 'Escape') closeOverlay();
+                });
+            }
+
+            const eyeLeft = document.getElementById('nice-path-eye-left');
+            const eyeRight = document.getElementById('nice-path-eye-right');
+            const body = document.getElementById('nice-path-body');
+            const eyeLeftG = document.getElementById('nice-eye-left');
+            const eyeRightG = document.getElementById('nice-eye-right');
+            if (launcherToggle && eyeLeft && eyeRight && body && eyeLeftG && eyeRightG) {
+                const baseColor = '#3694FD';
+                const stages = [
+                    { el: [baseColor, '#6366F1', '#6366F1'], blink: 'both' },
+                    { el: [baseColor, '#6366F1', '#6366F1'], blink: false },
+                    { el: [baseColor, '#6366F1', '#6366F1'], blink: 'both' },
+                    { el: ['#A855F7', '#A855F7', '#A855F7'], wink: true },
+                    { el: ['#A855F7', '#A855F7', '#A855F7'], blink: 'both' },
+                    { el: ['#EC4899', '#F472B6', '#EC4899'], stagger: true },
+                    { el: ['#F59E0B', '#F59E0B', '#F59E0B'] },
+                    { el: ['#6366F1', '#10B981', '#F59E0B'] },
+                ];
+                let stage = 0;
+
+                const triggerBlink = () => {
+                    [eyeLeftG, eyeRightG].forEach((g) => {
+                        g.classList.remove('nice-blinking');
+                        void g.offsetWidth;
+                        g.classList.add('nice-blinking');
+                    });
+                };
+
+                const setPaths = (colors, stagger) => {
+                    [eyeLeft, eyeRight, body].forEach((path, i) => {
+                        const delay = stagger ? i * 80 : 0;
+                        setTimeout(() => { path.style.fill = colors[i]; }, delay);
+                    });
+                };
+
+                const resetPaths = () => {
+                    [eyeLeft, eyeRight, body].forEach((path) => { path.style.fill = baseColor; });
+                    eyeLeftG.classList.remove('nice-winking', 'nice-blinking');
+                    eyeRightG.classList.remove('nice-blinking');
+                };
+
+                launcherToggle.addEventListener('mouseenter', () => {
+                    const current = stages[stage];
+                    setPaths(current.el, Boolean(current.stagger));
+                    if (current.wink) {
+                        eyeLeftG.classList.remove('nice-winking');
+                        void eyeLeftG.offsetWidth;
+                        eyeLeftG.classList.add('nice-winking');
+                    } else if (current.blink === 'both') {
+                        triggerBlink();
+                    }
+                    stage = (stage + 1) % stages.length;
+                });
+
+                launcherToggle.addEventListener('mouseleave', resetPaths);
+            }
+
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabPanels = document.querySelectorAll('.tab-panel');
+
+            const setActiveTab = (tabName) => {
+                tabButtons.forEach((button) => {
+                    const active = button.dataset.tab === tabName;
+                    button.classList.toggle('bg-white', active);
+                    button.classList.toggle('text-primary', active);
+                    button.classList.toggle('border-primary', active);
+                    button.classList.toggle('text-gray-600', !active);
+                    button.classList.toggle('border-transparent', !active);
+                });
+
+                tabPanels.forEach((panel) => {
+                    panel.classList.toggle('hidden', panel.id !== `tab-${tabName}`);
+                });
+            };
+
+            tabButtons.forEach((button) => {
+                button.addEventListener('click', () => {
+                    const tabName = button.dataset.tab;
+                    if (!tabName) return;
+                    const nextUrl = new URL(window.location.href);
+                    nextUrl.searchParams.set('tab', tabName);
+                    history.replaceState(null, '', nextUrl.toString());
+                    setActiveTab(tabName);
+                });
+            });
+
+            const urlTab = new URLSearchParams(window.location.search).get('tab');
+            const validTabs = ['profile', 'conditions', 'assignments', 'audit-history'];
+            setActiveTab(validTabs.includes(urlTab) ? urlTab : 'profile');
+
+            const addConditionButton = document.getElementById('ucAddConditionButton');
+            const addConditionMenu = document.getElementById('ucAddConditionMenu');
+            const conditionOptions = document.querySelectorAll('.uc-condition-option');
+            const conditionsContainer = document.getElementById('ucConditionsContainer');
+            const conditionsEmptyState = document.getElementById('ucConditionsEmptyState');
+
+            const channelItems = ['EMAIL', 'CHAT', 'VOICE', 'VOICEMAIL', 'WORKITEM', 'SMS', 'DIGITAL'];
+            const receiveItems = ['EMAIL', 'CHAT', 'VOICE', 'VOICEMAIL', 'WORKITEM', 'SMS', 'DIGITAL', 'NONE'];
+            const skills = ['Billing Escalations', 'Technical Support Tier 2', 'Enterprise Account Care', 'Fraud Investigation', 'Spanish Language Support', 'Order Fulfillment Exceptions', 'Loyalty Program Assistance', 'Retention Save Desk', 'Workforce Coordination', 'Digital Messaging Specialist'];
+            const channelSelectOptions = channelItems.map((item) => `<option value="${item}">${item}</option>`).join('');
+            let conditionCardCounter = 0;
+
+            const renderReceiveCheckboxes = (namePrefix, cardId) => receiveItems.map((item, index) => {
+                const id = `${namePrefix}-${item.toLowerCase()}-${cardId}-${index}`;
+                return `<label for="${id}" class="inline-flex items-center gap-2 text-xl font-semibold text-slate-700"><input id="${id}" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary"><span>${item}</span></label>`;
+            }).join('');
+
+            const updateEmptyState = () => {
+                const hasCards = conditionsContainer && conditionsContainer.children.length > 0;
+                if (!conditionsEmptyState) return;
+                conditionsEmptyState.classList.toggle('hidden', hasCards);
+            };
+
+            const createDeleteButton = () => `<button type="button" class="delete-condition inline-flex h-12 w-12 items-center justify-center rounded-md border border-sky-200 text-sky-700 hover:bg-sky-50 transition" aria-label="Delete condition"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6h18"></path><path stroke-linecap="round" stroke-linejoin="round" d="M8 6V4h8v2"></path><path stroke-linecap="round" stroke-linejoin="round" d="M19 6l-1 14H6L5 6"></path><path stroke-linecap="round" stroke-linejoin="round" d="M10 11v6"></path><path stroke-linecap="round" stroke-linejoin="round" d="M14 11v6"></path></svg></button>`;
+
+            const createConflictIndicator = () => `<div class="relative" data-conflict-indicator><span class="inline-flex h-12 w-12 items-center justify-center rounded-md border border-emerald-200 bg-emerald-50 text-emerald-600" data-status-icon aria-label="No conflicts" title="No conflicts found" tabindex="0"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg></span><div class="hidden absolute right-0 top-14 z-30 w-72 rounded-md border border-red-200 bg-white px-3 py-2 text-xs text-slate-700 shadow-lg" data-conflict-tooltip>Review other conditions. This condition introduces conflicting logic.</div></div>`;
+
+            const getConditionSelectionValue = (card) => {
+                const type = card.dataset.conditionCard;
+                if (type === 'channel-working' || type === 'channel-top') {
+                    const select = card.querySelector('[data-condition-select]');
+                    return select ? select.value : '';
+                }
+                if (type === 'skill-working') {
+                    const skillValue = card.querySelector('[data-skill-value]');
+                    const text = skillValue ? skillValue.textContent.trim() : '';
+                    return text === 'Select a skill...' ? '' : text;
+                }
+                return '';
+            };
+
+            const updateConflictIndicators = () => {
+                if (!conditionsContainer) return;
+                const cards = Array.from(conditionsContainer.querySelectorAll('[data-condition-card]'));
+                const keyCounts = new Map();
+
+                cards.forEach((card) => {
+                    const type = card.dataset.conditionCard || '';
+                    const value = getConditionSelectionValue(card);
+                    if (!type || !value) return;
+                    const key = `${type}::${value}`;
+                    keyCounts.set(key, (keyCounts.get(key) || 0) + 1);
+                });
+
+                cards.forEach((card) => {
+                    const type = card.dataset.conditionCard || '';
+                    const value = getConditionSelectionValue(card);
+                    const key = `${type}::${value}`;
+                    const hasConflict = Boolean(value) && (keyCounts.get(key) || 0) > 1;
+
+                    const statusIcon = card.querySelector('[data-status-icon]');
+                    const tooltip = card.querySelector('[data-conflict-tooltip]');
+                    if (!statusIcon || !tooltip) return;
+
+                    if (hasConflict) {
+                        statusIcon.className = 'inline-flex h-12 w-12 items-center justify-center rounded-md border border-red-200 bg-red-50 text-red-600';
+                        statusIcon.setAttribute('aria-label', 'Conflicting condition');
+                        statusIcon.innerHTML = '<svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4"></path><path stroke-linecap="round" stroke-linejoin="round" d="M12 17h.01"></path><circle cx="12" cy="12" r="9"></circle></svg>';
+                    } else {
+                        statusIcon.className = 'inline-flex h-12 w-12 items-center justify-center rounded-md border border-emerald-200 bg-emerald-50 text-emerald-600';
+                        statusIcon.setAttribute('aria-label', 'No conflicts');
+                        statusIcon.innerHTML = '<svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>';
+                    }
+                    tooltip.classList.add('hidden');
+                });
+            };
+
+            const initSkillDropdown = (card) => {
+                const toggle = card.querySelector('[data-skill-toggle]');
+                const menu = card.querySelector('[data-skill-menu]');
+                const search = card.querySelector('[data-skill-search]');
+                const list = card.querySelector('[data-skill-list]');
+                const value = card.querySelector('[data-skill-value]');
+                if (!toggle || !menu || !search || !list || !value) return;
+
+                const renderSkillList = (query = '') => {
+                    const filter = query.trim().toLowerCase();
+                    const filteredSkills = skills.filter((skill) => skill.toLowerCase().includes(filter));
+                    list.innerHTML = filteredSkills.length ? filteredSkills.map((skill) => `<button type="button" class="skill-option block w-full text-left px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded" data-skill-option="${skill}">${skill}</button>`).join('') : '<p class="px-3 py-2 text-sm text-slate-500">No matching skills</p>';
+                };
+
+                toggle.addEventListener('click', () => {
+                    const isOpen = !menu.classList.contains('hidden');
+                    menu.classList.toggle('hidden', isOpen);
+                    if (!isOpen) {
+                        search.value = '';
+                        renderSkillList();
+                        search.focus();
+                    }
+                });
+
+                search.addEventListener('input', () => renderSkillList(search.value));
+                list.addEventListener('click', (event) => {
+                    const option = event.target.closest('[data-skill-option]');
+                    if (!option) return;
+                    value.textContent = option.getAttribute('data-skill-option');
+                    menu.classList.add('hidden');
+                    updateConflictIndicators();
+                });
+
+                document.addEventListener('click', (event) => {
+                    if (!card.contains(event.target)) {
+                        menu.classList.add('hidden');
+                    }
+                });
+
+                renderSkillList();
+            };
+
+            const createConditionCard = (type, seed = null) => {
+                if (!conditionsContainer) return;
+                conditionCardCounter += 1;
+                const cardId = conditionCardCounter;
+                const card = document.createElement('div');
+                card.className = 'bg-slate-100 rounded-md border border-slate-200 px-5 py-5';
+                card.dataset.conditionCard = type;
+
+                if (type === 'channel-working') {
+                    card.innerHTML = `<div class="flex items-start justify-between gap-6"><div class="flex-1 space-y-4"><div class="flex flex-wrap items-center gap-3 text-xl text-slate-700"><span>When agent is working on</span><select class="h-10 min-w-[140px] rounded-md border border-slate-300 bg-white px-4 text-xl font-semibold text-blue-600 focus:border-primary focus:outline-none" data-condition-select>${channelSelectOptions}</select></div><div class="flex flex-wrap items-center gap-4 text-xl text-slate-700"><span>Then the agent can continue receiving</span>${renderReceiveCheckboxes('continue', cardId)}</div></div><div class="flex items-center gap-3">${createConflictIndicator()}${createDeleteButton()}</div></div>`;
+                }
+                if (type === 'channel-top') {
+                    card.innerHTML = `<div class="flex items-start justify-between gap-6"><div class="flex-1 space-y-4"><div class="flex flex-wrap items-center gap-3 text-xl text-slate-700"><span>When</span><select class="h-10 min-w-[140px] rounded-md border border-slate-300 bg-white px-4 text-xl font-semibold text-blue-600 focus:border-primary focus:outline-none" data-condition-select>${channelSelectOptions}</select><span>is top of the queue</span></div><div class="flex flex-wrap items-center gap-4 text-xl text-slate-700"><span>Then the agent will instead receive</span>${renderReceiveCheckboxes('instead', cardId)}</div></div><div class="flex items-center gap-3">${createConflictIndicator()}${createDeleteButton()}</div></div>`;
+                }
+                if (type === 'skill-working') {
+                    card.innerHTML = `<div class="flex items-start justify-between gap-6"><div class="flex-1 space-y-4"><div class="flex flex-wrap items-center gap-3 text-xl text-slate-700"><span>When agent is working on</span><div class="relative inline-block min-w-[260px]" data-skill-root><button type="button" class="flex h-10 w-full items-center justify-between rounded-md border border-slate-300 bg-white px-4 text-xl font-semibold text-blue-600" data-skill-toggle><span data-skill-value>Select a skill...</span><svg class="h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.51a.75.75 0 01-1.08 0l-4.25-4.51a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg></button><div class="hidden absolute left-0 top-14 z-30 w-full rounded-md border border-slate-200 bg-white shadow-lg" data-skill-menu><div class="p-2 border-b border-slate-200"><input type="text" placeholder="Search skills" class="h-10 w-full rounded border border-slate-300 px-3 text-sm text-slate-700 focus:border-primary focus:outline-none" data-skill-search></div><div class="max-h-56 overflow-y-auto p-1" data-skill-list></div></div></div></div><div class="flex flex-wrap items-center gap-4 text-xl text-slate-700"><span>Then the agent can continue receiving</span>${renderReceiveCheckboxes('skill', cardId)}</div></div><div class="flex items-center gap-3">${createConflictIndicator()}${createDeleteButton()}</div></div>`;
+                }
+
+                conditionsContainer.appendChild(card);
+
+                const deleteButton = card.querySelector('.delete-condition');
+                if (deleteButton) {
+                    deleteButton.addEventListener('click', () => {
+                        card.remove();
+                        updateEmptyState();
+                        updateConflictIndicators();
+                    });
+                }
+
+                const conditionSelect = card.querySelector('[data-condition-select]');
+                if (conditionSelect) {
+                    conditionSelect.addEventListener('change', updateConflictIndicators);
+                }
+
+                const statusIcon = card.querySelector('[data-status-icon]');
+                const conflictTooltip = card.querySelector('[data-conflict-tooltip]');
+                if (statusIcon && conflictTooltip) {
+                    statusIcon.addEventListener('mouseenter', () => {
+                        if (statusIcon.getAttribute('aria-label') === 'Conflicting condition') conflictTooltip.classList.remove('hidden');
+                    });
+                    statusIcon.addEventListener('mouseleave', () => conflictTooltip.classList.add('hidden'));
+                    statusIcon.addEventListener('focus', () => {
+                        if (statusIcon.getAttribute('aria-label') === 'Conflicting condition') conflictTooltip.classList.remove('hidden');
+                    });
+                    statusIcon.addEventListener('blur', () => conflictTooltip.classList.add('hidden'));
+                }
+
+                if (type === 'skill-working') {
+                    initSkillDropdown(card);
+                }
+
+                if (seed) {
+                    const conditionSelectEl = card.querySelector('[data-condition-select]');
+                    if (conditionSelectEl && seed.selectedChannel) {
+                        conditionSelectEl.value = seed.selectedChannel;
+                    }
+
+                    if (type === 'skill-working' && seed.selectedSkill) {
+                        const skillValue = card.querySelector('[data-skill-value]');
+                        if (skillValue) skillValue.textContent = seed.selectedSkill;
+                    }
+
+                    if (Array.isArray(seed.receiveChannels) && seed.receiveChannels.length > 0) {
+                        const selectedChannels = new Set(seed.receiveChannels);
+                        card.querySelectorAll('label input[type="checkbox"]').forEach((checkbox) => {
+                            const labelSpan = checkbox.closest('label')?.querySelector('span');
+                            const label = labelSpan ? labelSpan.textContent.trim() : '';
+                            checkbox.checked = selectedChannels.has(label);
+                        });
+                    }
+                }
+
+                updateEmptyState();
+                updateConflictIndicators();
+
+                return card;
+            };
+
+            if (addConditionButton && addConditionMenu) {
+                const closeMenu = () => {
+                    addConditionMenu.classList.add('hidden');
+                    addConditionButton.setAttribute('aria-expanded', 'false');
+                };
+                const openMenu = () => {
+                    addConditionMenu.classList.remove('hidden');
+                    addConditionButton.setAttribute('aria-expanded', 'true');
+                };
+
+                addConditionButton.addEventListener('click', () => {
+                    const isOpen = !addConditionMenu.classList.contains('hidden');
+                    if (isOpen) closeMenu(); else openMenu();
+                });
+
+                conditionOptions.forEach((option) => {
+                    option.addEventListener('click', () => {
+                        const conditionType = option.getAttribute('data-condition-type');
+                        if (conditionType) createConditionCard(conditionType);
+                        closeMenu();
+                    });
+                });
+
+                document.addEventListener('click', (event) => {
+                    if (!addConditionMenu.contains(event.target) && !addConditionButton.contains(event.target)) {
+                        closeMenu();
+                    }
+                });
+            }
+
+            const seedDefaultConditions = () => {
+                if (!conditionsContainer || conditionsContainer.children.length > 0) return;
+
+                createConditionCard('channel-working', {
+                    selectedChannel: 'DIGITAL',
+                    receiveChannels: ['EMAIL', 'CHAT', 'VOICEMAIL', 'WORKITEM', 'SMS', 'DIGITAL']
+                });
+
+                createConditionCard('channel-top', {
+                    selectedChannel: 'DIGITAL',
+                    receiveChannels: ['DIGITAL', 'EMAIL']
+                });
+
+                createConditionCard('skill-working', {
+                    selectedSkill: 'Billing Escalations',
+                    receiveChannels: ['EMAIL', 'WORKITEM']
+                });
+            };
+
+            updateEmptyState();
+            seedDefaultConditions();
+
+            const assignmentTabs = document.querySelectorAll('.ua-assignment-tab');
+            const assignmentPanels = document.querySelectorAll('.ua-assignment-panel');
+            const teamsTab = document.getElementById('uaTeamsTab');
+            const agentsTab = document.getElementById('uaAgentsTab');
+            const teamsPanel = document.getElementById('uaTeamsPanel');
+            const agentsPanel = document.getElementById('uaAgentsPanel');
+
+            const overlay = document.getElementById('uaAssignmentSelectorOverlay');
+            const selectorTitle = document.getElementById('uaSelectorTitle');
+            const selectorTotal = document.getElementById('uaSelectorTotal');
+            const selectorSearch = document.getElementById('uaSelectorSearch');
+            const selectorSelectAll = document.getElementById('uaSelectorSelectAll');
+            const selectorCol1 = document.getElementById('uaSelectorCol1');
+            const selectorCol2 = document.getElementById('uaSelectorCol2');
+            const selectorCol3 = document.getElementById('uaSelectorCol3');
+            const selectorTableBody = document.getElementById('uaSelectorTableBody');
+            const selectorCancel = document.getElementById('uaSelectorCancel');
+            const selectorConfirm = document.getElementById('uaSelectorConfirm');
+
+            const selectorConfigs = {
+                teams: {
+                    title: 'Select Teams',
+                    searchPlaceholder: 'Search teams...',
+                    columns: ['NAME', 'TEAM ID', 'TEAM PROFILES'],
+                    rows: [
+                        { id: 'team-1101', col1: 'Voice Support Tier 1', col2: '1101', col3: 'Standard Voice Profile' },
+                        { id: 'team-1108', col1: 'Premium Care', col2: '1108', col3: 'VIP Handling Profile' },
+                        { id: 'team-1110', col1: 'Work Item Operations', col2: '1110', col3: 'Back Office Work Item Profile' }
+                    ]
+                },
+                agents: {
+                    title: 'Select Agents',
+                    searchPlaceholder: 'Search agents...',
+                    columns: ['NAME', 'AGENT ID', 'TEAM'],
+                    rows: [
+                        { id: 'agent-3001', col1: 'Ava Martinez', col2: '3001', col3: 'Voice Support Tier 1' },
+                        { id: 'agent-3007', col1: 'Liam Walker', col2: '3007', col3: 'Premium Care' },
+                        { id: 'agent-3010', col1: 'Emma Wilson', col2: '3010', col3: 'Work Item Operations' }
+                    ]
+                }
+            };
+
+            let selectorMode = 'teams';
+            let selectedRows = new Set();
+            let assignedTeams = selectorConfigs.teams.rows.filter((row) => ['team-1101', 'team-1108'].includes(row.id));
+            let assignedAgents = selectorConfigs.agents.rows.filter((row) => ['agent-3001', 'agent-3007'].includes(row.id));
+            const assignmentSearchQuery = { teams: '', agents: '' };
+
+            const getAssignedList = (mode) => (mode === 'teams' ? assignedTeams : assignedAgents);
+            const setAssignedList = (mode, items) => {
+                if (mode === 'teams') assignedTeams = items;
+                if (mode === 'agents') assignedAgents = items;
+            };
+
+            const updateTabCounts = () => {
+                if (teamsTab) teamsTab.textContent = `Teams (${assignedTeams.length})`;
+                if (agentsTab) agentsTab.textContent = `Agents (${assignedAgents.length})`;
+            };
+
+            const renderEmptyPanel = (mode) => {
+                const panel = mode === 'teams' ? teamsPanel : agentsPanel;
+                if (!panel) return;
+                const label = mode === 'teams' ? 'teams' : 'agents';
+                const actionLabel = mode === 'teams' ? 'Select Teams' : 'Select Agents';
+
+                panel.innerHTML = `<div class="min-h-[280px] flex flex-col items-center justify-center"><svg width="120" height="96" viewBox="0 0 120 96" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><ellipse cx="60" cy="78" rx="40" ry="2" fill="#A3B8CC"/><path d="M32 48C32 36.9543 40.9543 28 52 28H72C83.0457 28 92 36.9543 92 48V60H32V48Z" fill="#DCE8F4"/><path d="M52 50H80L74 36H46L52 50Z" fill="#C7B27A"/><rect x="50" y="50" width="30" height="20" fill="#D7C182"/><path d="M50 50L44 42H74L80 50H50Z" fill="#E8D6A2"/><circle cx="44" cy="34" r="5" fill="#58A6E7"/><path d="M40 44C40 39.5817 43.5817 36 48 36H48.5V70H40V44Z" fill="#2E6E9E"/><rect x="45" y="44" width="4" height="18" fill="#1E4F76"/><path d="M44 70H50L48 78H42L44 70Z" fill="#334155"/><circle cx="49" cy="28" r="2" fill="#1E3A5F"/></svg><p class="mt-6 text-2xl text-slate-500">No ${label} found</p><button type="button" class="ua-open-selector mt-4 inline-flex items-center gap-3 px-5 py-3 border border-sky-200 rounded-md text-sky-700 text-2xl font-semibold hover:bg-sky-50 transition" data-mode="${mode}"><span class="text-3xl leading-none">+</span><span>${actionLabel}</span></button></div>`;
+            };
+
+            const renderAssignedPanel = (mode) => {
+                const panel = mode === 'teams' ? teamsPanel : agentsPanel;
+                const items = getAssignedList(mode);
+                if (!panel) return;
+                const query = assignmentSearchQuery[mode].trim().toLowerCase();
+                const filtered = items.filter((item) => [item.col1, item.col2].join(' ').toLowerCase().includes(query));
+
+                const searchPlaceholder = mode === 'teams' ? 'Search Teams' : 'Search Agents';
+                const addLabel = mode === 'teams' ? 'Add Teams' : 'Add Agents';
+                const col2Label = mode === 'teams' ? 'TEAM ID' : 'AGENT ID';
+
+                panel.innerHTML = `<div class="space-y-4"><div class="bg-slate-50 border border-slate-200 p-4 flex items-center justify-between gap-4"><div class="flex items-center gap-4"><p class="text-xl text-slate-600">${items.length} ${mode}</p><div class="relative w-[340px]"><svg class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path stroke-linecap="round" d="M21 21l-4.3-4.3"></path></svg><input type="text" class="ua-assigned-search w-full h-11 rounded border border-slate-300 pl-10 pr-3 text-xl text-slate-700 focus:border-primary focus:outline-none" data-mode="${mode}" placeholder="${searchPlaceholder}" value="${assignmentSearchQuery[mode]}"></div></div><button type="button" class="ua-open-selector inline-flex items-center gap-2 px-5 py-2.5 border border-sky-200 rounded-md text-sky-700 text-2xl font-semibold hover:bg-sky-50 transition" data-mode="${mode}"><span class="text-3xl leading-none">+</span><span>${addLabel}</span></button></div><table class="w-full border-collapse text-xl"><thead><tr class="border-b border-slate-300 text-left text-slate-700"><th class="px-3 py-3 font-semibold">NAME</th><th class="px-3 py-3 font-semibold">${col2Label}</th><th class="w-20 px-3 py-3"></th></tr></thead><tbody>${filtered.map((item) => `<tr class="border-b border-slate-200 text-slate-700"><td class="px-3 py-3">${item.col1}</td><td class="px-3 py-3">${item.col2}</td><td class="px-3 py-3 text-center"><button type="button" class="ua-remove-assignment text-3xl leading-none text-slate-500 hover:text-slate-700" data-mode="${mode}" data-id="${item.id}" aria-label="Remove ${mode.slice(0, -1)}">×</button></td></tr>`).join('') || '<tr><td colspan="3" class="px-3 py-6 text-center text-slate-500">No matching results</td></tr>'}</tbody></table></div>`;
+            };
+
+            const renderAssignmentPanel = (mode) => {
+                if (getAssignedList(mode).length === 0) {
+                    renderEmptyPanel(mode);
+                } else {
+                    renderAssignedPanel(mode);
+                }
+            };
+
+            const renderAssignmentPanels = () => {
+                renderAssignmentPanel('teams');
+                renderAssignmentPanel('agents');
+                updateTabCounts();
+            };
+
+            assignmentTabs.forEach((tab) => {
+                tab.addEventListener('click', () => {
+                    const targetId = tab.getAttribute('data-target');
+                    assignmentTabs.forEach((otherTab) => {
+                        const isActive = otherTab === tab;
+                        otherTab.setAttribute('aria-selected', String(isActive));
+                        otherTab.classList.toggle('border-blue-600', isActive);
+                        otherTab.classList.toggle('text-blue-700', isActive);
+                        otherTab.classList.toggle('border-transparent', !isActive);
+                        otherTab.classList.toggle('text-slate-600', !isActive);
+                    });
+                    assignmentPanels.forEach((panel) => panel.classList.toggle('hidden', panel.id !== targetId));
+                });
+            });
+
+            const updateSelectButtonState = () => {
+                if (!selectorConfirm) return;
+                const hasSelection = selectedRows.size > 0;
+                selectorConfirm.disabled = !hasSelection;
+                selectorConfirm.classList.toggle('cursor-not-allowed', !hasSelection);
+                selectorConfirm.classList.toggle('text-slate-400', !hasSelection);
+                selectorConfirm.classList.toggle('bg-slate-100', !hasSelection);
+                selectorConfirm.classList.toggle('border-slate-300', !hasSelection);
+                selectorConfirm.classList.toggle('text-white', hasSelection);
+                selectorConfirm.classList.toggle('bg-primary', hasSelection);
+                selectorConfirm.classList.toggle('border-primary', hasSelection);
+            };
+
+            const renderSelectorRows = () => {
+                const config = selectorConfigs[selectorMode];
+                if (!config || !selectorTableBody || !selectorSearch) return;
+
+                const query = selectorSearch.value.trim().toLowerCase();
+                const filteredRows = config.rows.filter((row) => [row.col1, row.col2, row.col3].join(' ').toLowerCase().includes(query));
+                selectorTotal.textContent = `${config.rows.length} Total`;
+                selectorTableBody.innerHTML = filteredRows.map((row) => {
+                    const checked = selectedRows.has(row.id) ? 'checked' : '';
+                    return `<tr class="border-b border-slate-200 text-slate-700"><td class="px-2 py-3"><input type="checkbox" class="ua-selector-row h-4 w-4 rounded border-slate-300" data-row-id="${row.id}" ${checked}></td><td class="px-2 py-3">${row.col1}</td><td class="px-2 py-3">${row.col2}</td><td class="px-2 py-3">${row.col3}</td></tr>`;
+                }).join('');
+
+                const totalFiltered = filteredRows.length;
+                const selectedFiltered = filteredRows.filter((row) => selectedRows.has(row.id)).length;
+                selectorSelectAll.checked = totalFiltered > 0 && selectedFiltered === totalFiltered;
+                updateSelectButtonState();
+            };
+
+            const openSelector = (mode) => {
+                const config = selectorConfigs[mode];
+                if (!config || !overlay) return;
+                selectorMode = mode;
+                selectedRows = new Set(getAssignedList(mode).map((item) => item.id));
+
+                selectorTitle.textContent = config.title;
+                selectorSearch.value = '';
+                selectorSearch.placeholder = config.searchPlaceholder;
+                selectorCol1.textContent = config.columns[0];
+                selectorCol2.textContent = config.columns[1];
+                selectorCol3.textContent = config.columns[2];
+                selectorSelectAll.checked = false;
+
+                renderSelectorRows();
+                updateSelectButtonState();
+                overlay.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+                selectorSearch.focus();
+            };
+
+            const closeSelector = () => {
+                if (!overlay) return;
+                overlay.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            };
+
+            [teamsPanel, agentsPanel].forEach((panel) => {
+                if (!panel) return;
+
+                panel.addEventListener('click', (event) => {
+                    const openSelectorButton = event.target.closest('.ua-open-selector');
+                    if (openSelectorButton) {
+                        const mode = openSelectorButton.getAttribute('data-mode');
+                        if (mode) openSelector(mode);
+                        return;
+                    }
+
+                    const removeButton = event.target.closest('.ua-remove-assignment');
+                    if (removeButton) {
+                        const mode = removeButton.getAttribute('data-mode');
+                        const id = removeButton.getAttribute('data-id');
+                        if (!mode || !id) return;
+
+                        const items = getAssignedList(mode).filter((item) => item.id !== id);
+                        setAssignedList(mode, items);
+                        renderAssignmentPanels();
+                    }
+                });
+
+                panel.addEventListener('input', (event) => {
+                    const searchInput = event.target.closest('.ua-assigned-search');
+                    if (!searchInput) return;
+                    const mode = searchInput.getAttribute('data-mode');
+                    if (!mode) return;
+                    assignmentSearchQuery[mode] = searchInput.value;
+                    renderAssignmentPanel(mode);
+                });
+            });
+
+            if (selectorSearch) selectorSearch.addEventListener('input', renderSelectorRows);
+
+            if (selectorTableBody) {
+                selectorTableBody.addEventListener('change', (event) => {
+                    const checkbox = event.target.closest('.ua-selector-row');
+                    if (!checkbox) return;
+                    const rowId = checkbox.getAttribute('data-row-id');
+                    if (!rowId) return;
+                    if (checkbox.checked) selectedRows.add(rowId); else selectedRows.delete(rowId);
+                    renderSelectorRows();
+                });
+            }
+
+            if (selectorSelectAll) {
+                selectorSelectAll.addEventListener('change', () => {
+                    const config = selectorConfigs[selectorMode];
+                    if (!config || !selectorSearch) return;
+                    const query = selectorSearch.value.trim().toLowerCase();
+                    const filteredRows = config.rows.filter((row) => [row.col1, row.col2, row.col3].join(' ').toLowerCase().includes(query));
+                    if (selectorSelectAll.checked) filteredRows.forEach((row) => selectedRows.add(row.id)); else filteredRows.forEach((row) => selectedRows.delete(row.id));
+                    renderSelectorRows();
+                });
+            }
+
+            if (selectorCancel) selectorCancel.addEventListener('click', closeSelector);
+            if (selectorConfirm) {
+                selectorConfirm.addEventListener('click', () => {
+                    const config = selectorConfigs[selectorMode];
+                    if (!config) return;
+                    const selected = config.rows.filter((row) => selectedRows.has(row.id));
+                    setAssignedList(selectorMode, selected);
+                    renderAssignmentPanels();
+                    closeSelector();
+                });
+            }
+
+            if (overlay) {
+                overlay.addEventListener('click', (event) => {
+                    if (event.target === overlay) closeSelector();
+                });
+            }
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && overlay && !overlay.classList.contains('hidden')) closeSelector();
+            });
+
+            renderAssignmentPanels();
+        })();
+    </script>
+</body>
+</html>

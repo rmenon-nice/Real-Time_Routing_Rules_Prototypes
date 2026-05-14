@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routing Center - Define Agent Capacity Conditions</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @custom-variant dark (&:is(.dark *));
+        @theme inline {
+          --color-primary: var(--primary);
+        }
+        :root { --primary: oklch(0.54 0.16 255); }
+    </style>
+    <style>
+        .app-launcher-shadow { box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28); }
+
+        .nice-logo-path {
+            fill: #3694FD;
+            transition: fill 0.35s ease;
+        }
+
+        @keyframes nice-one-wink {
+            0%, 100% { transform: scaleY(1); }
+            35% { transform: scaleY(0.07); }
+            55% { transform: scaleY(1); }
+        }
+
+        #nice-eye-left.nice-winking {
+            animation: nice-one-wink 0.45s ease-out forwards;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        @keyframes nice-both-blink {
+            0%, 100% { transform: scaleY(1); }
+            30% { transform: scaleY(0.07); }
+            50% { transform: scaleY(1); }
+        }
+
+        #nice-eye-left.nice-blinking,
+        #nice-eye-right.nice-blinking {
+            animation: nice-both-blink 0.4s ease-out forwards;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        #nice-eye-right.nice-blinking {
+            animation-delay: 0.04s;
+        }
+    </style>
+</head>
+<body class="bg-[#F3F5F6] font-sans text-slate-800 h-screen flex flex-col overflow-hidden">
+    <header class="bg-[#F3F5F6] text-slate-700 h-14 flex items-center justify-between px-4 shrink-0">
+        <div class="flex items-center">
+            <button type="button" class="app-launcher-toggle inline-flex items-center gap-2 rounded-md pl-0 pr-2 py-1.5 transition hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600" aria-label="Open applications launcher">
+                <svg id="nice-icon-svg" width="28" height="28" viewBox="0 0 71 66" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink:0;"><g id="nice-eye-left"><path d="M33.7472 0C38.4351 0 42.2495 3.79044 42.2495 8.44892C42.2495 13.1074 38.4351 16.8979 33.7472 16.8979C29.0593 16.8979 25.2449 13.1074 25.2449 8.44892C25.2449 3.79044 29.0593 0 33.7472 0Z" class="nice-logo-path" id="nice-path-eye-left"/></g><g id="nice-eye-right"><path d="M8.50231 16.8979C3.81439 16.8979 0 13.1074 0 8.44892C0 3.79044 3.81439 0 8.50231 0C13.1902 0 17.0046 3.79044 17.0046 8.44892C17.0046 13.1074 13.1902 16.8979 8.50231 16.8979Z" class="nice-logo-path" id="nice-path-eye-right"/></g><path d="M22.1584 66C21.6052 66 21.1393 65.566 21.1393 64.9873V52.285C21.1393 51.7352 21.5761 51.3012 22.1002 51.2722C40.4151 50.7804 55.2068 36.0526 55.7309 17.8527C55.7309 17.3029 56.1968 16.8979 56.75 16.8979H69.5326C70.0858 16.8979 70.5517 17.3608 70.5517 17.9106C70.0276 44.1833 48.5971 65.4502 22.1875 65.9711L22.1584 66Z" class="nice-logo-path" id="nice-path-body"/></svg>
+                <span class="app-launcher-current-app font-semibold text-lg leading-none text-slate-700">Routing Center</span>
+                <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button class="text-slate-500 hover:text-slate-700 transition" aria-label="Help">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </button>
+            <button class="text-slate-500 hover:text-slate-700 transition" aria-label="Notifications">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+            </button>
+            <div class="w-8 h-8 rounded-full bg-gray-300 border border-white overflow-hidden">
+                <img src="https://i.pravatar.cc/100?img=47" alt="User Profile" class="w-full h-full object-cover">
+            </div>
+        </div>
+    </header>
+    <div class="flex flex-1 overflow-hidden">
+        <aside class="w-64 bg-[#F3F5F6] shrink-0 flex flex-col">
+            <nav class="flex-1 py-4 space-y-1">
+                <a href="agent_capacity_profiles.html" class="flex items-center space-x-3 px-4 py-2 text-slate-600 hover:bg-white border-l-4 border-transparent transition">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path stroke="#0EA5E9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M17 20h5V4H2v16h5m10 0v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4m10 0H7"></path></svg>
+                    <span class="text-sm font-medium">Agent Capacity Rules</span>
+                </a>
+            </nav>
+        </aside>
+        <main class="flex-1 overflow-y-auto pt-3 pl-3 pb-3">
+            <div class="min-h-full bg-white rounded-tl-xl rounded-bl-xl border border-slate-200 overflow-y-auto p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-normal text-gray-800">Create New Agent Capacity Profile</h1>
+                    <div class="flex space-x-3">
+                        <a href="agent_capacity_profiles.html" class="px-4 py-2 border border-gray-300 rounded text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition">Cancel</a>
+                        <a href="agent_capacity_create_step1.html" class="px-4 py-2 border border-gray-300 rounded text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                            Back
+                        </a>
+                        <a href="agent_capacity_create_step3.html" class="px-4 py-2 border border-transparent rounded text-sm font-medium text-white bg-primary hover:bg-blue-800 transition flex items-center">Next
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="bg-white rounded shadow-xs p-8 mb-6">
+                    <div class="flex items-center justify-between max-w-3xl mx-auto relative pb-8 pt-4">
+                        <div class="absolute top-8 left-0 right-0 h-0.5 bg-gray-300 z-0" style="width: 74%; left: 13%;"></div>
+                        <div class="flex flex-col items-center relative z-10 w-40"><div class="w-9 h-9 bg-white border-2 border-gray-300 text-gray-500 rounded-full flex items-center justify-center font-bold">1</div><div class="text-sm mt-3 text-gray-500 absolute top-10 whitespace-nowrap">Configuration</div></div>
+                        <div class="flex flex-col items-center relative z-10 w-40"><div class="w-9 h-9 bg-primary text-white rounded-full flex items-center justify-center font-bold shadow">2</div><div class="text-sm font-semibold mt-3 text-gray-800 absolute top-10 whitespace-nowrap">Define Conditions</div></div>
+                        <div class="flex flex-col items-center relative z-10 w-40"><div class="w-9 h-9 bg-white border-2 border-gray-300 text-gray-500 rounded-full flex items-center justify-center font-bold">3</div><div class="text-sm mt-3 text-gray-500 absolute top-10 whitespace-nowrap">Select Assignments</div></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded shadow-xs p-8 mb-6 border-t-4 border-primary">
+                    <p class="text-sm text-gray-500 mb-8">Specify the queue priority for agents based on their current interaction. Thresholds are defined in the Contact Settings page.</p>
+
+                    <div class="flex items-center justify-between mb-6 relative">
+                        <h2 class="text-2xl font-semibold text-slate-800">Conditions</h2>
+                        <button id="addConditionButton" type="button" class="inline-flex items-center gap-2 px-4 py-2 border border-sky-200 rounded-md text-sky-700 font-semibold hover:bg-sky-50 transition" aria-haspopup="true" aria-expanded="false" aria-controls="addConditionMenu">
+                            + Add Condition
+                        </button>
+
+                        <div id="addConditionMenu" class="hidden absolute right-0 top-14 w-[340px] rounded-xl border border-slate-200 bg-white p-3 shadow-xl z-20" role="menu" aria-label="Add condition options">
+                            <button type="button" class="condition-option w-full text-left px-4 py-3 text-[16px] leading-tight text-slate-700 rounded-lg hover:bg-slate-50" role="menuitem" data-condition-type="channel-working">
+                                When agent is working on a channel
+                            </button>
+                            <button type="button" class="condition-option w-full text-left px-4 py-3 text-[16px] leading-tight text-slate-700 rounded-lg hover:bg-slate-50" role="menuitem" data-condition-type="channel-top">
+                                When channel is top of the queue
+                            </button>
+                            <button type="button" class="condition-option w-full text-left px-4 py-3 text-[16px] leading-tight text-slate-700 rounded-lg hover:bg-slate-50" role="menuitem" data-condition-type="skill-working">
+                                When agent is working on a skill
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="conditionsContainer" class="space-y-4 mb-4"></div>
+
+                    <div id="conditionsEmptyState" class="min-h-[360px] border border-slate-200 rounded-md bg-slate-50 flex flex-col items-center justify-center">
+                        <svg width="120" height="96" viewBox="0 0 120 96" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <ellipse cx="60" cy="78" rx="40" ry="2" fill="#A3B8CC"/>
+                            <path d="M32 48C32 36.9543 40.9543 28 52 28H72C83.0457 28 92 36.9543 92 48V60H32V48Z" fill="#DCE8F4"/>
+                            <path d="M52 50H80L74 36H46L52 50Z" fill="#C7B27A"/>
+                            <rect x="50" y="50" width="30" height="20" fill="#D7C182"/>
+                            <path d="M50 50L44 42H74L80 50H50Z" fill="#E8D6A2"/>
+                            <circle cx="44" cy="34" r="5" fill="#58A6E7"/>
+                            <path d="M40 44C40 39.5817 43.5817 36 48 36H48.5V70H40V44Z" fill="#2E6E9E"/>
+                            <rect x="45" y="44" width="4" height="18" fill="#1E4F76"/>
+                            <path d="M44 70H50L48 78H42L44 70Z" fill="#334155"/>
+                            <circle cx="49" cy="28" r="2" fill="#1E3A5F"/>
+                        </svg>
+                        <p class="mt-6 text-2xl text-slate-500">No conditions created yet</p>
+                    </div>
+
+                    <a href="agent_capacity_create_step1.html" class="inline-block mt-6 text-sm text-sky-700 hover:underline">Back to Configuration</a>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div class="app-launcher-overlay hidden" style="position:fixed;inset:0;z-index:50;pointer-events:none;">
+        <div class="app-launcher-backdrop" style="position:absolute;inset:0;pointer-events:all;"></div>
+        <div class="app-launcher-panel app-launcher-shadow" style="position:absolute;top:3.6rem;left:0.5rem;width:20rem;max-height:calc(100vh - 4.5rem);background:#fff;color:#1e293b;overflow-y:auto;border-radius:0.75rem;border:1px solid #e2e8f0;pointer-events:all;">
+                        <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">General</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/admin.png" alt="" class="h-6 w-6 object-contain"></span><span>Admin</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/TM.png" alt="" class="h-6 w-6 object-contain"></span><span>TM</span></button>
+                <a href="supervisor_main.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/Supervisor.png" alt="" class="h-6 w-6 object-contain"></span><span>Supervisor</span></a>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/message%20center.png" alt="" class="h-6 w-6 object-contain"></span><span>Message Center</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/AI%20Studio.png" alt="" class="h-6 w-6 object-contain"></span><span>AI Studio</span></button>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Automation</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/ai%20agents.png" alt="" class="h-6 w-6 object-contain"></span><span>AI Agents</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/agent%20integrations.png" alt="" class="h-6 w-6 object-contain"></span><span>Agent Integrations</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/wfi.png" alt="" class="h-6 w-6 object-contain"></span><span>WFI</span></button>
+            </div>
+            <div class="mx-3 border-t border-gray-200"></div>
+            <div class="px-4 py-3 text-[11px] font-semibold uppercase tracking-wide text-gray-500">Omnichannel Routing</div>
+            <div class="space-y-1 px-2 pb-2">
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/ACD.png" alt="" class="h-6 w-6 object-contain"></span><span>ACD</span></button>
+                <a href="agent_rule_alert.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/agent.png" alt="" class="h-6 w-6 object-contain"></span><span>Agent</span></a>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/studio.png" alt="" class="h-6 w-6 object-contain"></span><span>Studio</span></button>
+                <button type="button" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/studio%20authentication.png" alt="" class="h-6 w-6 object-contain"></span><span>Studio Authentication</span></button>
+                <a href="index.html" class="flex w-full items-center gap-3 rounded px-2 py-2 text-sm hover:bg-gray-50"><span class="flex h-6 w-6 items-center justify-center"><img src="assets/routing%20center.png" alt="" class="h-6 w-6 object-contain"></span><span>Routing Center</span></a>
+            </div>
+            <div class="sticky bottom-0 flex items-center justify-center px-4 py-3 border-t border-slate-200 bg-white">
+                <img src="assets/nice-cxone-logo.png" alt="NiCE CXone" class="h-10 w-full object-contain">
+            </div>
+        </div>
+    </div>
+
+<script>
+    (() => {
+        const toggle = document.querySelector('.app-launcher-toggle');
+        const overlay = document.querySelector('.app-launcher-overlay');
+        const panel = document.querySelector('.app-launcher-panel');
+        const backdrop = document.querySelector('.app-launcher-backdrop');
+        if (toggle && overlay && panel && backdrop) {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const sidebarPageGroups = {
+                'rrr_library.html': ['rrr_library.html', 'rrr_rulecreate.html', 'step2.html', 'step2_overflow.html', 'step3.html', 'step4.html', 'step5.html'],
+                'execution_logs_overflow.html': ['execution_logs_overflow.html'],
+                'ps_index.html': ['ps_index.html', 'ps_step2.html', 'ps_audit_log.html'],
+                'agent_capacity_profiles.html': ['agent_capacity_profiles.html', 'agent_capacity_create_step1.html', 'agent_capacity_create_step2.html', 'agent_capacity_create_step3.html', 'Agent_capacity_update.html']
+            };
+
+            document.querySelectorAll('aside nav a[href]').forEach((link) => {
+                const linkHref = link.getAttribute('href');
+                if (!linkHref || linkHref === '#') return;
+                const linkTarget = new URL(linkHref, window.location.href).pathname.split('/').pop();
+                const linkedPages = sidebarPageGroups[linkTarget] || [linkTarget];
+                if (!linkedPages.includes(currentPage)) return;
+                link.classList.remove('text-gray-600', 'border-transparent');
+                link.classList.add('bg-sky-50', 'text-sky-800', 'border-sky-500', 'font-semibold');
+                link.setAttribute('aria-current', 'page');
+                const icon = link.querySelector('svg');
+                if (icon) {
+                    icon.classList.remove('text-gray-400');
+                    icon.classList.add('text-sky-600');
+                }
+            });
+
+            overlay.querySelectorAll('a[href]').forEach((link) => {
+                const linkTarget = new URL(link.getAttribute('href'), window.location.href).pathname.split('/').pop();
+                if (linkTarget === currentPage) {
+                    link.classList.remove('hover:bg-gray-50');
+                    link.classList.add('bg-sky-50', 'text-sky-900', 'font-semibold', 'ring-1', 'ring-sky-200');
+                    link.setAttribute('aria-current', 'page');
+                }
+            });
+
+            const currentAppLink = overlay.querySelector('a[aria-current="page"] span:last-child');
+            const currentAppLabel = overlay.querySelector('.app-launcher-current-app');
+            if (currentAppLink && currentAppLabel) currentAppLabel.textContent = currentAppLink.textContent.trim();
+
+            const closeOverlay = () => {
+                overlay.classList.add('hidden');
+                toggle.setAttribute('aria-expanded', 'false');
+            };
+            const openOverlay = () => {
+                overlay.classList.remove('hidden');
+                toggle.setAttribute('aria-expanded', 'true');
+            };
+
+            toggle.setAttribute('aria-haspopup', 'true');
+            toggle.setAttribute('aria-expanded', 'false');
+            toggle.addEventListener('click', (event) => {
+                event.stopPropagation();
+                overlay.classList.contains('hidden') ? openOverlay() : closeOverlay();
+            });
+            backdrop.addEventListener('click', closeOverlay);
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') closeOverlay();
+            });
+        }
+
+        const iconToggle = document.querySelector('.app-launcher-toggle');
+        const eyeLeft = document.getElementById('nice-path-eye-left');
+        const eyeRight = document.getElementById('nice-path-eye-right');
+        const body = document.getElementById('nice-path-body');
+        const eyeLeftG = document.getElementById('nice-eye-left');
+        const eyeRightG = document.getElementById('nice-eye-right');
+        if (!iconToggle || !eyeLeft || !eyeRight || !body || !eyeLeftG || !eyeRightG) return;
+
+        const baseColor = '#3694FD';
+        const stages = [
+            { el: [baseColor, '#6366F1', '#6366F1'], blink: 'both' },
+            { el: [baseColor, '#6366F1', '#6366F1'], blink: false },
+            { el: [baseColor, '#6366F1', '#6366F1'], blink: 'both' },
+            { el: ['#A855F7', '#A855F7', '#A855F7'], wink: true },
+            { el: ['#A855F7', '#A855F7', '#A855F7'], blink: 'both' },
+            { el: ['#EC4899', '#F472B6', '#EC4899'], stagger: true },
+            { el: ['#F59E0B', '#F59E0B', '#F59E0B'] },
+            { el: ['#6366F1', '#10B981', '#F59E0B'] },
+        ];
+        let stage = 0;
+
+        const triggerBlink = () => {
+            [eyeLeftG, eyeRightG].forEach((g) => {
+                g.classList.remove('nice-blinking');
+                void g.offsetWidth;
+                g.classList.add('nice-blinking');
+            });
+        };
+
+        const setPaths = (colors, stagger) => {
+            [eyeLeft, eyeRight, body].forEach((path, i) => {
+                const delay = stagger ? i * 80 : 0;
+                setTimeout(() => { path.style.fill = colors[i]; }, delay);
+            });
+        };
+
+        const resetPaths = () => {
+            [eyeLeft, eyeRight, body].forEach((path) => { path.style.fill = baseColor; });
+            eyeLeftG.classList.remove('nice-winking', 'nice-blinking');
+            eyeRightG.classList.remove('nice-blinking');
+        };
+
+        iconToggle.addEventListener('mouseenter', () => {
+            const current = stages[stage];
+            setPaths(current.el, Boolean(current.stagger));
+            if (current.wink) {
+                eyeLeftG.classList.remove('nice-winking');
+                void eyeLeftG.offsetWidth;
+                eyeLeftG.classList.add('nice-winking');
+            } else if (current.blink === 'both') {
+                triggerBlink();
+            }
+            stage = (stage + 1) % stages.length;
+        });
+
+        iconToggle.addEventListener('mouseleave', resetPaths);
+    })();
+
+    const addConditionButton = document.getElementById('addConditionButton');
+    const addConditionMenu = document.getElementById('addConditionMenu');
+    const conditionOptions = document.querySelectorAll('.condition-option');
+    const conditionsContainer = document.getElementById('conditionsContainer');
+    const conditionsEmptyState = document.getElementById('conditionsEmptyState');
+
+    const channelItems = ['EMAIL', 'CHAT', 'VOICE', 'VOICEMAIL', 'WORKITEM', 'SMS', 'DIGITAL'];
+    const receiveItems = ['EMAIL', 'CHAT', 'VOICE', 'VOICEMAIL', 'WORKITEM', 'SMS', 'DIGITAL', 'NONE'];
+    const skills = [
+        'Billing Escalations',
+        'Technical Support Tier 2',
+        'Enterprise Account Care',
+        'Fraud Investigation',
+        'Spanish Language Support',
+        'Order Fulfillment Exceptions',
+        'Loyalty Program Assistance',
+        'Retention Save Desk',
+        'Workforce Coordination',
+        'Digital Messaging Specialist'
+    ];
+
+    const channelSelectOptions = channelItems
+        .map((item) => `<option value="${item}">${item}</option>`)
+        .join('');
+
+    let conditionCardCounter = 0;
+
+    const renderReceiveCheckboxes = (namePrefix, cardId) => receiveItems
+        .map((item, index) => {
+            const id = `${namePrefix}-${item.toLowerCase()}-${cardId}-${index}`;
+            return `
+                <label for="${id}" class="inline-flex items-center gap-2 text-xl font-semibold text-slate-700">
+                    <input id="${id}" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary">
+                    <span>${item}</span>
+                </label>
+            `;
+        })
+        .join('');
+
+    const updateEmptyState = () => {
+        const hasCards = conditionsContainer && conditionsContainer.children.length > 0;
+        if (!conditionsEmptyState) return;
+        conditionsEmptyState.classList.toggle('hidden', hasCards);
+    };
+
+    const createDeleteButton = () => `
+        <button type="button" class="delete-condition inline-flex h-12 w-12 items-center justify-center rounded-md border border-sky-200 text-sky-700 hover:bg-sky-50 transition" aria-label="Delete condition">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 6h18"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 6V4h8v2"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 6l-1 14H6L5 6"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 11v6"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 11v6"></path>
+            </svg>
+        </button>
+    `;
+
+    const createConflictIndicator = () => `
+        <div class="relative" data-conflict-indicator>
+            <span class="inline-flex h-12 w-12 items-center justify-center rounded-md border border-emerald-200 bg-emerald-50 text-emerald-600" data-status-icon aria-label="No conflicts" title="No conflicts found" tabindex="0">
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </span>
+            <div class="hidden absolute right-0 top-14 z-30 w-72 rounded-md border border-red-200 bg-white px-3 py-2 text-xs text-slate-700 shadow-lg" data-conflict-tooltip>
+                Review other conditions. This condition introduces conflicting logic.
+            </div>
+        </div>
+    `;
+
+    const getConditionSelectionValue = (card) => {
+        const type = card.dataset.conditionCard;
+        if (type === 'channel-working' || type === 'channel-top') {
+            const select = card.querySelector('[data-condition-select]');
+            return select ? select.value : '';
+        }
+        if (type === 'skill-working') {
+            const skillValue = card.querySelector('[data-skill-value]');
+            const text = skillValue ? skillValue.textContent.trim() : '';
+            return text === 'Select a skill...' ? '' : text;
+        }
+        return '';
+    };
+
+    const updateConflictIndicators = () => {
+        if (!conditionsContainer) return;
+
+        const cards = Array.from(conditionsContainer.querySelectorAll('[data-condition-card]'));
+        const keyCounts = new Map();
+
+        cards.forEach((card) => {
+            const type = card.dataset.conditionCard || '';
+            const value = getConditionSelectionValue(card);
+            if (!type || !value) return;
+            const key = `${type}::${value}`;
+            keyCounts.set(key, (keyCounts.get(key) || 0) + 1);
+        });
+
+        cards.forEach((card) => {
+            const type = card.dataset.conditionCard || '';
+            const value = getConditionSelectionValue(card);
+            const key = `${type}::${value}`;
+            const hasConflict = Boolean(value) && (keyCounts.get(key) || 0) > 1;
+
+            const statusIcon = card.querySelector('[data-status-icon]');
+            const tooltip = card.querySelector('[data-conflict-tooltip]');
+
+            if (!statusIcon || !tooltip) return;
+
+            if (hasConflict) {
+                statusIcon.className = 'inline-flex h-12 w-12 items-center justify-center rounded-md border border-red-200 bg-red-50 text-red-600';
+                statusIcon.setAttribute('aria-label', 'Conflicting condition');
+                statusIcon.setAttribute('title', 'Conflicting condition');
+                statusIcon.innerHTML = `
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 17h.01"></path>
+                        <circle cx="12" cy="12" r="9"></circle>
+                    </svg>
+                `;
+                tooltip.classList.add('hidden');
+            } else {
+                statusIcon.className = 'inline-flex h-12 w-12 items-center justify-center rounded-md border border-emerald-200 bg-emerald-50 text-emerald-600';
+                statusIcon.setAttribute('aria-label', 'No conflicts');
+                statusIcon.setAttribute('title', 'No conflicts found');
+                statusIcon.innerHTML = `
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                `;
+                tooltip.classList.add('hidden');
+            }
+        });
+    };
+
+    const initSkillDropdown = (card) => {
+        const toggle = card.querySelector('[data-skill-toggle]');
+        const menu = card.querySelector('[data-skill-menu]');
+        const search = card.querySelector('[data-skill-search]');
+        const list = card.querySelector('[data-skill-list]');
+        const value = card.querySelector('[data-skill-value]');
+
+        if (!toggle || !menu || !search || !list || !value) return;
+
+        const renderSkillList = (query = '') => {
+            const filter = query.trim().toLowerCase();
+            const filteredSkills = skills.filter((skill) => skill.toLowerCase().includes(filter));
+            list.innerHTML = filteredSkills.length
+                ? filteredSkills.map((skill) => `<button type="button" class="skill-option block w-full text-left px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded" data-skill-option="${skill}">${skill}</button>`).join('')
+                : '<p class="px-3 py-2 text-sm text-slate-500">No matching skills</p>';
+        };
+
+        const closeSkillMenu = () => {
+            menu.classList.add('hidden');
+        };
+
+        toggle.addEventListener('click', () => {
+            const isOpen = !menu.classList.contains('hidden');
+            menu.classList.toggle('hidden', isOpen);
+            if (!isOpen) {
+                search.value = '';
+                renderSkillList();
+                search.focus();
+            }
+        });
+
+        search.addEventListener('input', () => {
+            renderSkillList(search.value);
+        });
+
+        list.addEventListener('click', (event) => {
+            const option = event.target.closest('[data-skill-option]');
+            if (!option) return;
+            value.textContent = option.getAttribute('data-skill-option');
+            closeSkillMenu();
+            updateConflictIndicators();
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!card.contains(event.target)) {
+                closeSkillMenu();
+            }
+        });
+
+        renderSkillList();
+    };
+
+    const createConditionCard = (type) => {
+        if (!conditionsContainer) return;
+        conditionCardCounter += 1;
+        const cardId = conditionCardCounter;
+
+        const card = document.createElement('div');
+        card.className = 'bg-slate-100 rounded-md border border-slate-200 px-5 py-5';
+        card.dataset.conditionCard = type;
+
+        if (type === 'channel-working') {
+            card.innerHTML = `
+                <div class="flex items-start justify-between gap-6">
+                    <div class="flex-1 space-y-4">
+                        <div class="flex flex-wrap items-center gap-3 text-xl text-slate-700">
+                            <span>When agent is working on</span>
+                            <select class="h-10 min-w-[140px] rounded-md border border-slate-300 bg-white px-4 text-xl font-semibold text-blue-600 focus:border-primary focus:outline-none" data-condition-select>
+                                ${channelSelectOptions}
+                            </select>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-4 text-xl text-slate-700">
+                            <span>Then the agent can continue receiving</span>
+                            ${renderReceiveCheckboxes('continue', cardId)}
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        ${createConflictIndicator()}
+                        ${createDeleteButton()}
+                    </div>
+                </div>
+            `;
+        }
+
+        if (type === 'channel-top') {
+            card.innerHTML = `
+                <div class="flex items-start justify-between gap-6">
+                    <div class="flex-1 space-y-4">
+                        <div class="flex flex-wrap items-center gap-3 text-xl text-slate-700">
+                            <span>When</span>
+                            <select class="h-10 min-w-[140px] rounded-md border border-slate-300 bg-white px-4 text-xl font-semibold text-blue-600 focus:border-primary focus:outline-none" data-condition-select>
+                                ${channelSelectOptions}
+                            </select>
+                            <span>is top of the queue</span>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-4 text-xl text-slate-700">
+                            <span>Then the agent will instead receive</span>
+                            ${renderReceiveCheckboxes('instead', cardId)}
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        ${createConflictIndicator()}
+                        ${createDeleteButton()}
+                    </div>
+                </div>
+            `;
+        }
+
+        if (type === 'skill-working') {
+            card.innerHTML = `
+                <div class="flex items-start justify-between gap-6">
+                    <div class="flex-1 space-y-4">
+                        <div class="flex flex-wrap items-center gap-3 text-xl text-slate-700">
+                            <span>When agent is working on</span>
+                            <div class="relative inline-block min-w-[260px]" data-skill-root>
+                                <button type="button" class="flex h-10 w-full items-center justify-between rounded-md border border-slate-300 bg-white px-4 text-xl font-semibold text-blue-600" data-skill-toggle>
+                                    <span data-skill-value>Select a skill...</span>
+                                    <svg class="h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.51a.75.75 0 01-1.08 0l-4.25-4.51a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+                                </button>
+                                <div class="hidden absolute left-0 top-14 z-30 w-full rounded-md border border-slate-200 bg-white shadow-lg" data-skill-menu>
+                                    <div class="p-2 border-b border-slate-200">
+                                        <input type="text" placeholder="Search skills" class="h-10 w-full rounded border border-slate-300 px-3 text-sm text-slate-700 focus:border-primary focus:outline-none" data-skill-search>
+                                    </div>
+                                    <div class="max-h-56 overflow-y-auto p-1" data-skill-list></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-4 text-xl text-slate-700">
+                            <span>Then the agent can continue receiving</span>
+                            ${renderReceiveCheckboxes('skill', cardId)}
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        ${createConflictIndicator()}
+                        ${createDeleteButton()}
+                    </div>
+                </div>
+            `;
+        }
+
+        conditionsContainer.appendChild(card);
+
+        const deleteButton = card.querySelector('.delete-condition');
+        if (deleteButton) {
+            deleteButton.addEventListener('click', () => {
+                card.remove();
+                updateEmptyState();
+                updateConflictIndicators();
+            });
+        }
+
+        const conditionSelect = card.querySelector('[data-condition-select]');
+        if (conditionSelect) {
+            conditionSelect.addEventListener('change', () => {
+                updateConflictIndicators();
+            });
+        }
+
+        const statusIcon = card.querySelector('[data-status-icon]');
+        const conflictTooltip = card.querySelector('[data-conflict-tooltip]');
+        if (statusIcon && conflictTooltip) {
+            statusIcon.addEventListener('mouseenter', () => {
+                if (statusIcon.getAttribute('aria-label') === 'Conflicting condition') {
+                    conflictTooltip.classList.remove('hidden');
+                }
+            });
+            statusIcon.addEventListener('mouseleave', () => {
+                conflictTooltip.classList.add('hidden');
+            });
+            statusIcon.addEventListener('focus', () => {
+                if (statusIcon.getAttribute('aria-label') === 'Conflicting condition') {
+                    conflictTooltip.classList.remove('hidden');
+                }
+            });
+            statusIcon.addEventListener('blur', () => {
+                conflictTooltip.classList.add('hidden');
+            });
+        }
+
+        if (type === 'skill-working') {
+            initSkillDropdown(card);
+        }
+
+        updateEmptyState();
+        updateConflictIndicators();
+    };
+
+    if (addConditionButton && addConditionMenu) {
+        const closeMenu = () => {
+            addConditionMenu.classList.add('hidden');
+            addConditionButton.setAttribute('aria-expanded', 'false');
+        };
+
+        const openMenu = () => {
+            addConditionMenu.classList.remove('hidden');
+            addConditionButton.setAttribute('aria-expanded', 'true');
+        };
+
+        addConditionButton.addEventListener('click', () => {
+            const isOpen = !addConditionMenu.classList.contains('hidden');
+            if (isOpen) {
+                closeMenu();
+                return;
+            }
+            openMenu();
+        });
+
+        conditionOptions.forEach((option) => {
+            option.addEventListener('click', () => {
+                const conditionType = option.getAttribute('data-condition-type');
+                if (conditionType) {
+                    createConditionCard(conditionType);
+                }
+                closeMenu();
+            });
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!addConditionMenu.contains(event.target) && !addConditionButton.contains(event.target)) {
+                closeMenu();
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeMenu();
+            }
+        });
+
+        updateEmptyState();
+    }
+</script>
+</body>
+</html>
